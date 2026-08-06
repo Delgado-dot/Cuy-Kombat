@@ -1,19 +1,27 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bcsj1j0lsi3c"]
 
-[ext_resource type="PackedScene" path="res://scenes/arenas/basic_graybox.tscn" id="1_arena"]
-[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
+[ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=406114152]
 
-[node name="SunLight" type="DirectionalLight3D" parent="."]
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1803864326]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
 light_energy = 2.5
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 5, 9)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=701767425]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 8, 12)
 current = true
+script = ExtResource("3_camera")
+player_one_path = NodePath("../Player1")
+player_two_path = NodePath("../Player2")
 
-[node name="Arena" parent="." instance=ExtResource("1_arena")]
+[node name="Arena" parent="." unique_id=2115552351 instance=ExtResource("1_arena")]
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="Player1" parent="." unique_id=558404065 instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
+
+[node name="Player2" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
+control_scheme = "arrows"
