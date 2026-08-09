@@ -9,6 +9,7 @@ enum PlayerState {
 	STUNNED,
 	GRABBING,
 	GRABBED,
+	KNOCKED,
 }
 
 @export var input_enabled := true
@@ -45,6 +46,10 @@ enum PlayerState {
 @export var punch_arm_return_duration := 0.07
 @export var punch_arm_extend_rotation := 1.5
 @export var punch_arm_forward_shift := 0.32
+@export var knockout_threshold := 5
+@export var knocked_duration := 3.5
+@export var knockout_color := Color(0.6, 0.6, 0.66, 1.0)
+@export var knockout_tilt := 1.5708
 @export var grab_follow_speed := 12.0
 @export var grab_pose_duration := 0.15
 @export var grab_arm_rotation := 1.25
@@ -77,6 +82,10 @@ var _punch_cooldown_left := 0.0
 var _punch_active_left := 0.0
 var _punch_key_was_down := false
 var _punch_hit_players: Array[Node] = []
+var knockout_hits := 0
+var _knockout_pending := false
+var _knocked_time_left := 0.0
+var _knocked_timer_paused := false
 var _punch_effect_time := 0.0
 var _punch_effect_material: StandardMaterial3D
 var _body_material: StandardMaterial3D
@@ -85,8 +94,10 @@ var _arm_tween: Tween
 var _punch_arm_is_left := false
 var _grabbed_target: Node3D
 var _grabbed_by: Node3D
-var _grab_key_was_down := false
-var _grab_just_pressed := false
+var _collision_layer_before_grab := 1
+var _collision_mask_before_grab := 1
+var _last_grab_point_pos := Vector3.ZERO
+var _grab_point_tracking := false
 var _left_arm_rest_pos := Vector3.ZERO
 var _left_arm_rest_rot := Vector3.ZERO
 var _right_arm_rest_pos := Vector3.ZERO
@@ -111,7 +122,6 @@ var _right_arm_rest_rot := Vector3.ZERO
 @onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
 
 func _physics_process(delta: float) -> void:
-	_update_grab_input()
 	_update_tackle_cooldown(delta)
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
@@ -126,6 +136,11 @@ func _physics_process(delta: float) -> void:
 		_update_stun(delta)
 		move_and_slide()
 		_update_visual_motion(delta, Vector3.ZERO)
+		return
+
+	if _state == PlayerState.KNOCKED:
+		_update_knocked(delta)
+		move_and_slide()
 		return
 
 	if _state == PlayerState.GRABBED:
@@ -327,13 +342,8 @@ func _tackle_key() -> Key:
 func _punch_key() -> Key:
 	return KEY_PERIOD if control_scheme == "arrows" else KEY_F
 
-func _grab_key() -> Key:
-	return KEY_K if control_scheme == "arrows" else KEY_G
-
-func _update_grab_input() -> void:
-	var grab_key_down := Input.is_key_pressed(_grab_key())
-	_grab_just_pressed = grab_key_down and not _grab_key_was_down
-	_grab_key_was_down = grab_key_down
+func _grab_action() -> StringName:
+	return &"grab_p2" if control_scheme == "arrows" else &"grab_p1"
 
 func _update_tackle_charge(delta: float) -> void:
 	if _tackle_cooldown_left > 0.0:
@@ -458,6 +468,12 @@ func _update_punch(delta: float) -> void:
 	if _punch_active_left <= 0.0:
 		return
 
+	if _state == PlayerState.KNOCKED:
+		_punch_active_left = 0.0
+		if _punch_hitbox != null:
+			_punch_hitbox.monitoring = false
+		return
+
 	_punch_active_left -= delta
 	_try_punch_hits()
 
@@ -477,9 +493,19 @@ func _try_punch_hits() -> void:
 		_punch_hit_players.append(body)
 		var hit_direction := body.global_position - global_position
 		body.apply_knockback(hit_direction, punch_knockback, 0.0, false, punch_knockback_duration)
+		if body.has_method("register_punch_hit"):
+			body.register_punch_hit()
+
+func register_punch_hit() -> void:
+	if _state == PlayerState.KNOCKED:
+		return
+
+	knockout_hits += 1
+	if knockout_hits >= knockout_threshold:
+		_knockout_pending = true
 
 func _try_start_grab() -> void:
-	if not _grab_just_pressed:
+	if not Input.is_action_just_pressed(_grab_action()):
 		return
 	if _state != PlayerState.NORMAL:
 		return
@@ -551,7 +577,7 @@ func _update_grabbing(delta: float) -> void:
 		_release_grab()
 		return
 
-	if _grab_just_pressed:
+	if Input.is_action_just_released(_grab_action()) or not Input.is_action_pressed(_grab_action()):
 		_release_grab()
 		return
 
@@ -569,9 +595,20 @@ func _update_grabbed(delta: float) -> void:
 		return
 
 	var target: Vector3 = _grabbed_by.get_grab_point_global()
+
+	var carry := Vector3.ZERO
+	if _grab_point_tracking:
+		carry = (target - _last_grab_point_pos) / maxf(delta, 0.001)
+	_last_grab_point_pos = target
+	_grab_point_tracking = true
+
 	var offset := target - global_position
-	var desired_velocity := offset * grab_follow_speed
-	velocity = desired_velocity.limit_length(grab_follow_speed * 3.0)
+	var correction := offset * grab_follow_speed
+	correction = correction.limit_length(grab_follow_speed * 3.0)
+
+	velocity = (carry + correction).limit_length(grab_follow_speed * 3.0)
+
+	rotation.y = lerp_angle(rotation.y, _grabbed_by.rotation.y + PI, clampf(rotation_speed * 2.0 * delta, 0.0, 1.0))
 
 func _set_grab_pose(active: bool) -> void:
 	if _left_arm == null and _right_arm == null:
@@ -610,7 +647,7 @@ func is_grabbing() -> bool:
 func get_grab_point_global() -> Vector3:
 	if _grab_point != null:
 		return _grab_point.global_position
-	return global_position + -global_transform.basis.z * 0.55
+	return global_position + -global_transform.basis.z * 0.9
 
 func start_being_grabbed(grabbing_player: Node3D) -> void:
 	_grabbed_by = grabbing_player
@@ -620,8 +657,13 @@ func start_being_grabbed(grabbing_player: Node3D) -> void:
 	_external_push = Vector3.ZERO
 	velocity = Vector3.ZERO
 
-	if _collision_shape != null:
-		_collision_shape.disabled = true
+	_collision_layer_before_grab = collision_layer
+	_collision_mask_before_grab = collision_mask
+	collision_layer = 0
+
+	_last_grab_point_pos = grabbing_player.get_grab_point_global() \
+		if grabbing_player.has_method("get_grab_point_global") else grabbing_player.global_position
+	_grab_point_tracking = false
 
 func release_from_being_grabbed() -> void:
 	if _grabbed_by == null and _state != PlayerState.GRABBED:
@@ -635,8 +677,9 @@ func release_from_being_grabbed() -> void:
 	if _state == PlayerState.GRABBED:
 		_state = PlayerState.NORMAL
 
-	if _collision_shape != null:
-		_collision_shape.disabled = false
+	collision_layer = _collision_layer_before_grab
+	collision_mask = _collision_mask_before_grab
+	_grab_point_tracking = false
 
 func release_grab_if_target(target: Node3D) -> void:
 	if _grabbed_target == target:
@@ -688,7 +731,9 @@ func _update_knockback(delta: float) -> void:
 		velocity.z = horizontal.y
 
 	if is_on_floor() and _knockback_time_left <= 0.0:
-		if _stun_pending:
+		if _knockout_pending:
+			_start_knocked()
+		elif _stun_pending:
 			_start_stun()
 		else:
 			_state = PlayerState.NORMAL
@@ -722,7 +767,56 @@ func _update_stun(delta: float) -> void:
 		_state = PlayerState.NORMAL
 		_restore_body_color()
 
+func _start_knocked() -> void:
+	_state = PlayerState.KNOCKED
+	_knockout_pending = false
+	_knocked_time_left = knocked_duration
+	_knocked_timer_paused = false
+	_charge_time = 0.0
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
+	_set_body_color(knockout_color)
+
+	if _visual != null:
+		_visual.rotation.z = knockout_tilt
+
+func _update_knocked(delta: float) -> void:
+	if not _knocked_timer_paused:
+		_knocked_time_left -= delta
+
+	_horizontal_velocity = _horizontal_velocity.move_toward(Vector3.ZERO, deceleration * delta)
+	_external_push = _external_push.move_toward(Vector3.ZERO, body_push_friction * delta)
+	velocity.x = _horizontal_velocity.x + _external_push.x
+	velocity.z = _horizontal_velocity.z + _external_push.z
+
+	if is_on_floor():
+		if velocity.y < 0.0:
+			velocity.y = 0.0
+	else:
+		velocity.y -= gravity * delta
+
+	if _knocked_time_left <= 0.0:
+		_recover_from_knocked()
+
+func _recover_from_knocked() -> void:
+	_state = PlayerState.NORMAL
+	knockout_hits = 0
+	_knocked_time_left = 0.0
+	_knocked_timer_paused = false
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
+	velocity = Vector3.ZERO
+	_restore_body_color()
+
+	if _visual != null:
+		_visual.rotation.z = 0.0
+
+func set_knocked_timer_paused(paused: bool) -> void:
+	_knocked_timer_paused = paused
+
 func apply_knockback(direction: Vector3, force: float, up_force: float, stun := true, duration := -1.0) -> void:
+	if _state == PlayerState.KNOCKED:
+		return
 	if _grabbed_target != null:
 		_release_grab()
 	if _state == PlayerState.GRABBED:
