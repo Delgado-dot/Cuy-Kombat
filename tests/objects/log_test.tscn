@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://ceirlx1rixnj8"]
+
+[ext_resource type="PackedScene" path="res://scenes/gameplay/log.tscn" id="1_log"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.3, 0.35, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(6, 3, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(6, 3, 0.3)
+
+[node name="LogObjectTest" type="Node3D" unique_id=839975950]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2047930593]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
+light_energy = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=498929755]
+transform = Transform3D(1, 0, 0, 0, 0.948683, 0.316228, 0, -0.316228, 0.948683, 0, 3, 8)
+current = true
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1958631891]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1810475770]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=122677489]
+mesh = SubResource("BoxMesh_floor")
+
+[node name="ThrowWall" type="StaticBody3D" parent="." unique_id=1985557527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ThrowWall" unique_id=1274492952]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ThrowWall" unique_id=887370713]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="Log" parent="." unique_id=1082606571 instance=ExtResource("1_log")]
+transform = Transform3D(0.0065174396, 0.9999788, 0, -0.9999788, 0.0065174396, 0, 0, 0, 1, 0, 0.62378883, 0)
+
+[node name="Player" parent="." unique_id=1631616803 instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4)
