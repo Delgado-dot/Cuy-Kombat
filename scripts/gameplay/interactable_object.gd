@@ -37,6 +37,10 @@ func get_interacting_player() -> CharacterBody3D:
 	return _current_interacting_player
 
 
+func is_grabbed_by(player: CharacterBody3D) -> bool:
+	return _is_grabbed and _grabbed_player == player
+
+
 ## Validates whether the supplied player is currently able to interact.
 func interact(player: CharacterBody3D) -> void:
 	if player != _current_interacting_player:
@@ -68,6 +72,23 @@ func _on_interaction_requested(player: CharacterBody3D) -> void:
 		0.4
 	)
 	_elevation_tween.tween_callback(_finish_grab_elevation)
+
+
+func release(player: CharacterBody3D) -> void:
+	if not is_grabbed_by(player):
+		return
+
+	if _elevation_tween != null and _elevation_tween.is_valid():
+		_elevation_tween.kill()
+
+	_is_grabbed = false
+	_is_elevating = false
+	_grabbed_player = null
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	global_position = player.global_position - player.global_transform.basis.z.normalized() * 1.5 + Vector3.UP * 0.75
+	freeze = false
+	sleeping = false
 
 
 func _physics_process(_delta: float) -> void:

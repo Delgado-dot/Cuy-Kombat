@@ -42,7 +42,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func _request_interaction() -> void:
-	for node in get_tree().get_nodes_in_group("interactable_objects"):
+	var interactable_objects := get_tree().get_nodes_in_group("interactable_objects")
+
+	for node in interactable_objects:
+		var grabbed_object := node as InteractableObject
+		if grabbed_object != null and grabbed_object.is_grabbed_by(self):
+			grabbed_object.release(self)
+			return
+
+	for node in interactable_objects:
 		var interactable_object := node as InteractableObject
 		if interactable_object == null:
 			continue
