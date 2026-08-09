@@ -38,7 +38,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not key_event.pressed or key_event.echo:
 		return
 
-	if key_event.keycode == KEY_SPACE:
+	if key_event.keycode == KEY_J:
 		_request_interaction()
 	elif key_event.keycode == KEY_K:
 		_request_throw()
