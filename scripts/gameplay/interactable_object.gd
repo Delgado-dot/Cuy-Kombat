@@ -28,6 +28,15 @@ func get_interacting_player() -> CharacterBody3D:
 	return _current_interacting_player
 
 
+## Validates whether the supplied player is currently able to interact.
+func interact(player: CharacterBody3D) -> void:
+	if player != _current_interacting_player:
+		print("[INTERACTION] Interaction rejected: %s" % player.name)
+		return
+
+	print("[INTERACTION] Interaction accepted: %s" % player.name)
+
+
 func _on_interaction_area_body_entered(body: Node3D) -> void:
 	if not body is CharacterBody3D:
 		return
