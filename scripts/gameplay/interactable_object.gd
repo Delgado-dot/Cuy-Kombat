@@ -14,11 +14,17 @@ signal interaction_requested(player: CharacterBody3D)
 
 var _nearby_players: Array[CharacterBody3D] = []
 var _current_interacting_player: CharacterBody3D
+var _grabbed_player: CharacterBody3D
+var _is_grabbed := false
+var _is_elevating := false
+var _elevation_tween: Tween
 
 
 func _ready() -> void:
+	add_to_group("interactable_objects")
 	$InteractionArea.body_entered.connect(_on_interaction_area_body_entered)
 	$InteractionArea.body_exited.connect(_on_interaction_area_body_exited)
+	interaction_requested.connect(_on_interaction_requested)
 
 
 ## Returns true while at least one CharacterBody3D is inside the interaction area.
@@ -39,6 +45,40 @@ func interact(player: CharacterBody3D) -> void:
 
 	print("[INTERACTION] Interaction accepted: %s" % player.name)
 	interaction_requested.emit(player)
+
+
+func _on_interaction_requested(player: CharacterBody3D) -> void:
+	_grabbed_player = player
+	_is_grabbed = true
+	_is_elevating = true
+	freeze = true
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+
+	if _elevation_tween != null and _elevation_tween.is_valid():
+		_elevation_tween.kill()
+
+	_elevation_tween = create_tween()
+	_elevation_tween.set_trans(Tween.TRANS_QUAD)
+	_elevation_tween.set_ease(Tween.EASE_OUT)
+	_elevation_tween.tween_property(
+		self,
+		"global_position",
+		player.global_position + Vector3.UP * 2.0,
+		0.4
+	)
+	_elevation_tween.tween_callback(_finish_grab_elevation)
+
+
+func _physics_process(_delta: float) -> void:
+	if not _is_grabbed or _is_elevating or not is_instance_valid(_grabbed_player):
+		return
+
+	global_position = _grabbed_player.global_position + Vector3.UP * 2.0
+
+
+func _finish_grab_elevation() -> void:
+	_is_elevating = false
 
 
 func _on_interaction_area_body_entered(body: Node3D) -> void:

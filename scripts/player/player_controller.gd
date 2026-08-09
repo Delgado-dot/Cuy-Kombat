@@ -28,3 +28,26 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0.0
 
 	move_and_slide()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event := event as InputEventKey
+	if key_event.keycode != KEY_SPACE or not key_event.pressed or key_event.echo:
+		return
+
+	_request_interaction()
+
+
+func _request_interaction() -> void:
+	for node in get_tree().get_nodes_in_group("interactable_objects"):
+		var interactable_object := node as InteractableObject
+		if interactable_object == null:
+			continue
+		if interactable_object.get_interacting_player() != self:
+			continue
+
+		interactable_object.interact(self)
+		return

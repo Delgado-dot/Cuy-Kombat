@@ -16,16 +16,9 @@ func _ready() -> void:
 func _on_player_entered_interaction_range(player: CharacterBody3D) -> void:
 	_print_interaction_state("entered", player)
 
-	var current_player := interactable_object.get_interacting_player()
-	if current_player != null:
-		print("[INTERACTION TEST] Calling interact with current player: %s" % current_player.name)
-		interactable_object.interact(current_player)
-
 
 func _on_player_exited_interaction_range(player: CharacterBody3D) -> void:
 	_print_interaction_state("exited", player)
-	print("[INTERACTION TEST] Calling interact after exit: %s" % player.name)
-	interactable_object.interact(player)
 
 
 func _on_interaction_requested(player: CharacterBody3D) -> void:
