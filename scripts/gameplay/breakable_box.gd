@@ -5,7 +5,7 @@ class_name BreakableBox
 signal impact_detected(collider: Object, intensity: float)
 
 @export var impact_report_threshold := 1.0
-@export var break_threshold := 8.0
+@export var break_threshold := 3.0
 
 var last_impact_intensity := 0.0
 var last_impact_collider: Object
