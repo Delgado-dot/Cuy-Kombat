@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/gameplay/interactable_object.tscn" id="1_interactable"]
+[ext_resource type="Script" path="res://scripts/gameplay/rock.gd" id="2_rock"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rock"]
+albedo_color = Color(0.36, 0.36, 0.38, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rock"]
+material = SubResource("StandardMaterial3D_rock")
+radius = 0.5
+height = 0.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rock"]
+radius = 0.5
+
+[node name="Rock" instance=ExtResource("1_interactable")]
+mass = 5.0
+script = ExtResource("2_rock")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("SphereShape3D_rock")
+
+[node name="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("SphereMesh_rock")
