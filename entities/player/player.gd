@@ -22,13 +22,22 @@ enum PlayerState {
 @export var tackle_force := 15.0
 @export var tackle_duration := 0.22
 @export var tackle_cooldown := 2.5
-@export var knockback_force := 13.0
-@export var knockback_up_force := 5.0
+@export var knockback_force := 18.0
+@export var knockback_up_force := 7.0
 @export var knockback_duration := 0.45
+@export var knockback_deceleration := 32.0
 @export var stun_duration := 0.65
-@export var body_push_force := 2.25
-@export var body_push_velocity_factor := 0.18
+@export var body_push_force := 2.0
+@export var body_push_velocity_factor := 0.10
 @export var body_push_friction := 10.0
+@export var body_push_max_speed := 2.0
+@export var body_push_press_factor := 0.6
+@export var punch_cooldown := 0.5
+@export var punch_active_time := 0.12
+@export var punch_knockback := 4.0
+@export var punch_knockback_duration := 0.2
+@export var punch_effect_duration := 0.18
+@export var punch_effect_max_scale := 2.0
 @export var lean_amount := 0.16
 @export var walk_sway_amount := 0.08
 @export var walk_sway_speed := 9.0
@@ -52,10 +61,18 @@ var _stun_time_left := 0.0
 var _stun_blink_time := 0.0
 var _stun_pending := false
 var _hit_players: Array[Node] = []
+var _punch_cooldown_left := 0.0
+var _punch_active_left := 0.0
+var _punch_key_was_down := false
+var _punch_hit_players: Array[Node] = []
+var _punch_effect_time := 0.0
+var _punch_effect_material: StandardMaterial3D
 var _body_material: StandardMaterial3D
 
 @onready var _camera_pivot := get_node_or_null("CameraPivot") as Node3D
 @onready var _tackle_hitbox := get_node_or_null("TackleHitbox") as Area3D
+@onready var _punch_hitbox := get_node_or_null("PunchHitbox") as Area3D
+@onready var _punch_effect := get_node_or_null("PunchEffect") as MeshInstance3D
 @onready var _collision_shape := get_node_or_null("CollisionShape3D") as CollisionShape3D
 @onready var _visual := get_node_or_null("Visual") as Node3D
 @onready var _body_mesh := get_node_or_null("Visual/Body") as MeshInstance3D
@@ -64,6 +81,9 @@ var _body_material: StandardMaterial3D
 
 func _physics_process(delta: float) -> void:
 	_update_tackle_cooldown(delta)
+	_update_punch_cooldown(delta)
+	_update_punch(delta)
+	_update_punch_effect(delta)
 
 	if _state == PlayerState.KNOCKBACK:
 		_update_knockback(delta)
@@ -90,6 +110,11 @@ func _physics_process(delta: float) -> void:
 
 	_update_tackle_charge(delta)
 
+	if _state == PlayerState.ATTACKING:
+		_update_tackle(delta)
+		move_and_slide()
+		return
+
 	var move_direction := _get_camera_relative_input()
 	var target_velocity := move_direction * move_speed
 	var blend_speed := acceleration if move_direction.length_squared() > 0.0 else deceleration
@@ -108,6 +133,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 	_update_normal_state()
+	_try_start_punch()
 	_face_move_direction(move_direction, delta)
 	move_and_slide()
 	_push_colliding_players()
@@ -116,6 +142,7 @@ func _physics_process(delta: float) -> void:
 func _ready() -> void:
 	_was_on_floor = is_on_floor()
 	_apply_player_color()
+	_setup_punch_effect()
 	_update_charge_bar(0.0, false)
 
 	if _tackle_hitbox != null:
@@ -245,6 +272,9 @@ func _jump_key() -> Key:
 func _tackle_key() -> Key:
 	return KEY_CTRL if control_scheme == "arrows" else KEY_SHIFT
 
+func _punch_key() -> Key:
+	return KEY_PERIOD if control_scheme == "arrows" else KEY_F
+
 func _update_tackle_charge(delta: float) -> void:
 	if _tackle_cooldown_left > 0.0:
 		_cancel_tackle_charge()
@@ -280,6 +310,7 @@ func _cancel_tackle_charge() -> void:
 func _update_tackle(delta: float) -> void:
 	_tackle_time_left -= delta
 	velocity.y -= gravity * delta
+	_try_tackle_hits()
 
 	if _tackle_time_left <= 0.0:
 		_state = PlayerState.NORMAL
@@ -290,9 +321,109 @@ func _update_tackle_cooldown(delta: float) -> void:
 
 	_tackle_cooldown_left = maxf(_tackle_cooldown_left - delta, 0.0)
 
+func _update_punch_cooldown(delta: float) -> void:
+	if _punch_cooldown_left <= 0.0:
+		return
+
+	_punch_cooldown_left = maxf(_punch_cooldown_left - delta, 0.0)
+
+func _try_start_punch() -> void:
+	var key_down := Input.is_key_pressed(_punch_key())
+	var just_pressed := key_down and not _punch_key_was_down
+	_punch_key_was_down = key_down
+
+	if not just_pressed:
+		return
+	if _state != PlayerState.NORMAL:
+		return
+	if _punch_cooldown_left > 0.0:
+		return
+
+	_start_punch()
+
+func _start_punch() -> void:
+	_punch_active_left = punch_active_time
+	_punch_cooldown_left = punch_cooldown
+	_punch_hit_players.clear()
+	_punch_effect_time = 0.0
+
+	if _punch_effect != null:
+		_punch_effect.visible = true
+		_punch_effect.scale = Vector3.ONE * 0.4
+	if _punch_effect_material != null:
+		_punch_effect_material.albedo_color.a = 1.0
+
+	if _punch_hitbox != null:
+		_punch_hitbox.monitoring = true
+
+func _update_punch(delta: float) -> void:
+	if _punch_active_left <= 0.0:
+		return
+
+	_punch_active_left -= delta
+	_try_punch_hits()
+
+	if _punch_active_left <= 0.0 and _punch_hitbox != null:
+		_punch_hitbox.monitoring = false
+
+func _try_punch_hits() -> void:
+	if _punch_active_left <= 0.0 or _punch_hitbox == null:
+		return
+
+	for body in _punch_hitbox.get_overlapping_bodies():
+		if body == self or body in _punch_hit_players:
+			continue
+		if not body.has_method("apply_knockback"):
+			continue
+
+		_punch_hit_players.append(body)
+		var hit_direction := body.global_position - global_position
+		body.apply_knockback(hit_direction, punch_knockback, 0.0, false, punch_knockback_duration)
+
+func _setup_punch_effect() -> void:
+	if _punch_effect == null:
+		return
+
+	var material := StandardMaterial3D.new()
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_color = Color(1.0, 0.9, 0.55, 1.0)
+	material.emission_enabled = true
+	material.emission = Color(1.0, 0.6, 0.15, 1.0)
+	material.emission_energy_multiplier = 1.5
+	_punch_effect_material = material
+	_punch_effect.material_override = material
+	_punch_effect.scale = Vector3.ONE * 0.01
+	_punch_effect.visible = false
+
+func _update_punch_effect(delta: float) -> void:
+	if _punch_effect == null or _punch_effect_time >= punch_effect_duration:
+		return
+
+	_punch_effect_time += delta
+
+	if _punch_effect_time >= punch_effect_duration:
+		_punch_effect.visible = false
+		return
+
+	var ratio := _punch_effect_time / punch_effect_duration
+	var eased := 1.0 - pow(1.0 - ratio, 2.0)
+	_punch_effect.scale = Vector3.ONE * lerpf(0.5, punch_effect_max_scale, eased)
+
+	if _punch_effect_material != null:
+		_punch_effect_material.albedo_color.a = 1.0 - ratio
+
 func _update_knockback(delta: float) -> void:
 	_knockback_time_left -= delta
 	velocity.y -= gravity * delta
+
+	var horizontal := Vector2(velocity.x, velocity.z)
+	var horizontal_speed := horizontal.length()
+
+	if horizontal_speed > 0.0:
+		var new_speed := maxf(horizontal_speed - knockback_deceleration * delta, 0.0)
+		horizontal = horizontal.normalized() * new_speed
+		velocity.x = horizontal.x
+		velocity.z = horizontal.y
 
 	if is_on_floor() and _knockback_time_left <= 0.0:
 		if _stun_pending:
@@ -329,7 +460,7 @@ func _update_stun(delta: float) -> void:
 		_state = PlayerState.NORMAL
 		_restore_body_color()
 
-func apply_knockback(direction: Vector3, force: float, up_force: float) -> void:
+func apply_knockback(direction: Vector3, force: float, up_force: float, stun := true, duration := -1.0) -> void:
 	var knockback_direction := direction
 	knockback_direction.y = 0.0
 
@@ -337,10 +468,12 @@ func apply_knockback(direction: Vector3, force: float, up_force: float) -> void:
 		knockback_direction = -global_transform.basis.z
 
 	knockback_direction = knockback_direction.normalized()
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
 	velocity = knockback_direction * force
 	velocity.y = up_force + force * 0.15
-	_knockback_time_left = knockback_duration
-	_stun_pending = true
+	_knockback_time_left = knockback_duration if duration <= 0.0 else duration
+	_stun_pending = stun
 	_state = PlayerState.KNOCKBACK
 
 func apply_body_push(direction: Vector3, force: float) -> void:
@@ -350,7 +483,7 @@ func apply_body_push(direction: Vector3, force: float) -> void:
 	if push_direction.length_squared() == 0.0:
 		return
 
-	_external_push += push_direction.normalized() * force
+	_external_push = (_external_push + push_direction.normalized() * force).limit_length(body_push_max_speed)
 
 func eliminate() -> void:
 	velocity = Vector3.ZERO
@@ -363,17 +496,22 @@ func eliminate() -> void:
 
 	eliminated.emit(self)
 
-func _on_tackle_hitbox_body_entered(body: Node3D) -> void:
-	if _state != PlayerState.ATTACKING:
-		return
-	if body == self or body in _hit_players:
-		return
-	if not body.has_method("apply_knockback"):
+func _on_tackle_hitbox_body_entered(_body: Node3D) -> void:
+	_try_tackle_hits()
+
+func _try_tackle_hits() -> void:
+	if _state != PlayerState.ATTACKING or _tackle_hitbox == null:
 		return
 
-	_hit_players.append(body)
-	var hit_direction := body.global_position - global_position
-	body.apply_knockback(hit_direction, knockback_force, knockback_up_force)
+	for body in _tackle_hitbox.get_overlapping_bodies():
+		if body == self or body in _hit_players:
+			continue
+		if not body.has_method("apply_knockback"):
+			continue
+
+		_hit_players.append(body)
+		var hit_direction := body.global_position - global_position
+		body.apply_knockback(hit_direction, knockback_force, knockback_up_force)
 
 func _push_colliding_players() -> void:
 	for index in range(get_slide_collision_count()):
@@ -393,9 +531,17 @@ func _push_colliding_players() -> void:
 			push_direction = -collision.get_normal()
 			push_direction.y = 0.0
 
+		var push_dir := push_direction.normalized()
+
 		var horizontal_speed := Vector3(velocity.x, 0.0, velocity.z).length()
 		var push_force := body_push_force + horizontal_speed * body_push_velocity_factor
-		other_player.apply_body_push(push_direction, push_force)
+		other_player.apply_body_push(push_dir, push_force)
+
+		var approach := _horizontal_velocity.dot(push_dir)
+		if approach > 0.0:
+			var approach_cap := body_push_max_speed * body_push_press_factor
+			if approach > approach_cap:
+				_horizontal_velocity -= push_dir * (approach - approach_cap)
 
 func _connect_death_zone() -> void:
 	var death_zone := get_tree().root.find_child("AgujeroCentral", true, false) as Area3D
