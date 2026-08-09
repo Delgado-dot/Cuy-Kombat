@@ -7,6 +7,8 @@ enum PlayerState {
 	ATTACKING,
 	KNOCKBACK,
 	STUNNED,
+	GRABBING,
+	GRABBED,
 }
 
 @export var input_enabled := true
@@ -38,6 +40,16 @@ enum PlayerState {
 @export var punch_knockback_duration := 0.2
 @export var punch_effect_duration := 0.18
 @export var punch_effect_max_scale := 2.0
+@export var punch_arm_extend_duration := 0.04
+@export var punch_arm_hold_duration := 0.06
+@export var punch_arm_return_duration := 0.07
+@export var punch_arm_extend_rotation := 1.5
+@export var punch_arm_forward_shift := 0.32
+@export var grab_follow_speed := 12.0
+@export var grab_pose_duration := 0.15
+@export var grab_arm_rotation := 1.25
+@export var grab_arm_shift := 0.35
+@export var grab_arm_forward := -0.02
 @export var lean_amount := 0.16
 @export var walk_sway_amount := 0.08
 @export var walk_sway_speed := 9.0
@@ -68,6 +80,17 @@ var _punch_hit_players: Array[Node] = []
 var _punch_effect_time := 0.0
 var _punch_effect_material: StandardMaterial3D
 var _body_material: StandardMaterial3D
+var _limb_material: StandardMaterial3D
+var _arm_tween: Tween
+var _punch_arm_is_left := false
+var _grabbed_target: Node3D
+var _grabbed_by: Node3D
+var _grab_key_was_down := false
+var _grab_just_pressed := false
+var _left_arm_rest_pos := Vector3.ZERO
+var _left_arm_rest_rot := Vector3.ZERO
+var _right_arm_rest_pos := Vector3.ZERO
+var _right_arm_rest_rot := Vector3.ZERO
 
 @onready var _camera_pivot := get_node_or_null("CameraPivot") as Node3D
 @onready var _tackle_hitbox := get_node_or_null("TackleHitbox") as Area3D
@@ -78,8 +101,17 @@ var _body_material: StandardMaterial3D
 @onready var _body_mesh := get_node_or_null("Visual/Body") as MeshInstance3D
 @onready var _charge_bar := get_node_or_null("Visual/ChargeBar") as Node3D
 @onready var _charge_fill := get_node_or_null("Visual/ChargeBar/Fill") as MeshInstance3D
+@onready var _left_arm_mesh := get_node_or_null("LeftArm/ArmMesh") as MeshInstance3D
+@onready var _right_arm_mesh := get_node_or_null("RightArm/ArmMesh") as MeshInstance3D
+@onready var _left_hand_mesh := get_node_or_null("LeftArm/LeftHand/HandMesh") as MeshInstance3D
+@onready var _right_hand_mesh := get_node_or_null("RightArm/RightHand/HandMesh") as MeshInstance3D
+@onready var _left_arm := get_node_or_null("LeftArm") as Node3D
+@onready var _right_arm := get_node_or_null("RightArm") as Node3D
+@onready var _grab_hitbox := get_node_or_null("GrabHitbox") as Area3D
+@onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
 
 func _physics_process(delta: float) -> void:
+	_update_grab_input()
 	_update_tackle_cooldown(delta)
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
@@ -96,8 +128,18 @@ func _physics_process(delta: float) -> void:
 		_update_visual_motion(delta, Vector3.ZERO)
 		return
 
+	if _state == PlayerState.GRABBED:
+		_update_grabbed(delta)
+		move_and_slide()
+		return
+
 	if _state == PlayerState.ATTACKING:
 		_update_tackle(delta)
+		move_and_slide()
+		return
+
+	if _state == PlayerState.GRABBING:
+		_update_grabbing(delta)
 		move_and_slide()
 		return
 
@@ -116,6 +158,16 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var move_direction := _get_camera_relative_input()
+	_apply_player_movement(delta, move_direction, true)
+	_update_normal_state()
+	_try_start_punch()
+	_try_start_grab()
+	_face_move_direction(move_direction, delta)
+	move_and_slide()
+	_push_colliding_players()
+	_update_visual_motion(delta, move_direction)
+
+func _apply_player_movement(delta: float, move_direction: Vector3, can_jump: bool) -> void:
 	var target_velocity := move_direction * move_speed
 	var blend_speed := acceleration if move_direction.length_squared() > 0.0 else deceleration
 
@@ -125,25 +177,25 @@ func _physics_process(delta: float) -> void:
 	velocity.z = _horizontal_velocity.z + _external_push.z
 
 	if is_on_floor():
-		if Input.is_key_pressed(_jump_key()):
+		if can_jump and Input.is_key_pressed(_jump_key()):
 			velocity.y = jump_velocity
 		elif velocity.y < 0.0:
 			velocity.y = 0.0
 	else:
 		velocity.y -= gravity * delta
 
-	_update_normal_state()
-	_try_start_punch()
-	_face_move_direction(move_direction, delta)
-	move_and_slide()
-	_push_colliding_players()
-	_update_visual_motion(delta, move_direction)
-
 func _ready() -> void:
 	_was_on_floor = is_on_floor()
 	_apply_player_color()
 	_setup_punch_effect()
 	_update_charge_bar(0.0, false)
+
+	if _left_arm != null:
+		_left_arm_rest_pos = _left_arm.position
+		_left_arm_rest_rot = _left_arm.rotation
+	if _right_arm != null:
+		_right_arm_rest_pos = _right_arm.position
+		_right_arm_rest_rot = _right_arm.rotation
 
 	if _tackle_hitbox != null:
 		_tackle_hitbox.body_entered.connect(_on_tackle_hitbox_body_entered)
@@ -275,6 +327,14 @@ func _tackle_key() -> Key:
 func _punch_key() -> Key:
 	return KEY_PERIOD if control_scheme == "arrows" else KEY_F
 
+func _grab_key() -> Key:
+	return KEY_K if control_scheme == "arrows" else KEY_G
+
+func _update_grab_input() -> void:
+	var grab_key_down := Input.is_key_pressed(_grab_key())
+	_grab_just_pressed = grab_key_down and not _grab_key_was_down
+	_grab_key_was_down = grab_key_down
+
 func _update_tackle_charge(delta: float) -> void:
 	if _tackle_cooldown_left > 0.0:
 		_cancel_tackle_charge()
@@ -356,6 +416,44 @@ func _start_punch() -> void:
 	if _punch_hitbox != null:
 		_punch_hitbox.monitoring = true
 
+	_start_punch_arm_animation()
+
+func _start_punch_arm_animation() -> void:
+	if _left_arm == null and _right_arm == null:
+		return
+
+	_punch_arm_is_left = not _punch_arm_is_left
+	var arm := _left_arm if _punch_arm_is_left else _right_arm
+
+	if arm == null:
+		_punch_arm_is_left = not _punch_arm_is_left
+		arm = _left_arm if _punch_arm_is_left else _right_arm
+		if arm == null:
+			return
+
+	if _arm_tween != null and _arm_tween.is_valid():
+		_arm_tween.kill()
+
+	var is_left := arm == _left_arm
+	var rest_pos := _left_arm_rest_pos if is_left else _right_arm_rest_pos
+	var rest_rot := _left_arm_rest_rot if is_left else _right_arm_rest_rot
+	var target_pos := Vector3(-punch_arm_forward_shift if is_left else punch_arm_forward_shift, rest_pos.y, rest_pos.z)
+	var target_rot := Vector3(punch_arm_extend_rotation, rest_rot.y, rest_rot.z)
+
+	_arm_tween = create_tween()
+	_arm_tween.set_parallel(true)
+	_arm_tween.tween_property(arm, "position", target_pos, punch_arm_extend_duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_arm_tween.tween_property(arm, "rotation", target_rot, punch_arm_extend_duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_arm_tween.set_parallel(false)
+	_arm_tween.tween_interval(punch_arm_hold_duration)
+	_arm_tween.set_parallel(true)
+	_arm_tween.tween_property(arm, "position", rest_pos, punch_arm_return_duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	_arm_tween.tween_property(arm, "rotation", rest_rot, punch_arm_return_duration) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
 func _update_punch(delta: float) -> void:
 	if _punch_active_left <= 0.0:
 		return
@@ -379,6 +477,170 @@ func _try_punch_hits() -> void:
 		_punch_hit_players.append(body)
 		var hit_direction := body.global_position - global_position
 		body.apply_knockback(hit_direction, punch_knockback, 0.0, false, punch_knockback_duration)
+
+func _try_start_grab() -> void:
+	if not _grab_just_pressed:
+		return
+	if _state != PlayerState.NORMAL:
+		return
+
+	var target := _find_grab_target()
+	if target == null:
+		return
+
+	_start_grab(target)
+
+func _find_grab_target() -> Node3D:
+	if _grab_hitbox == null:
+		return null
+
+	var best_target: Node3D = null
+	var best_distance := INF
+
+	for body in _grab_hitbox.get_overlapping_bodies():
+		if body == self:
+			continue
+		if not (body is CharacterBody3D):
+			continue
+		if not body.has_method("can_be_grabbed"):
+			continue
+		if not body.can_be_grabbed():
+			continue
+
+		var distance := global_position.distance_to(body.global_position)
+		if distance < best_distance:
+			best_distance = distance
+			best_target = body
+
+	return best_target
+
+func _start_grab(target: Node3D) -> void:
+	_state = PlayerState.GRABBING
+	_grabbed_target = target
+	_charge_time = 0.0
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
+	_update_charge_bar(0.0, false)
+
+	if target.has_method("start_being_grabbed"):
+		target.start_being_grabbed(self)
+
+	_set_grab_pose(true)
+
+func _release_grab() -> void:
+	if _grabbed_target == null:
+		return
+
+	var target := _grabbed_target
+	_grabbed_target = null
+
+	if is_instance_valid(target) and target.has_method("release_from_being_grabbed"):
+		target.release_from_being_grabbed()
+
+	if _state == PlayerState.GRABBING:
+		_state = PlayerState.NORMAL
+
+	_set_grab_pose(false)
+
+func _update_grabbing(delta: float) -> void:
+	if _grabbed_target == null or not is_instance_valid(_grabbed_target):
+		_release_grab()
+		return
+
+	if _grabbed_target.get_player_state() != PlayerState.GRABBED:
+		_release_grab()
+		return
+
+	if _grab_just_pressed:
+		_release_grab()
+		return
+
+	var move_direction := _get_camera_relative_input()
+	_apply_player_movement(delta, move_direction, true)
+	_face_move_direction(move_direction, delta)
+	_update_visual_motion(delta, move_direction)
+
+func _update_grabbed(delta: float) -> void:
+	if _grabbed_by == null or not is_instance_valid(_grabbed_by):
+		release_from_being_grabbed()
+		return
+	if not _grabbed_by.is_grabbing():
+		release_from_being_grabbed()
+		return
+
+	var target: Vector3 = _grabbed_by.get_grab_point_global()
+	var offset := target - global_position
+	var desired_velocity := offset * grab_follow_speed
+	velocity = desired_velocity.limit_length(grab_follow_speed * 3.0)
+
+func _set_grab_pose(active: bool) -> void:
+	if _left_arm == null and _right_arm == null:
+		return
+
+	if _arm_tween != null and _arm_tween.is_valid():
+		_arm_tween.kill()
+
+	_arm_tween = create_tween()
+	_arm_tween.set_parallel(true)
+
+	for arm in [_left_arm, _right_arm]:
+		var rest_pos := _left_arm_rest_pos if arm == _left_arm else _right_arm_rest_pos
+		var rest_rot := _left_arm_rest_rot if arm == _left_arm else _right_arm_rest_rot
+
+		var target_pos := rest_pos
+		var target_rot := rest_rot
+		if active:
+			target_pos = Vector3(-grab_arm_shift if arm == _left_arm else grab_arm_shift, rest_pos.y, grab_arm_forward)
+			target_rot = Vector3(grab_arm_rotation, rest_rot.y, rest_rot.z)
+
+		_arm_tween.tween_property(arm, "position", target_pos, grab_pose_duration) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		_arm_tween.tween_property(arm, "rotation", target_rot, grab_pose_duration) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func can_be_grabbed() -> bool:
+	return _state == PlayerState.NORMAL
+
+func get_player_state() -> int:
+	return _state
+
+func is_grabbing() -> bool:
+	return _state == PlayerState.GRABBING and _grabbed_target != null
+
+func get_grab_point_global() -> Vector3:
+	if _grab_point != null:
+		return _grab_point.global_position
+	return global_position + -global_transform.basis.z * 0.55
+
+func start_being_grabbed(grabbing_player: Node3D) -> void:
+	_grabbed_by = grabbing_player
+	_state = PlayerState.GRABBED
+	_charge_time = 0.0
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
+	velocity = Vector3.ZERO
+
+	if _collision_shape != null:
+		_collision_shape.disabled = true
+
+func release_from_being_grabbed() -> void:
+	if _grabbed_by == null and _state != PlayerState.GRABBED:
+		return
+
+	_grabbed_by = null
+	velocity = Vector3.ZERO
+	_horizontal_velocity = Vector3.ZERO
+	_external_push = Vector3.ZERO
+
+	if _state == PlayerState.GRABBED:
+		_state = PlayerState.NORMAL
+
+	if _collision_shape != null:
+		_collision_shape.disabled = false
+
+func release_grab_if_target(target: Node3D) -> void:
+	if _grabbed_target == target:
+		_release_grab()
 
 func _setup_punch_effect() -> void:
 	if _punch_effect == null:
@@ -461,6 +723,11 @@ func _update_stun(delta: float) -> void:
 		_restore_body_color()
 
 func apply_knockback(direction: Vector3, force: float, up_force: float, stun := true, duration := -1.0) -> void:
+	if _grabbed_target != null:
+		_release_grab()
+	if _state == PlayerState.GRABBED:
+		release_from_being_grabbed()
+
 	var knockback_direction := direction
 	knockback_direction.y = 0.0
 
@@ -486,6 +753,11 @@ func apply_body_push(direction: Vector3, force: float) -> void:
 	_external_push = (_external_push + push_direction.normalized() * force).limit_length(body_push_max_speed)
 
 func eliminate() -> void:
+	if _grabbed_by != null and is_instance_valid(_grabbed_by) and _grabbed_by.has_method("release_grab_if_target"):
+		_grabbed_by.release_grab_if_target(self)
+	release_from_being_grabbed()
+	_release_grab()
+
 	velocity = Vector3.ZERO
 	_horizontal_velocity = Vector3.ZERO
 	visible = false
@@ -554,13 +826,22 @@ func _on_death_zone_body_entered(body: Node3D) -> void:
 		eliminate()
 
 func _apply_player_color() -> void:
-	if _body_mesh == null:
-		return
+	var body_material := StandardMaterial3D.new()
+	body_material.albedo_color = player_color
+	body_material.roughness = 0.65
 
-	_body_material = StandardMaterial3D.new()
-	_body_material.albedo_color = player_color
-	_body_material.roughness = 0.65
-	_body_mesh.set_surface_override_material(0, _body_material)
+	if _body_mesh != null:
+		_body_material = body_material
+		_body_mesh.set_surface_override_material(0, _body_material)
+
+	var limb_material := StandardMaterial3D.new()
+	limb_material.albedo_color = player_color.darkened(0.15)
+	limb_material.roughness = 0.7
+	_limb_material = limb_material
+
+	for mesh in [_left_arm_mesh, _right_arm_mesh, _left_hand_mesh, _right_hand_mesh]:
+		if mesh != null:
+			mesh.set_surface_override_material(0, _limb_material)
 
 func _update_stun_blink(delta: float) -> void:
 	if _body_material == null:
@@ -573,6 +854,8 @@ func _update_stun_blink(delta: float) -> void:
 func _set_body_color(color: Color) -> void:
 	if _body_material != null:
 		_body_material.albedo_color = color
+	if _limb_material != null:
+		_limb_material.albedo_color = color
 
 func _restore_body_color() -> void:
 	_set_body_color(player_color)

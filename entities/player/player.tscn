@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_player_script"]
 
@@ -50,6 +50,9 @@ radius = 0.85
 [sub_resource type="BoxShape3D" id="BoxShape3D_punch"]
 size = Vector3(0.8, 0.6, 0.7)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_grab"]
+size = Vector3(1.6, 1.6, 0.5)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_punch_effect"]
 albedo_color = Color(1, 0.9, 0.55, 1)
 transparency = 1
@@ -61,6 +64,21 @@ emission_energy_multiplier = 1.5
 material = SubResource("StandardMaterial3D_punch_effect")
 inner_radius = 0.15
 outer_radius = 0.26
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_limb"]
+albedo_color = Color(0.85, 0.72, 0.5, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
+material = SubResource("StandardMaterial3D_limb")
+top_radius = 0.12
+bottom_radius = 0.09
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_hand"]
+material = SubResource("StandardMaterial3D_limb")
+radius = 0.16
+height = 0.32
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_player_script")
@@ -123,3 +141,42 @@ visible = false
 position = Vector3(0, 0.55, -0.85)
 rotation = Vector3(-1.5708, 0, 0)
 mesh = SubResource("TorusMesh_punch")
+
+[node name="GrabHitbox" type="Area3D" parent="."]
+position = Vector3(0, 0.6, -0.6)
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabHitbox"]
+shape = SubResource("BoxShape3D_grab")
+
+[node name="LeftArm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.955337, -0.29552, 0, 0.29552, 0.955337, -0.5, 0.55, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="LeftHand" type="Node3D" parent="LeftArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.06)
+
+[node name="HandMesh" type="MeshInstance3D" parent="LeftArm/LeftHand"]
+mesh = SubResource("SphereMesh_hand")
+
+[node name="RightArm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.955337, -0.29552, 0, 0.29552, 0.955337, 0.5, 0.55, 0)
+
+[node name="ArmMesh" type="MeshInstance3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("CylinderMesh_arm")
+
+[node name="RightHand" type="Node3D" parent="RightArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0.06)
+
+[node name="HandMesh" type="MeshInstance3D" parent="RightArm/RightHand"]
+mesh = SubResource("SphereMesh_hand")
+
+[node name="GrabPoint" type="Node3D" parent="."]
+position = Vector3(0, 0, -0.55)
