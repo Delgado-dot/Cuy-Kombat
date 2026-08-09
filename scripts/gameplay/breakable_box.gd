@@ -5,13 +5,15 @@ class_name BreakableBox
 signal impact_detected(collider: Object, intensity: float)
 
 @export var impact_report_threshold := 1.0
+@export var break_threshold := 8.0
 
 var last_impact_intensity := 0.0
 var last_impact_collider: Object
+var _is_broken := false
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	if freeze:
+	if freeze or _is_broken:
 		return
 
 	var strongest_intensity := 0.0
@@ -31,3 +33,19 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	impact_detected.emit(strongest_collider, strongest_intensity)
 
 	print("[BREAKABLE BOX] Impact detected | Strength: %.2f" % strongest_intensity)
+	if strongest_intensity >= break_threshold:
+		_break()
+
+
+func _break() -> void:
+	if _is_broken:
+		return
+
+	_is_broken = true
+	remove_from_group("interactable_objects")
+	freeze = true
+	collision_layer = 0
+	collision_mask = 0
+	$InteractionArea.monitoring = false
+	print("[BREAKABLE BOX] BROKEN")
+	queue_free()

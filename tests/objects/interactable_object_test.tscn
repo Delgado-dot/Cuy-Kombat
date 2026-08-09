@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/gameplay/breakable_box.tscn" id="1_interactable"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -13,6 +13,13 @@ size = Vector3(10, 0.2, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(10, 0.2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+material = SubResource("StandardMaterial3D_floor")
+size = Vector3(6, 3, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(6, 3, 0.3)
 
 [node name="InteractableObjectTest" type="Node3D"]
 script = ExtResource("3_test")
@@ -33,8 +40,17 @@ shape = SubResource("BoxShape3D_floor")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("BoxMesh_floor")
 
+[node name="ThrowWall" type="StaticBody3D" parent="."]
+position = Vector3(0, 1.5, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ThrowWall"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ThrowWall"]
+mesh = SubResource("BoxMesh_wall")
+
 [node name="InteractableObject" parent="." instance=ExtResource("1_interactable")]
-position = Vector3(0, 4, 0)
+position = Vector3(0, 1, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector3(0, 0.8, 4)
