@@ -9,6 +9,9 @@ signal player_entered_interaction_range(player: CharacterBody3D)
 ## Emitted when a player leaves this object's interaction range.
 signal player_exited_interaction_range(player: CharacterBody3D)
 
+## Emitted when the currently selected player requests an interaction.
+signal interaction_requested(player: CharacterBody3D)
+
 var _nearby_players: Array[CharacterBody3D] = []
 var _current_interacting_player: CharacterBody3D
 
@@ -35,6 +38,7 @@ func interact(player: CharacterBody3D) -> void:
 		return
 
 	print("[INTERACTION] Interaction accepted: %s" % player.name)
+	interaction_requested.emit(player)
 
 
 func _on_interaction_area_body_entered(body: Node3D) -> void:

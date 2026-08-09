@@ -10,6 +10,7 @@ func _ready() -> void:
 	interactable_object.player_exited_interaction_range.connect(
 		_on_player_exited_interaction_range
 	)
+	interactable_object.interaction_requested.connect(_on_interaction_requested)
 
 
 func _on_player_entered_interaction_range(player: CharacterBody3D) -> void:
@@ -25,6 +26,10 @@ func _on_player_exited_interaction_range(player: CharacterBody3D) -> void:
 	_print_interaction_state("exited", player)
 	print("[INTERACTION TEST] Calling interact after exit: %s" % player.name)
 	interactable_object.interact(player)
+
+
+func _on_interaction_requested(player: CharacterBody3D) -> void:
+	print("[INTERACTION TEST] interaction_requested received: %s" % player.name)
 
 
 func _print_interaction_state(event: String, player: CharacterBody3D) -> void:
