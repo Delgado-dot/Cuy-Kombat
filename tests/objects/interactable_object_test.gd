@@ -12,9 +12,20 @@ func _ready() -> void:
 	)
 
 
-func _on_player_entered_interaction_range(_player: CharacterBody3D) -> void:
-	print("PLAYER ENTERED INTERACTION RANGE")
+func _on_player_entered_interaction_range(player: CharacterBody3D) -> void:
+	_print_interaction_state("entered", player)
 
 
-func _on_player_exited_interaction_range(_player: CharacterBody3D) -> void:
-	print("PLAYER EXITED INTERACTION RANGE")
+func _on_player_exited_interaction_range(player: CharacterBody3D) -> void:
+	_print_interaction_state("exited", player)
+
+
+func _print_interaction_state(event: String, player: CharacterBody3D) -> void:
+	var current_player := interactable_object.get_interacting_player()
+	var current_player_name := "NONE"
+	if current_player != null:
+		current_player_name = str(current_player.name)
+
+	print("[INTERACTION] Player %s range: %s" % [event, player.name])
+	print("[INTERACTION] Current interacting player: %s" % current_player_name)
+	print("[INTERACTION] Nearby players: %d" % interactable_object._nearby_players.size())

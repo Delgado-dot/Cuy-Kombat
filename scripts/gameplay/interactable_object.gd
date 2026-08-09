@@ -10,6 +10,7 @@ signal player_entered_interaction_range(player: CharacterBody3D)
 signal player_exited_interaction_range(player: CharacterBody3D)
 
 var _nearby_players: Array[CharacterBody3D] = []
+var _current_interacting_player: CharacterBody3D
 
 
 func _ready() -> void:
@@ -22,6 +23,11 @@ func has_player_in_interaction_range() -> bool:
 	return not _nearby_players.is_empty()
 
 
+## Returns the player currently selected to interact with this object.
+func get_interacting_player() -> CharacterBody3D:
+	return _current_interacting_player
+
+
 func _on_interaction_area_body_entered(body: Node3D) -> void:
 	if not body is CharacterBody3D:
 		return
@@ -31,6 +37,9 @@ func _on_interaction_area_body_entered(body: Node3D) -> void:
 		return
 
 	_nearby_players.append(player)
+	if _current_interacting_player == null:
+		_current_interacting_player = player
+
 	player_entered_interaction_range.emit(player)
 
 
@@ -43,4 +52,10 @@ func _on_interaction_area_body_exited(body: Node3D) -> void:
 		return
 
 	_nearby_players.erase(player)
+	if _current_interacting_player == player:
+		if _nearby_players.is_empty():
+			_current_interacting_player = null
+		else:
+			_current_interacting_player = _nearby_players[0]
+
 	player_exited_interaction_range.emit(player)
