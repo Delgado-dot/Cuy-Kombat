@@ -35,10 +35,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 
 	var key_event := event as InputEventKey
-	if key_event.keycode != KEY_SPACE or not key_event.pressed or key_event.echo:
+	if not key_event.pressed or key_event.echo:
 		return
 
-	_request_interaction()
+	if key_event.keycode == KEY_SPACE:
+		_request_interaction()
+	elif key_event.keycode == KEY_K:
+		_request_throw()
 
 
 func _request_interaction() -> void:
@@ -59,3 +62,11 @@ func _request_interaction() -> void:
 
 		interactable_object.interact(self)
 		return
+
+
+func _request_throw() -> void:
+	for node in get_tree().get_nodes_in_group("interactable_objects"):
+		var grabbed_object := node as InteractableObject
+		if grabbed_object != null and grabbed_object.is_grabbed_by(self):
+			grabbed_object.throw(self)
+			return

@@ -12,6 +12,8 @@ signal player_exited_interaction_range(player: CharacterBody3D)
 ## Emitted when the currently selected player requests an interaction.
 signal interaction_requested(player: CharacterBody3D)
 
+@export var throw_impulse := 20.0
+
 var _nearby_players: Array[CharacterBody3D] = []
 var _current_interacting_player: CharacterBody3D
 var _grabbed_player: CharacterBody3D
@@ -78,6 +80,19 @@ func release(player: CharacterBody3D) -> void:
 	if not is_grabbed_by(player):
 		return
 
+	_release_from_player(player, -player.global_transform.basis.z.normalized())
+
+
+func throw(player: CharacterBody3D) -> void:
+	if not is_grabbed_by(player):
+		return
+
+	var throw_direction := -player.global_transform.basis.z.normalized()
+	_release_from_player(player, throw_direction)
+	apply_central_impulse(throw_direction * throw_impulse)
+
+
+func _release_from_player(player: CharacterBody3D, direction: Vector3) -> void:
 	if _elevation_tween != null and _elevation_tween.is_valid():
 		_elevation_tween.kill()
 
@@ -86,7 +101,7 @@ func release(player: CharacterBody3D) -> void:
 	_grabbed_player = null
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
-	global_position = player.global_position - player.global_transform.basis.z.normalized() * 1.5 + Vector3.UP * 0.75
+	global_position = player.global_position + direction * 1.5 + Vector3.UP * 0.75
 	freeze = false
 	sleeping = false
 
