@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/gameplay/interactable_object.tscn" id="1_interactable"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://tests/objects/interactable_object_test.gd" id="3_test"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.3, 0.35, 0.4, 1)
@@ -13,6 +15,7 @@ size = Vector3(10, 0.2, 10)
 size = Vector3(10, 0.2, 10)
 
 [node name="InteractableObjectTest" type="Node3D"]
+script = ExtResource("3_test")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
@@ -32,3 +35,6 @@ mesh = SubResource("BoxMesh_floor")
 
 [node name="InteractableObject" parent="." instance=ExtResource("1_interactable")]
 position = Vector3(0, 4, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 0.8, 4)
