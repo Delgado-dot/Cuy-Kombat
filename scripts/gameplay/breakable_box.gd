@@ -28,13 +28,21 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	if strongest_intensity < impact_report_threshold:
 		return
 
-	last_impact_intensity = strongest_intensity
-	last_impact_collider = strongest_collider
-	impact_detected.emit(strongest_collider, strongest_intensity)
+	_handle_impact(strongest_collider, strongest_intensity)
 
-	print("[BREAKABLE BOX] Impact detected | Strength: %.2f" % strongest_intensity)
-	if strongest_intensity >= break_threshold:
+
+func _handle_impact(collider: Object, intensity: float) -> void:
+	last_impact_intensity = intensity
+	last_impact_collider = collider
+	impact_detected.emit(collider, intensity)
+
+	print("[BREAKABLE BOX] Impact detected | Strength: %.2f" % intensity)
+	if intensity >= break_threshold:
 		_break()
+
+
+func is_broken() -> bool:
+	return _is_broken
 
 
 func _break() -> void:

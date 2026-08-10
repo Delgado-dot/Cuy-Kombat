@@ -46,6 +46,7 @@ enum PlayerState {
 @export var punch_arm_return_duration := 0.07
 @export var punch_arm_extend_rotation := 1.5
 @export var punch_arm_forward_shift := 0.32
+@export var punch_object_impulse := 8.0
 @export var knockout_threshold := 5
 @export var knocked_duration := 3.5
 @export var knockout_color := Color(0.6, 0.6, 0.66, 1.0)
@@ -490,14 +491,18 @@ func _try_punch_hits() -> void:
 	for body in _punch_hitbox.get_overlapping_bodies():
 		if body == self or body in _punch_hit_players:
 			continue
-		if not body.has_method("apply_knockback"):
-			continue
 
 		_punch_hit_players.append(body)
 		var hit_direction := body.global_position - global_position
-		body.apply_knockback(hit_direction, punch_knockback, 0.0, false, punch_knockback_duration)
-		if body.has_method("register_punch_hit"):
-			body.register_punch_hit()
+
+		if body.has_method("apply_knockback"):
+			body.apply_knockback(hit_direction, punch_knockback, 0.0, false, punch_knockback_duration)
+			if body.has_method("register_punch_hit"):
+				body.register_punch_hit()
+			continue
+
+		if body is RigidBody3D and body.is_in_group("interactable_objects"):
+			body.apply_central_impulse(hit_direction.normalized() * punch_object_impulse)
 
 func register_punch_hit() -> void:
 	if _state == PlayerState.KNOCKED:

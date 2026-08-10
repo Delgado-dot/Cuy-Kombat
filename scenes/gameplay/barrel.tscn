@@ -18,6 +18,8 @@ height = 1.2
 
 [node name="Barrel" instance=ExtResource("1_interactable")]
 mass = 3.0
+contact_monitor = true
+max_contacts_reported = 8
 script = ExtResource("2_barrel")
 
 [node name="CollisionShape3D" parent="." index="0"]
