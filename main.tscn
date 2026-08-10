@@ -1,20 +1,21 @@
-[gd_scene format=3 uid="uid://bcsj1j0lsi3c"]
+[gd_scene format=3 uid="uid://clevxi8nqhhko"]
 
 [ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
 [ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
 [ext_resource type="Script" uid="uid://ci8g4k18ik6jd" path="res://scripts/core/demo_start_screen.gd" id="4_start"]
+[ext_resource type="Script" uid="uid://b5nwi6c61tqas" path="res://scripts/systems/spawn_manager.gd" id="5_spawn"]
+[ext_resource type="Script" uid="uid://hvsl5fya0pcj" path="res://scripts/systems/game_manager.gd" id="6_game"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
 
 [node name="Main" type="Node3D" unique_id=406114152]
 script = ExtResource("4_start")
-player_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
+game_manager_path = NodePath("GameManager")
 start_screen_path = NodePath("StartScreen")
 winner_screen_path = NodePath("WinnerScreen")
 winner_label_path = NodePath("WinnerScreen/Panel/Content/WinnerLabel")
-death_zone_path = NodePath("DeathZone")
 
 [node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1803864326]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
@@ -29,6 +30,18 @@ player_two_path = NodePath("../Player2")
 
 [node name="Arena" parent="." unique_id=2115552351 instance=ExtResource("1_arena")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="SpawnManager" type="Node" parent="." unique_id=1057186570]
+script = ExtResource("5_spawn")
+player_one_path = NodePath("../Player1")
+player_two_path = NodePath("../Player2")
+spawn_one_path = NodePath("../Arena/PuntosDeAparicion/SpawnJugador1")
+spawn_two_path = NodePath("../Arena/PuntosDeAparicion/SpawnJugador2")
+
+[node name="GameManager" type="Node" parent="." unique_id=428099557]
+script = ExtResource("6_game")
+player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2")])
+death_zone_path = NodePath("../DeathZone")
 
 [node name="Player1" parent="." unique_id=558404065 instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.649475, 1, 0)
