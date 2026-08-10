@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://clevxi8nqhhko"]
 
 [ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
-[ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://bpko4h5khy208" path="res://entities/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
 [ext_resource type="Script" uid="uid://ci8g4k18ik6jd" path="res://scripts/core/demo_start_screen.gd" id="4_start"]
 [ext_resource type="Script" uid="uid://b5nwi6c61tqas" path="res://scripts/systems/spawn_manager.gd" id="5_spawn"]
 [ext_resource type="Script" uid="uid://hvsl5fya0pcj" path="res://scripts/systems/game_manager.gd" id="6_game"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="7_game_ui"]
+[ext_resource type="PackedScene" path="res://scenes/ui/winner_screen.tscn" id="8_winner_ui"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -19,14 +21,23 @@ winner_label_path = NodePath("WinnerScreen/Panel/Content/WinnerLabel")
 
 [node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1803864326]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
-light_energy = 2.5
+light_color = Color(0.78, 0.8, 1, 1)
+light_energy = 0.55
+shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=701767425]
-transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 8, 12)
+process_mode = 4
+transform = Transform3D(1, 0, 0, 0, 0.921061, 0.389418, 0, -0.389418, 0.921061, 0, 10.5, 36.5)
 current = true
+fov = 52.0
+near = 0.1
+far = 220.0
 script = ExtResource("3_camera")
 player_one_path = NodePath("../Player1")
 player_two_path = NodePath("../Player2")
+base_offset = Vector3(0, 3.5, 16)
+distance_padding = 0.75
+look_height = -1.2
 
 [node name="Arena" parent="." unique_id=2115552351 instance=ExtResource("1_arena")]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
@@ -61,82 +72,7 @@ collision_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone" unique_id=622535333]
 shape = SubResource("BoxShape3D_death_zone")
 
-[node name="StartScreen" type="CanvasLayer" parent="." unique_id=530259561]
+[node name="StartScreen" parent="." unique_id=530259561 instance=ExtResource("7_game_ui")]
+game_manager_path = NodePath("../GameManager")
 
-[node name="Panel" type="ColorRect" parent="StartScreen" unique_id=826615592]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 0.78)
-
-[node name="Content" type="VBoxContainer" parent="StartScreen/Panel" unique_id=593200428]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -170.0
-offset_right = 260.0
-offset_bottom = 170.0
-alignment = 1
-
-[node name="Title" type="Label" parent="StartScreen/Panel/Content" unique_id=1999717842]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "CUY KOMBAT"
-horizontal_alignment = 1
-
-[node name="SpacerTop" type="Control" parent="StartScreen/Panel/Content" unique_id=1607578479]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-
-[node name="Player1Controls" type="Label" parent="StartScreen/Panel/Content" unique_id=896319513]
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Jugador 1: WASD mover | Space saltar | Shift tackle"
-horizontal_alignment = 1
-
-[node name="Player2Controls" type="Label" parent="StartScreen/Panel/Content" unique_id=1134801606]
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Jugador 2: Flechas mover | Enter saltar | Ctrl tackle"
-horizontal_alignment = 1
-
-[node name="SpacerBottom" type="Control" parent="StartScreen/Panel/Content" unique_id=581317041]
-custom_minimum_size = Vector2(0, 28)
-layout_mode = 2
-
-[node name="StartPrompt" type="Label" parent="StartScreen/Panel/Content" unique_id=1042887842]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "Presiona ENTER para comenzar"
-horizontal_alignment = 1
-
-[node name="WinnerScreen" type="CanvasLayer" parent="." unique_id=746439991]
-visible = false
-
-[node name="Panel" type="ColorRect" parent="WinnerScreen" unique_id=867732751]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 0.72)
-
-[node name="Content" type="VBoxContainer" parent="WinnerScreen/Panel" unique_id=580594016]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -90.0
-offset_right = 280.0
-offset_bottom = 90.0
-alignment = 1
-
-[node name="WinnerLabel" type="Label" parent="WinnerScreen/Panel/Content" unique_id=928869498]
-layout_mode = 2
-theme_override_font_sizes/font_size = 42
-text = "PLAYER 1 GANO
-Presiona R para reiniciar"
-horizontal_alignment = 1
+[node name="WinnerScreen" parent="." unique_id=615374332 instance=ExtResource("8_winner_ui")]

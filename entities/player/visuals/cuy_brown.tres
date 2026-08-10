@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Cuy Brown"
+albedo_color = Color(0.27, 0.13, 0.085, 1)
+metallic = 0.0
+roughness = 0.86
+

@@ -1,0 +1,212 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_orange.tres" id="1_orange"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_brown.tres" id="2_brown"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_white.tres" id="3_white"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_black.tres" id="4_black"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_pink.tres" id="5_pink"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ear_orange"]
+material = ExtResource("1_orange")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_ear_brown"]
+material = ExtResource("2_brown")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+material = ExtResource("4_black")
+radius = 0.047
+height = 0.094
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_nose"]
+material = ExtResource("5_pink")
+radius = 0.035
+height = 0.07
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_arm_orange"]
+material = ExtResource("1_orange")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_arm_brown"]
+material = ExtResource("2_brown")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_hand"]
+material = ExtResource("3_white")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[sub_resource type="SphereMesh" id="SphereMesh_foot"]
+material = ExtResource("3_white")
+radius = 0.5
+height = 1.0
+radial_segments = 20
+rings = 10
+
+[node name="CuyVisual" type="Node3D"]
+
+[node name="Body" type="CSGCombiner3D" parent="."]
+
+[node name="LowerBody" type="CSGSphere3D" parent="Body"]
+position = Vector3(0, 0.59, 0.01)
+scale = Vector3(0.76, 1.12, 0.7)
+radius = 0.5
+radial_segments = 32
+rings = 16
+smooth_faces = true
+material = ExtResource("1_orange")
+
+[node name="UpperBody" type="CSGSphere3D" parent="Body"]
+position = Vector3(0, 1, -0.035)
+scale = Vector3(0.78, 0.82, 0.72)
+radius = 0.5
+radial_segments = 32
+rings = 16
+smooth_faces = true
+material = ExtResource("1_orange")
+
+[node name="WhiteFront" type="CSGCombiner3D" parent="."]
+
+[node name="Belly" type="CSGSphere3D" parent="WhiteFront"]
+position = Vector3(-0.04, 0.5, -0.342)
+rotation = Vector3(0, 0.04, 0.025)
+scale = Vector3(0.57, 0.72, 0.09)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("3_white")
+
+[node name="FaceBridge" type="CSGSphere3D" parent="WhiteFront"]
+position = Vector3(-0.03, 0.86, -0.382)
+rotation = Vector3(0, 0.035, -0.02)
+scale = Vector3(0.4, 0.56, 0.075)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("3_white")
+
+[node name="Forehead" type="CSGSphere3D" parent="WhiteFront"]
+position = Vector3(-0.04, 1.155, -0.388)
+rotation = Vector3(0, 0.025, -0.055)
+scale = Vector3(0.35, 0.37, 0.07)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("3_white")
+
+[node name="BrownRightPatch" type="CSGCombiner3D" parent="."]
+
+[node name="Face" type="CSGSphere3D" parent="BrownRightPatch"]
+position = Vector3(0.25, 1.055, -0.372)
+rotation = Vector3(0, -0.08, -0.12)
+scale = Vector3(0.3, 0.5, 0.075)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("2_brown")
+
+[node name="Side" type="CSGSphere3D" parent="BrownRightPatch"]
+position = Vector3(0.31, 0.66, -0.326)
+rotation = Vector3(0, -0.1, 0.16)
+scale = Vector3(0.3, 0.57, 0.09)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("2_brown")
+
+[node name="BrownBackPatch" type="CSGSphere3D" parent="."]
+position = Vector3(0.14, 0.57, 0.352)
+rotation = Vector3(0, 0.05, 0.2)
+scale = Vector3(0.4, 0.66, 0.08)
+radius = 0.5
+radial_segments = 24
+rings = 12
+smooth_faces = true
+material = ExtResource("2_brown")
+
+[node name="EarLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.335, 1.245, -0.03)
+rotation = Vector3(-0.18, -0.1, -0.28)
+scale = Vector3(0.15, 0.12, 0.075)
+mesh = SubResource("SphereMesh_ear_orange")
+
+[node name="EarRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.335, 1.245, -0.03)
+rotation = Vector3(-0.18, 0.1, 0.28)
+scale = Vector3(0.15, 0.12, 0.075)
+mesh = SubResource("SphereMesh_ear_brown")
+
+[node name="EyeLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.155, 1.045, -0.41)
+scale = Vector3(1, 1.08, 0.66)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="EyeRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.155, 1.045, -0.41)
+scale = Vector3(1, 1.08, 0.66)
+mesh = SubResource("SphereMesh_eye")
+
+[node name="Nose" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.89, -0.433)
+scale = Vector3(1.05, 0.62, 0.45)
+mesh = SubResource("SphereMesh_nose")
+
+[node name="ArmLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.4, 0.6, -0.005)
+rotation = Vector3(-0.14, 0, -0.32)
+scale = Vector3(0.16, 0.24, 0.14)
+mesh = SubResource("SphereMesh_arm_orange")
+
+[node name="HandLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.438, 0.495, -0.04)
+rotation = Vector3(-0.14, 0, -0.32)
+scale = Vector3(0.1, 0.075, 0.1)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="ArmRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.4, 0.6, -0.005)
+rotation = Vector3(-0.14, 0, 0.32)
+scale = Vector3(0.16, 0.24, 0.14)
+mesh = SubResource("SphereMesh_arm_brown")
+
+[node name="HandRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.438, 0.495, -0.04)
+rotation = Vector3(-0.14, 0, 0.32)
+scale = Vector3(0.1, 0.075, 0.1)
+mesh = SubResource("SphereMesh_hand")
+
+[node name="FootLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.16, 0.045, -0.075)
+rotation = Vector3(0.06, 0, -0.025)
+scale = Vector3(0.15, 0.08, 0.19)
+mesh = SubResource("SphereMesh_foot")
+
+[node name="FootRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.16, 0.045, -0.075)
+rotation = Vector3(0.06, 0, 0.025)
+scale = Vector3(0.15, 0.08, 0.19)
+mesh = SubResource("SphereMesh_foot")

@@ -13,6 +13,8 @@ extends Node3D
 func _ready() -> void:
 	if _start_screen != null:
 		_start_screen.visible = true
+		if _start_screen.has_method("show_main_menu"):
+			_start_screen.call("show_main_menu")
 	if _winner_screen != null:
 		_winner_screen.visible = false
 
@@ -35,6 +37,7 @@ func _input(event: InputEvent) -> void:
 	if (
 		_game_manager != null
 		and _game_manager.has_method("iniciar_partida")
+		and _can_start_from_keyboard()
 		and (event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER)
 	):
 		get_viewport().set_input_as_handled()
@@ -50,11 +53,23 @@ func _input(event: InputEvent) -> void:
 		get_tree().reload_current_scene()
 
 func _on_match_started() -> void:
-	if _start_screen != null:
+	if _start_screen != null and not _start_screen.has_method("show_gameplay"):
 		_start_screen.visible = false
+
+
+func _can_start_from_keyboard() -> bool:
+	if _start_screen == null:
+		return true
+	if _start_screen.has_method("can_start_match_from_keyboard"):
+		return bool(_start_screen.call("can_start_match_from_keyboard"))
+	return _start_screen.visible
 
 func _on_match_finished(winner: Node) -> void:
 	var winner_number: int = _game_manager.get_player_number(winner)
+
+	if _winner_screen != null and _winner_screen.has_method("show_winner"):
+		_winner_screen.call("show_winner", winner_number)
+		return
 
 	if _winner_label != null:
 		_winner_label.text = "PLAYER %d GANO\nPresiona R para reiniciar" % winner_number

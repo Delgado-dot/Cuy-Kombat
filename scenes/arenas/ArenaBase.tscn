@@ -1,11 +1,11 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=38 format=3]
 
 [sub_resource type="StandardMaterial3D" id="MaterialRosaBase"]
-albedo_color = Color(0.56, 0.16, 0.33, 1)
-roughness = 0.72
+albedo_color = Color(0.17, 0.028, 0.042, 1)
+roughness = 0.9
 
 [sub_resource type="Shader" id="ShaderPisoAnular"]
-code = "shader_type spatial;\n\nvarying float distancia_centro;\n\nvoid vertex() {\n\tdistancia_centro = length(VERTEX.xz);\n}\n\nvoid fragment() {\n\tif (distancia_centro < 3.08) {\n\t\tdiscard;\n\t}\n\tALBEDO = vec3(0.82, 0.55, 0.28);\n\tROUGHNESS = 0.86;\n}\n"
+code = "shader_type spatial;\n\nvarying vec3 posicion_local;\n\nvoid vertex() {\n\tposicion_local = VERTEX;\n}\n\nvoid fragment() {\n\tfloat variacion = sin(posicion_local.x * 1.35 + sin(posicion_local.z * 1.8)) * 0.008;\n\tvec3 arena_clara = vec3(0.34, 0.22, 0.09);\n\tALBEDO = arena_clara + vec3(variacion, variacion * 0.72, variacion * 0.38);\n\tROUGHNESS = 0.92;\n}\n"
 
 [sub_resource type="ShaderMaterial" id="MaterialCremaAnular"]
 render_priority = 0
@@ -13,14 +13,16 @@ shader = SubResource("ShaderPisoAnular")
 
 [sub_resource type="CylinderMesh" id="MeshPisoAnular"]
 material = SubResource("MaterialCremaAnular")
-top_radius = 8.75
-bottom_radius = 8.75
-height = 0.12
+top_radius = 8.68
+bottom_radius = 8.68
+height = 0.16
 radial_segments = 32
 
-[sub_resource type="StandardMaterial3D" id="MaterialBordeRosa"]
-albedo_color = Color(0.9, 0.31, 0.52, 1)
-roughness = 0.58
+[sub_resource type="Shader" id="ShaderBordeBloques"]
+code = "shader_type spatial;\n\nvarying float angulo_local;\n\nvoid vertex() {\n\tangulo_local = atan(VERTEX.z, VERTEX.x);\n}\n\nvoid fragment() {\n\tfloat sector = fract((angulo_local + 3.14159265) / 6.2831853 * 24.0);\n\tfloat junta = smoothstep(0.015, 0.05, sector) * (1.0 - smoothstep(0.95, 0.985, sector));\n\tvec3 piedra_oscura = vec3(0.14, 0.02, 0.035);\n\tvec3 piedra_rojiza = vec3(0.34, 0.065, 0.09);\n\tALBEDO = mix(piedra_oscura, piedra_rojiza, junta);\n\tROUGHNESS = 0.9;\n}\n"
+
+[sub_resource type="ShaderMaterial" id="MaterialBordeRosa"]
+shader = SubResource("ShaderBordeBloques")
 
 [sub_resource type="StandardMaterial3D" id="MaterialPortal"]
 albedo_color = Color(0.012, 0.002, 0.025, 1)
@@ -46,51 +48,459 @@ size = Vector3(3.7, 0.5, 5.6)
 [sub_resource type="BoxShape3D" id="ShapeSegmentoBorde"]
 size = Vector3(2.55, 0.8, 1.0)
 
+[sub_resource type="CylinderShape3D" id="ShapeCentroSuelo"]
+radius = 3.2
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="MaterialRocaOscura"]
+albedo_color = Color(0.23, 0.038, 0.04, 1)
+emission_enabled = true
+emission = Color(0.15, 0.012, 0.005, 1)
+emission_energy_multiplier = 0.45
+roughness = 0.96
+
+[sub_resource type="CylinderMesh" id="MeshRocaPuntaGrande"]
+material = SubResource("MaterialRocaOscura")
+top_radius = 1.32
+bottom_radius = 0.06
+height = 6.6
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshRocaPuntaMediana"]
+material = SubResource("MaterialRocaOscura")
+top_radius = 0.82
+bottom_radius = 0.04
+height = 4.3
+radial_segments = 5
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshNucleoIsla"]
+material = SubResource("MaterialRocaOscura")
+top_radius = 9.08
+bottom_radius = 0.9
+height = 11.5
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshRocaFrontal"]
+material = SubResource("MaterialRocaOscura")
+top_radius = 2.5
+bottom_radius = 0.1
+height = 9.5
+radial_segments = 6
+rings = 1
+
+[sub_resource type="Shader" id="ShaderFondoVolcanico"]
+code = "shader_type spatial;\nrender_mode unshaded, cull_disabled;\n\nvoid fragment() {\n\tfloat altura = clamp(UV.y, 0.0, 1.0);\n\tfloat resplandor = 1.0 - smoothstep(0.02, 0.62, altura);\n\tvec3 oscuro = vec3(0.006, 0.006, 0.028);\n\tvec3 medio = vec3(0.035, 0.01, 0.065);\n\tvec3 profundo = vec3(0.15, 0.018, 0.006);\n\tvec3 color_base = mix(profundo, medio, smoothstep(0.0, 0.52, altura));\n\tcolor_base = mix(color_base, oscuro, smoothstep(0.45, 1.0, altura));\n\tALBEDO = color_base;\n\tEMISSION = color_base * (0.3 + resplandor * 0.72);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="MaterialFondoVolcanico"]
+shader = SubResource("ShaderFondoVolcanico")
+
+[sub_resource type="QuadMesh" id="MeshFondoVolcanico"]
+material = SubResource("MaterialFondoVolcanico")
+size = Vector2(140, 90)
+
+[sub_resource type="Shader" id="ShaderNieblaRojiza"]
+code = "shader_type spatial;\nrender_mode unshaded, cull_disabled, blend_mix, depth_draw_never;\n\nvoid fragment() {\n\tfloat borde_vertical = 1.0 - smoothstep(0.08, 0.9, UV.y);\n\tfloat desvanecer = smoothstep(0.0, 0.2, UV.y) * (1.0 - smoothstep(0.78, 1.0, UV.y));\n\tfloat bordes = smoothstep(0.0, 0.1, UV.x) * (1.0 - smoothstep(0.9, 1.0, UV.x));\n\tfloat ondas = 0.78 + sin(UV.x * 23.0 + UV.y * 7.0) * 0.08;\n\tvec3 color_niebla = mix(vec3(0.065, 0.008, 0.028), vec3(0.26, 0.028, 0.006), borde_vertical);\n\tALBEDO = color_niebla;\n\tEMISSION = color_niebla * 0.5;\n\tALPHA = clamp((0.035 + borde_vertical * 0.2) * ondas * desvanecer * bordes, 0.0, 0.24);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="MaterialNieblaRojiza"]
+render_priority = 1
+shader = SubResource("ShaderNieblaRojiza")
+
+[sub_resource type="QuadMesh" id="MeshNieblaRojiza"]
+material = SubResource("MaterialNieblaRojiza")
+size = Vector2(100, 45)
+
+[sub_resource type="StandardMaterial3D" id="MaterialMontanaVolcanica"]
+albedo_color = Color(0.105, 0.024, 0.058, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MaterialMontanaLejana"]
+albedo_color = Color(0.055, 0.016, 0.072, 1)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="MeshMontanaGrande"]
+material = SubResource("MaterialMontanaVolcanica")
+top_radius = 0.18
+bottom_radius = 3.7
+height = 15.5
+radial_segments = 7
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshMontanaMediana"]
+material = SubResource("MaterialMontanaVolcanica")
+top_radius = 0.12
+bottom_radius = 2.65
+height = 11.0
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshMontanaPequena"]
+material = SubResource("MaterialMontanaLejana")
+top_radius = 0.08
+bottom_radius = 1.65
+height = 7.2
+radial_segments = 5
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshAgujaVolcanica"]
+material = SubResource("MaterialMontanaVolcanica")
+top_radius = 0.04
+bottom_radius = 1.15
+height = 10.5
+radial_segments = 5
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MaterialRocaFlotante"]
+albedo_color = Color(0.11, 0.025, 0.05, 1)
+roughness = 0.98
+
+[sub_resource type="CylinderMesh" id="MeshRocaFlotanteGrande"]
+material = SubResource("MaterialRocaFlotante")
+top_radius = 1.4
+bottom_radius = 0.1
+height = 3.8
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshRocaFlotantePequena"]
+material = SubResource("MaterialRocaFlotante")
+top_radius = 0.82
+bottom_radius = 0.07
+height = 2.5
+radial_segments = 5
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MaterialCristalNaranja"]
+albedo_color = Color(1, 0.19, 0.018, 1)
+emission_enabled = true
+emission = Color(1, 0.09, 0.004, 1)
+emission_energy_multiplier = 3.9
+roughness = 0.22
+
+[sub_resource type="CylinderMesh" id="MeshCristalNaranja"]
+material = SubResource("MaterialCristalNaranja")
+top_radius = 0.0
+bottom_radius = 0.3
+height = 2.65
+radial_segments = 5
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MaterialLavaProfunda"]
+albedo_color = Color(0.045, 0.002, 0.001, 1)
+emission_enabled = true
+emission = Color(0.62, 0.022, 0.001, 1)
+emission_energy_multiplier = 1.45
+roughness = 0.5
+
+[sub_resource type="CylinderMesh" id="MeshLavaProfunda"]
+material = SubResource("MaterialLavaProfunda")
+top_radius = 10.0
+bottom_radius = 10.0
+height = 0.35
+radial_segments = 24
+rings = 1
+
 [sub_resource type="Environment" id="EnvironmentArena"]
 background_mode = 1
-background_color = Color(0.48, 0.31, 0.48, 1)
+background_color = Color(0.012, 0.006, 0.026, 1)
 ambient_light_source = 3
-ambient_light_color = Color(1, 0.82, 0.75, 1)
-ambient_light_energy = 0.35
+ambient_light_color = Color(0.22, 0.15, 0.38, 1)
+ambient_light_energy = 0.72
 reflected_light_source = 2
 tonemap_mode = 2
-tonemap_exposure = 0.85
+tonemap_exposure = 0.9
+fog_enabled = true
+fog_light_color = Color(0.16, 0.025, 0.045, 1)
+fog_light_energy = 0.42
+fog_density = 0.48
+fog_height = -5.0
+fog_height_density = 0.075
+fog_mode = 1
+fog_depth_begin = 42.0
+fog_depth_end = 112.0
+fog_depth_curve = 1.35
+fog_aerial_perspective = 0.45
+fog_sky_affect = 0.3
+glow_enabled = true
+glow_intensity = 0.72
+glow_bloom = 0.08
+glow_levels/1 = 0.72
+glow_levels/2 = 0.48
+adjustment_enabled = true
+adjustment_contrast = 1.06
+adjustment_saturation = 1.08
 
 [node name="ArenaBase" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="EscenarioPelea" type="Node3D" parent="."]
+
+[node name="ArenaFlotante" type="Node3D" parent="EscenarioPelea"]
+
+[node name="FondoVolcanico" type="Node3D" parent="EscenarioPelea"]
+
+[node name="CieloRojizo" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(0, 0, -42)
+cast_shadow = 0
+mesh = SubResource("MeshFondoVolcanico")
+
+[node name="MontanaCentral" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(0, -3.5, -29)
+rotation = Vector3(0, 0.16, 0)
+scale = Vector3(1.9, 1.65, 1.45)
+mesh = SubResource("MeshMontanaGrande")
+
+[node name="MontanaCentralIzquierda" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-6.5, -4.8, -27)
+rotation = Vector3(0, 0.48, -0.04)
+scale = Vector3(1.25, 1.55, 1.15)
+mesh = SubResource("MeshMontanaGrande")
+
+[node name="MontanaCentralDerecha" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(7, -5.2, -28)
+rotation = Vector3(0, -0.35, 0.05)
+scale = Vector3(1.35, 1.45, 1.2)
+mesh = SubResource("MeshMontanaGrande")
+
+[node name="MontanaLejanaIzquierda" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-14, -4.5, -30)
+rotation = Vector3(0, 0.22, -0.04)
+scale = Vector3(1.45, 1.55, 1.25)
+mesh = SubResource("MeshMontanaMediana")
+
+[node name="MontanaLejanaDerecha" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(14.5, -4.6, -29)
+rotation = Vector3(0, -0.28, 0.03)
+scale = Vector3(1.5, 1.5, 1.3)
+mesh = SubResource("MeshMontanaMediana")
+
+[node name="CordilleraFondo01" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-20, -5, -34)
+rotation = Vector3(0, 0.4, 0)
+scale = Vector3(1.35, 1.8, 1.1)
+cast_shadow = 0
+mesh = SubResource("MeshMontanaPequena")
+
+[node name="CordilleraFondo02" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-10, -4, -35)
+rotation = Vector3(0, 0.7, 0)
+scale = Vector3(1.1, 1.55, 1.0)
+cast_shadow = 0
+mesh = SubResource("MeshMontanaPequena")
+
+[node name="CordilleraFondo03" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(10.5, -4.5, -35)
+rotation = Vector3(0, -0.5, 0)
+scale = Vector3(1.2, 1.7, 1.0)
+cast_shadow = 0
+mesh = SubResource("MeshMontanaPequena")
+
+[node name="CordilleraFondo04" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(21, -5, -33)
+rotation = Vector3(0, -0.3, 0)
+scale = Vector3(1.4, 1.9, 1.1)
+cast_shadow = 0
+mesh = SubResource("MeshMontanaPequena")
+
+[node name="FormacionLateralIzquierda" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-16, -3.2, -9)
+rotation = Vector3(0, 0.25, -0.04)
+scale = Vector3(1.35, 1.45, 1.25)
+mesh = SubResource("MeshMontanaGrande")
+
+[node name="AgujaLateralIzquierda" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(-18.2, -2.8, -10.5)
+rotation = Vector3(0, -0.32, 0.08)
+scale = Vector3(1.0, 1.25, 1.0)
+mesh = SubResource("MeshAgujaVolcanica")
+
+[node name="FormacionLateralDerecha" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(16.2, -3.5, -10)
+rotation = Vector3(0, -0.25, 0.045)
+scale = Vector3(1.4, 1.42, 1.25)
+mesh = SubResource("MeshMontanaGrande")
+
+[node name="AgujaLateralDerecha" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(18.5, -3.2, -11)
+rotation = Vector3(0, 0.3, -0.07)
+scale = Vector3(1.05, 1.3, 1.0)
+mesh = SubResource("MeshAgujaVolcanica")
+
+[node name="NieblaDeProfundidad" type="MeshInstance3D" parent="EscenarioPelea/FondoVolcanico"]
+position = Vector3(0, -7, -20)
+cast_shadow = 0
+mesh = SubResource("MeshNieblaRojiza")
+
+[node name="RocasFlotantes" type="Node3D" parent="EscenarioPelea"]
+
+[node name="RocaIzquierdaAlta" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(-13.5, 6, -13)
+rotation = Vector3(0.06, 0.42, -0.12)
+scale = Vector3(1.2, 1.12, 1.05)
+mesh = SubResource("MeshRocaFlotanteGrande")
+
+[node name="RocaDerechaAlta" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(13.8, 6.5, -14.5)
+rotation = Vector3(-0.08, -0.38, 0.1)
+scale = Vector3(1.15, 1.08, 1.05)
+mesh = SubResource("MeshRocaFlotanteGrande")
+
+[node name="RocaIzquierdaBaja" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(-17.5, -1, -4)
+rotation = Vector3(0.08, 0.2, -0.09)
+scale = Vector3(1.0, 1.2, 1.0)
+mesh = SubResource("MeshRocaFlotanteGrande")
+
+[node name="RocaDerechaBaja" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(18, -0.5, -5)
+rotation = Vector3(-0.05, -0.55, 0.12)
+scale = Vector3(0.95, 1.18, 0.95)
+mesh = SubResource("MeshRocaFlotanteGrande")
+
+[node name="RocaLejana01" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(-8.5, 8.5, -23)
+rotation = Vector3(0.12, 0.65, -0.12)
+scale = Vector3(0.72, 0.82, 0.72)
+cast_shadow = 0
+mesh = SubResource("MeshRocaFlotantePequena")
+
+[node name="RocaLejana02" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(9.5, 7.5, -24)
+rotation = Vector3(-0.1, -0.45, 0.08)
+scale = Vector3(0.66, 0.78, 0.66)
+cast_shadow = 0
+mesh = SubResource("MeshRocaFlotantePequena")
+
+[node name="RocaLejana03" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(-20.5, 3.5, -22)
+rotation = Vector3(0.08, 0.28, 0.13)
+scale = Vector3(0.8, 0.92, 0.8)
+cast_shadow = 0
+mesh = SubResource("MeshRocaFlotantePequena")
+
+[node name="RocaLejana04" type="MeshInstance3D" parent="EscenarioPelea/RocasFlotantes"]
+position = Vector3(21, 3.8, -21)
+rotation = Vector3(-0.06, -0.32, -0.1)
+scale = Vector3(0.75, 0.88, 0.75)
+cast_shadow = 0
+mesh = SubResource("MeshRocaFlotantePequena")
+
+[node name="CristalesVolcanicos" type="Node3D" parent="EscenarioPelea"]
+
+[node name="CristalTorreIzquierdaA" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(-16, 8.7, -9)
+rotation = Vector3(0, 0.15, -0.12)
+scale = Vector3(1.05, 1.35, 1.05)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalTorreIzquierdaB" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(-15.45, 8.25, -8.8)
+rotation = Vector3(0.08, -0.35, 0.2)
+scale = Vector3(0.72, 0.9, 0.72)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalTorreIzquierdaC" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(-16.5, 8.15, -8.7)
+rotation = Vector3(-0.06, 0.5, -0.22)
+scale = Vector3(0.62, 0.72, 0.62)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalTorreDerechaA" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(16.2, 8.4, -10)
+rotation = Vector3(0, -0.18, 0.1)
+scale = Vector3(1.0, 1.28, 1.0)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalTorreDerechaB" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(15.65, 8.05, -9.7)
+rotation = Vector3(0.05, 0.42, -0.2)
+scale = Vector3(0.7, 0.82, 0.7)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalRocaIzquierdaA" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(-13.5, 8.7, -13)
+rotation = Vector3(0.04, 0.2, -0.1)
+scale = Vector3(0.72, 0.88, 0.72)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="CristalRocaDerechaA" type="MeshInstance3D" parent="EscenarioPelea/CristalesVolcanicos"]
+position = Vector3(13.8, 9.05, -14.5)
+rotation = Vector3(-0.04, -0.2, 0.12)
+scale = Vector3(0.68, 0.82, 0.68)
+cast_shadow = 0
+mesh = SubResource("MeshCristalNaranja")
+
+[node name="ZonaDeCaida" type="Node3D" parent="EscenarioPelea"]
+
+[node name="AbismoVolcanico" type="Node3D" parent="EscenarioPelea/ZonaDeCaida"]
+
+[node name="LavaProfunda" type="MeshInstance3D" parent="EscenarioPelea/ZonaDeCaida/AbismoVolcanico"]
+position = Vector3(0, -45, -3)
+cast_shadow = 0
+mesh = SubResource("MeshLavaProfunda")
+
+[node name="Iluminacion" type="Node3D" parent="EscenarioPelea"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="EscenarioPelea/Iluminacion"]
 environment = SubResource("EnvironmentArena")
 
-[node name="LuzPrincipal" type="DirectionalLight3D" parent="."]
+[node name="LuzPrincipal" type="DirectionalLight3D" parent="EscenarioPelea/Iluminacion"]
 rotation = Vector3(-0.959931, -0.610865, -0.174533)
-light_color = Color(1, 0.82, 0.72, 1)
-light_energy = 0.82
+light_color = Color(1, 0.62, 0.42, 1)
+light_energy = 1.0
 shadow_enabled = true
-directional_shadow_max_distance = 40.0
+directional_shadow_max_distance = 55.0
 
-[node name="PisoExterior" type="CSGPolygon3D" parent="."]
-polygon = PackedVector2Array(3, -0.68, 9.45, -0.68, 9.45, -0.05, 3, -0.05)
+[node name="LuzRelleno" type="DirectionalLight3D" parent="EscenarioPelea/Iluminacion"]
+rotation = Vector3(-0.42, 2.35, 0.08)
+light_color = Color(0.3, 0.34, 0.78, 1)
+light_energy = 0.32
+
+[node name="LuzAbismo" type="OmniLight3D" parent="EscenarioPelea/Iluminacion"]
+position = Vector3(0, -10.5, 1)
+light_color = Color(1, 0.1, 0.008, 1)
+light_energy = 4.5
+omni_range = 36.0
+omni_attenuation = 1.18
+
+[node name="LuzFondo" type="OmniLight3D" parent="EscenarioPelea/Iluminacion"]
+position = Vector3(0, -1.5, -24)
+light_color = Color(1, 0.075, 0.012, 1)
+light_energy = 2.8
+omni_range = 30.0
+omni_attenuation = 1.35
+
+[node name="PisoExterior" type="CSGPolygon3D" parent="EscenarioPelea/ArenaFlotante"]
+polygon = PackedVector2Array(0, -0.9, 9.45, -0.9, 9.45, -0.05, 0, -0.05)
 mode = 1
 spin_degrees = 360.0
 spin_sides = 32
 material = SubResource("MaterialRosaBase")
 smooth_faces = false
 
-[node name="PisoInterior" type="MeshInstance3D" parent="."]
-position = Vector3(0, -0.02, 0)
+[node name="PisoInterior" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante"]
+position = Vector3(0, 0.03, 0)
 mesh = SubResource("MeshPisoAnular")
 
-[node name="AgujeroCentral" type="Area3D" parent="."]
-position = Vector3(0, -4.8, 0)
+[node name="AgujeroCentral" type="Area3D" parent="EscenarioPelea/ZonaDeCaida"]
+position = Vector3(0, -8.5, 0)
 collision_layer = 0
 collision_mask = 1
 monitoring = true
 monitorable = true
 
-[node name="ZonaEliminacion" type="CollisionShape3D" parent="AgujeroCentral"]
+[node name="ZonaEliminacion" type="CollisionShape3D" parent="EscenarioPelea/ZonaDeCaida/AgujeroCentral"]
 shape = SubResource("ShapeZonaCaida")
 
-[node name="ParedInterior" type="CSGPolygon3D" parent="AgujeroCentral"]
+[node name="ParedInterior" type="CSGPolygon3D" parent="EscenarioPelea/ZonaDeCaida/AgujeroCentral"]
+visible = false
 position = Vector3(0, 4.8, 0)
 polygon = PackedVector2Array(2.84, -2.1, 3.08, -2.1, 3.08, 0.05, 2.84, 0.05)
 mode = 1
@@ -99,18 +509,20 @@ spin_sides = 32
 material = SubResource("MaterialPortal")
 smooth_faces = false
 
-[node name="PortalOscuro" type="MeshInstance3D" parent="AgujeroCentral"]
+[node name="PortalOscuro" type="MeshInstance3D" parent="EscenarioPelea/ZonaDeCaida/AgujeroCentral"]
+visible = false
 position = Vector3(0, 3.1, 0)
 mesh = SubResource("MeshPortal")
 
-[node name="LuzPortal" type="OmniLight3D" parent="AgujeroCentral"]
+[node name="LuzPortal" type="OmniLight3D" parent="EscenarioPelea/ZonaDeCaida/AgujeroCentral"]
+visible = false
 position = Vector3(0, 3.55, 0)
 light_color = Color(0.56, 0.12, 1, 1)
 light_energy = 0.75
 omni_range = 4.5
 shadow_enabled = true
 
-[node name="BordeExterior" type="CSGPolygon3D" parent="."]
+[node name="BordeExterior" type="CSGPolygon3D" parent="EscenarioPelea/ArenaFlotante"]
 polygon = PackedVector2Array(8.65, -0.06, 9.75, -0.06, 9.75, 0.66, 8.65, 0.66)
 mode = 1
 spin_degrees = 360.0
@@ -118,9 +530,104 @@ spin_sides = 32
 material = SubResource("MaterialBordeRosa")
 smooth_faces = false
 
+[node name="ParteInferiorRocosa" type="Node3D" parent="EscenarioPelea/ArenaFlotante"]
+
+[node name="NucleoRocoso" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(0, -6.65, 0)
+mesh = SubResource("MeshNucleoIsla")
+
+[node name="RocaFrontal01" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(-4, -6.3, 5.4)
+rotation = Vector3(0.06, 0.22, 0.08)
+scale = Vector3(0.95, 0.9, 0.95)
+mesh = SubResource("MeshRocaFrontal")
+
+[node name="RocaFrontal02" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(-2, -7.2, 6.1)
+rotation = Vector3(0.04, -0.18, -0.06)
+scale = Vector3(1.05, 1.08, 1.05)
+mesh = SubResource("MeshRocaFrontal")
+
+[node name="RocaFrontal03" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(0, -8, 6.5)
+rotation = Vector3(0.03, 0.12, 0.03)
+scale = Vector3(1.12, 1.25, 1.12)
+mesh = SubResource("MeshRocaFrontal")
+
+[node name="RocaFrontal04" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(2, -7.05, 6.1)
+rotation = Vector3(0.05, 0.3, 0.06)
+scale = Vector3(1.04, 1.04, 1.04)
+mesh = SubResource("MeshRocaFrontal")
+
+[node name="RocaFrontal05" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(4, -6.2, 5.4)
+rotation = Vector3(0.06, -0.25, -0.08)
+scale = Vector3(0.92, 0.88, 0.92)
+mesh = SubResource("MeshRocaFrontal")
+
+[node name="PuntaCentral" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(0, -5.6, 0)
+scale = Vector3(1.35, 1.42, 1.35)
+mesh = SubResource("MeshRocaPuntaGrande")
+
+[node name="PuntaNorte" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(0.2, -3.05, -4.6)
+rotation = Vector3(-0.12, 0.42, 0.04)
+mesh = SubResource("MeshRocaPuntaMediana")
+
+[node name="PuntaNoreste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(3.55, -2.9, -3.2)
+rotation = Vector3(-0.08, 1.05, -0.12)
+scale = Vector3(1.18, 0.94, 1.18)
+mesh = SubResource("MeshRocaPuntaMediana")
+
+[node name="PuntaEste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(7.25, -4, 0.35)
+rotation = Vector3(0.08, 1.62, -0.13)
+scale = Vector3(1.15, 1.38, 1.15)
+mesh = SubResource("MeshRocaPuntaMediana")
+
+[node name="PuntaSureste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+visible = false
+position = Vector3(5.15, -5.7, 5.15)
+rotation = Vector3(0.12, 2.2, -0.08)
+scale = Vector3(1.28, 1.46, 1.28)
+mesh = SubResource("MeshRocaPuntaGrande")
+
+[node name="PuntaSur" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+visible = false
+position = Vector3(-0.25, -6.25, 7.25)
+rotation = Vector3(0.12, 2.95, 0.05)
+scale = Vector3(1.4, 1.58, 1.4)
+mesh = SubResource("MeshRocaPuntaGrande")
+
+[node name="PuntaSuroeste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+visible = false
+position = Vector3(-5.25, -5.65, 5.05)
+rotation = Vector3(0.08, 3.7, 0.12)
+scale = Vector3(1.25, 1.42, 1.25)
+mesh = SubResource("MeshRocaPuntaGrande")
+
+[node name="PuntaOeste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(-7.15, -3.9, -0.2)
+rotation = Vector3(-0.05, 4.62, 0.14)
+scale = Vector3(1.12, 1.32, 1.12)
+mesh = SubResource("MeshRocaPuntaMediana")
+
+[node name="PuntaNoroeste" type="MeshInstance3D" parent="EscenarioPelea/ArenaFlotante/ParteInferiorRocosa"]
+position = Vector3(-3.35, -3.0, -3.5)
+rotation = Vector3(-0.12, 5.35, 0.07)
+scale = Vector3(1.1, 1.0, 1.1)
+mesh = SubResource("MeshRocaPuntaMediana")
+
 [node name="Colisiones" type="Node3D" parent="."]
 
 [node name="SueloAnular" type="StaticBody3D" parent="Colisiones"]
+
+[node name="Centro" type="CollisionShape3D" parent="Colisiones/SueloAnular"]
+position = Vector3(0, -0.25, 0)
+shape = SubResource("ShapeCentroSuelo")
 
 [node name="Segmento00" type="CollisionShape3D" parent="Colisiones/SueloAnular"]
 position = Vector3(0, -0.25, 5.9)
@@ -340,9 +847,9 @@ position = Vector3(-6, 0.12, 0)
 rotation = Vector3(0, -1.570796, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-position = Vector3(0, 17, 19)
-rotation = Vector3(-0.7299, 0, 0)
-current = true
-fov = 50.0
+position = Vector3(0, 12, 24)
+rotation = Vector3(-0.463648, 0, 0)
+current = false
+fov = 48.0
 near = 0.1
-far = 80.0
+far = 100.0
