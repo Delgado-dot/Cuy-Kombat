@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://ceirlx1rixnj8"]
+[gd_scene load_steps=9 format=3 uid="uid://ceirlx1rixnj8"]
 
 [ext_resource type="PackedScene" path="res://scenes/gameplay/log.tscn" id="1_log"]
 [ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://tests/objects/log_test.gd" id="3_log_test"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
 size = Vector3(10, 0.2, 10)
@@ -21,6 +22,7 @@ material = SubResource("StandardMaterial3D_floor")
 size = Vector3(6, 3, 0.3)
 
 [node name="LogObjectTest" type="Node3D" unique_id=839975950]
+script = ExtResource("3_log_test")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2047930593]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)

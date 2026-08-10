@@ -40,3 +40,8 @@ func _ready() -> void:
 		barrel.freeze,
 		barrel.collision_layer,
 	])
+	print("[BARREL GRAB TEST] Lanzamiento mas rapido: velocidad_horizontal=%.2f m/s (impulse=%.1f, masa=%.1f)" % [
+		Vector3(barrel.linear_velocity.x, 0.0, barrel.linear_velocity.z).length(),
+		barrel.throw_impulse,
+		barrel.mass,
+	])

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
 [ext_resource type="Script" uid="uid://ci8g4k18ik6jd" path="res://scripts/core/demo_start_screen.gd" id="4_start"]
+[ext_resource type="Script" path="res://scripts/gameplay/objects_spawner.gd" id="5_objects_spawner"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -40,6 +41,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.13401, 1, 0)
 input_enabled = false
 player_color = Color(1, 0.12, 0.08, 1)
 control_scheme = "arrows"
+
+[node name="ObjectsSpawner" type="Node3D" parent="."]
+script = ExtResource("5_objects_spawner")
+max_objects = 8
+min_objects = 4
+min_spawn_radius = 8.0
+max_spawn_radius = 16.0
+avoid_distance = 4.0
+avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
+seed_value = -1
 
 [node name="DeathZone" type="Area3D" parent="." unique_id=1638866711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)

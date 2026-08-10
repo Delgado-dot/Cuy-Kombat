@@ -36,6 +36,14 @@ func _ready() -> void:
 		rock.freeze,
 	])
 
+	rock.start_being_grabbed(player)
+	rock.throw(player)
+	print("[ROCK GRAB TEST] Lanzamiento mas rapido: velocidad_horizontal=%.2f m/s (impulse=%.1f, masa=%.1f)" % [
+		Vector3(rock.linear_velocity.x, 0.0, rock.linear_velocity.z).length(),
+		rock.throw_impulse,
+		rock.mass,
+	])
+
 
 func _on_player_entered_interaction_range(player: CharacterBody3D) -> void:
 	print("[ROCK TEST] Player %s entered interaction range" % player.name)

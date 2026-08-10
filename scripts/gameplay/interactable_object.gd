@@ -11,7 +11,7 @@ signal player_entered_interaction_range(player: CharacterBody3D)
 ## Emitted when a player leaves this object's interaction range.
 signal player_exited_interaction_range(player: CharacterBody3D)
 
-@export var throw_impulse := 20.0
+@export var throw_impulse := 40.0
 
 var _nearby_players: Array[CharacterBody3D] = []
 var _grabbed_player: CharacterBody3D
@@ -52,6 +52,9 @@ func _physics_process(_delta: float) -> void:
 		global_position = _grabbed_player.get_grab_point_global()
 	else:
 		global_position = _grabbed_player.global_position + Vector3.UP * 2.0
+
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
 
 
 ## Kevin grab protocol: whether this object can currently be grabbed.
