@@ -2,10 +2,9 @@ extends BreakableBox
 
 class_name Barrel
 
-
 func _ready() -> void:
 	super._ready()
-	freeze = true
+	sleeping = true
 	_strip_embedded_model_physics()
 
 
