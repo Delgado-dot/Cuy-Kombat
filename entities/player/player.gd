@@ -894,7 +894,7 @@ func eliminate() -> void:
 	set_physics_process(false)
 
 	if _collision_shape != null:
-		_collision_shape.disabled = true
+		_collision_shape.set_deferred("disabled", true)
 
 	eliminated.emit(self)
 
