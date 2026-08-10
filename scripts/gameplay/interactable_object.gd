@@ -3,6 +3,8 @@ extends RigidBody3D
 ## Base reusable for physical objects that will support interactions later.
 class_name InteractableObject
 
+const PlayerScript := preload("res://entities/player/player.gd")
+
 ## Emitted when a player enters this object's interaction range.
 signal player_entered_interaction_range(player: CharacterBody3D)
 
@@ -20,6 +22,7 @@ var _grabbed_player: CharacterBody3D
 var _is_grabbed := false
 var _is_elevating := false
 var _elevation_tween: Tween
+var _collision_layer_before_grab := 1
 
 
 func _ready() -> void:
@@ -110,7 +113,61 @@ func _physics_process(_delta: float) -> void:
 	if not _is_grabbed or _is_elevating or not is_instance_valid(_grabbed_player):
 		return
 
-	global_position = _grabbed_player.global_position + Vector3.UP * 2.0
+	if _grabbed_player.has_method("get_grab_point_global"):
+		global_position = _grabbed_player.get_grab_point_global()
+	else:
+		global_position = _grabbed_player.global_position + Vector3.UP * 2.0
+
+
+## Kevin grab protocol: whether this object can currently be grabbed.
+func can_be_grabbed() -> bool:
+	return not _is_grabbed
+
+
+## Kevin grab protocol: state reported to the grabbing player while held.
+func get_player_state() -> int:
+	return PlayerScript.PlayerState.GRABBED if _is_grabbed else PlayerScript.PlayerState.NORMAL
+
+
+## Kevin grab protocol: called by the grabbing player when the grab starts.
+func start_being_grabbed(grabbing_player: Node3D) -> void:
+	if _is_grabbed:
+		return
+	if not is_instance_valid(grabbing_player):
+		return
+
+	_grabbed_player = grabbing_player as CharacterBody3D
+	_is_grabbed = true
+	_is_elevating = false
+
+	if _elevation_tween != null and _elevation_tween.is_valid():
+		_elevation_tween.kill()
+		_elevation_tween = null
+
+	_collision_layer_before_grab = collision_layer
+	collision_layer = 0
+	freeze = true
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+
+
+## Kevin grab protocol: called by the grabbing player when the grab ends.
+func release_from_being_grabbed() -> void:
+	if not _is_grabbed:
+		return
+
+	if _elevation_tween != null and _elevation_tween.is_valid():
+		_elevation_tween.kill()
+		_elevation_tween = null
+
+	_is_grabbed = false
+	_is_elevating = false
+	_grabbed_player = null
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	collision_layer = _collision_layer_before_grab
+	freeze = false
+	sleeping = false
 
 
 func _finish_grab_elevation() -> void:

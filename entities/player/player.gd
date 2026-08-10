@@ -527,7 +527,8 @@ func _find_grab_target() -> Node3D:
 		if body == self:
 			continue
 		if not (body is CharacterBody3D):
-			continue
+			if not body.is_in_group("interactable_objects"):
+				continue
 		if not body.has_method("can_be_grabbed"):
 			continue
 		if not body.can_be_grabbed():
