@@ -49,7 +49,6 @@ enum PlayerState {
 @export var knockout_threshold := 5
 @export var knocked_duration := 3.5
 @export var knockout_color := Color(0.6, 0.6, 0.66, 1.0)
-@export var knockout_tilt := 1.5708
 @export var grab_follow_speed := 12.0
 @export var grab_pose_duration := 0.15
 @export var grab_arm_rotation := 1.25
@@ -120,8 +119,12 @@ var _right_arm_rest_rot := Vector3.ZERO
 @onready var _right_arm := get_node_or_null("RightArm") as Node3D
 @onready var _grab_hitbox := get_node_or_null("GrabHitbox") as Area3D
 @onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
+@onready var _cuy_anim_player := get_node_or_null("Visual/CuyModel/AnimationPlayer") as AnimationPlayer
+
+var _current_cuy_anim := ""
 
 func _physics_process(delta: float) -> void:
+	_update_animation()
 	_update_tackle_cooldown(delta)
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
@@ -215,7 +218,46 @@ func _ready() -> void:
 	if _tackle_hitbox != null:
 		_tackle_hitbox.body_entered.connect(_on_tackle_hitbox_body_entered)
 
+	_setup_cuy_animations()
+
 	call_deferred("_connect_death_zone")
+
+func _setup_cuy_animations() -> void:
+	if _cuy_anim_player == null:
+		return
+
+	for _anim_name in ["Idle", "Walk", "Run"]:
+		var _anim := _cuy_anim_player.get_animation(_anim_name)
+		if _anim != null:
+			_anim.loop_mode = Animation.LOOP_LINEAR
+
+	_current_cuy_anim = "Idle"
+	_cuy_anim_player.play("Idle")
+
+func _update_animation() -> void:
+	if _cuy_anim_player == null:
+		return
+
+	var target := "Idle"
+
+	if _state == PlayerState.KNOCKED:
+		target = "Derrota"
+	elif _state == PlayerState.GRABBED:
+		target = "Idle"
+	elif not is_on_floor():
+		target = "Jump"
+	else:
+		var horizontal_speed := Vector3(velocity.x, 0.0, velocity.z).length()
+		var speed_ratio := clampf(horizontal_speed / move_speed, 0.0, 1.0)
+
+		if speed_ratio > 0.6:
+			target = "Run"
+		elif speed_ratio > 0.05:
+			target = "Walk"
+
+	if _current_cuy_anim != target:
+		_current_cuy_anim = target
+		_cuy_anim_player.play(target)
 
 func _get_camera_relative_input() -> Vector3:
 	var input_vector := Vector2.ZERO
@@ -777,9 +819,6 @@ func _start_knocked() -> void:
 	_external_push = Vector3.ZERO
 	_set_body_color(knockout_color)
 
-	if _visual != null:
-		_visual.rotation.z = knockout_tilt
-
 func _update_knocked(delta: float) -> void:
 	if not _knocked_timer_paused:
 		_knocked_time_left -= delta
@@ -807,9 +846,6 @@ func _recover_from_knocked() -> void:
 	_external_push = Vector3.ZERO
 	velocity = Vector3.ZERO
 	_restore_body_color()
-
-	if _visual != null:
-		_visual.rotation.z = 0.0
 
 func set_knocked_timer_paused(paused: bool) -> void:
 	_knocked_timer_paused = paused
