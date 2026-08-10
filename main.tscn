@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcsj1j0lsi3c"]
+[gd_scene format=3 uid="uid://bcsj1j0lsi3c"]
 
 [ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
 [ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
-[ext_resource type="Script" path="res://scripts/core/demo_start_screen.gd" id="4_start"]
+[ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
+[ext_resource type="Script" uid="uid://ci8g4k18ik6jd" path="res://scripts/core/demo_start_screen.gd" id="4_start"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -41,12 +41,11 @@ input_enabled = false
 player_color = Color(1, 0.12, 0.08, 1)
 control_scheme = "arrows"
 
-[node name="DeathZone" type="Area3D" parent="."]
-position = Vector3(0, -8, 0)
+[node name="DeathZone" type="Area3D" parent="." unique_id=1638866711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone" unique_id=622535333]
 shape = SubResource("BoxShape3D_death_zone")
 
 [node name="StartScreen" type="CanvasLayer" parent="." unique_id=530259561]
@@ -101,17 +100,17 @@ theme_override_font_sizes/font_size = 26
 text = "Presiona ENTER para comenzar"
 horizontal_alignment = 1
 
-[node name="WinnerScreen" type="CanvasLayer" parent="."]
+[node name="WinnerScreen" type="CanvasLayer" parent="." unique_id=746439991]
 visible = false
 
-[node name="Panel" type="ColorRect" parent="WinnerScreen"]
+[node name="Panel" type="ColorRect" parent="WinnerScreen" unique_id=867732751]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="Content" type="VBoxContainer" parent="WinnerScreen/Panel"]
-anchors_preset = 8
+[node name="Content" type="VBoxContainer" parent="WinnerScreen/Panel" unique_id=580594016]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -122,7 +121,7 @@ offset_right = 280.0
 offset_bottom = 90.0
 alignment = 1
 
-[node name="WinnerLabel" type="Label" parent="WinnerScreen/Panel/Content"]
+[node name="WinnerLabel" type="Label" parent="WinnerScreen/Panel/Content" unique_id=928869498]
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "PLAYER 1 GANO

@@ -3,7 +3,8 @@ extends Camera3D
 @export var player_one_path: NodePath
 @export var player_two_path: NodePath
 @export var base_offset := Vector3(0.0, 8.0, 11.0)
-@export var distance_padding := 0.8
+@export var distance_padding := 0.7
+@export var max_separation := 32.0
 @export var follow_speed := 6.0
 @export var look_height := 0.8
 
@@ -19,7 +20,8 @@ func _process(delta: float) -> void:
 
 	var midpoint := (_player_one.global_position + _player_two.global_position) * 0.5
 	var separation := _player_one.global_position.distance_to(_player_two.global_position)
-	var target_position := midpoint + base_offset + Vector3(0.0, separation * 0.25, separation * distance_padding)
+	var clamped_separation := minf(separation, max_separation)
+	var target_position := midpoint + base_offset + Vector3(0.0, clamped_separation * 0.25, clamped_separation * distance_padding)
 
 	global_position = global_position.lerp(target_position, clampf(follow_speed * delta, 0.0, 1.0))
 	look_at(midpoint + Vector3.UP * look_height, Vector3.UP)
