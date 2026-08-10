@@ -2,10 +2,101 @@ extends BreakableBox
 
 class_name Barrel
 
+## Emitida una única vez cuando el barrel explota al romperse.
+signal exploded()
+
+## Radio en metros desde el centro del barrel que recibe el efecto de la explosión.
+@export var explosion_radius := 6.0
+## Fuerza horizontal máxima del knockback (aplicada en el centro de la explosión).
+@export var explosion_force := 18.0
+## Fuerza vertical máxima del knockback (aplicada en el centro de la explosión).
+@export var explosion_up_force := 7.0
+## Duración del estado de knockback aplicado a los jugadores.
+@export var explosion_duration := 0.45
+## Escena de VFX provisional instanciada al explotar. Solo visual. Si es null,
+## la explosión física continúa funcionando igual.
+@export var explosion_vfx_scene: PackedScene
+
+var _did_explode := false
+var _last_spawned_vfx: Node3D
+
+
 func _ready() -> void:
 	super._ready()
 	sleeping = true
 	_strip_embedded_model_physics()
+
+
+func _break() -> void:
+	super._break()
+	_explode()
+
+
+## Al romperse, lanza a todos los jugadores dentro del radio, con fuerza que
+## disminuye desde el centro hasta el límite del radio. Reutiliza el sistema de
+## knockback existente del Player (apply_knockback). Se ejecuta una sola vez.
+func _explode() -> void:
+	if _did_explode:
+		return
+	_did_explode = true
+
+	var center := global_position
+	exploded.emit()
+	_spawn_explosion_vfx(center)
+
+	for player in _find_all_players():
+		if not is_instance_valid(player):
+			continue
+
+		var distance := player.global_position.distance_to(center)
+		if distance > explosion_radius:
+			continue
+
+		var direction := player.global_position - center
+		direction.y = 0.0
+		if direction.length_squared() < 0.0001:
+			direction = -player.global_transform.basis.z
+
+		var falloff := 1.0 - clampf(distance / explosion_radius, 0.0, 1.0)
+		player.apply_knockback(
+			direction.normalized(),
+			explosion_force * falloff,
+			explosion_up_force * falloff,
+			true,
+			explosion_duration
+		)
+
+
+## Instancia el VFX provisional en la posición global de la explosión.
+## Puramente visual: no aplica física, no hace knockback y no detecta jugadores.
+## Cualquier fallo en el VFX no afecta a la lógica física de la explosión.
+func _spawn_explosion_vfx(center: Vector3) -> void:
+	if explosion_vfx_scene == null:
+		return
+
+	var vfx := explosion_vfx_scene.instantiate() as Node3D
+	if vfx == null:
+		return
+
+	get_tree().current_scene.add_child(vfx)
+	vfx.global_position = center
+	_last_spawned_vfx = vfx
+
+
+## Recorre el árbol de la escena y devuelve todos los jugadores (CharacterBody3D
+## con el protocolo de knockback del Player de Kevin).
+func _find_all_players() -> Array[CharacterBody3D]:
+	var players: Array[CharacterBody3D] = []
+	var stack: Array[Node] = [get_tree().current_scene]
+
+	while not stack.is_empty():
+		var node: Node = stack.pop_back()
+		if node is CharacterBody3D and node.has_method("apply_knockback"):
+			players.append(node as CharacterBody3D)
+		for child in node.get_children():
+			stack.append(child)
+
+	return players
 
 
 ## Some imported .glb assets auto-generate their own physics bodies

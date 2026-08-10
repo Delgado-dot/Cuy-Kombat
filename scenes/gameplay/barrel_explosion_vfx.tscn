@@ -1,0 +1,102 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/barrel_explosion_vfx.gd" id="1_script"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_particle"]
+radius = 0.12
+height = 0.24
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fire"]
+albedo_color = Color(1, 0.45, 0.05, 1)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.6, 0.1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_fire"]
+emission_shape = 1
+emission_sphere_radius = 0.25
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
+scale_min = 0.8
+scale_max = 1.4
+gravity = Vector3(0, 8, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sparks"]
+albedo_color = Color(1, 0.9, 0.5, 1)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.95, 0.5, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_sparks"]
+emission_shape = 1
+emission_sphere_radius = 0.15
+initial_velocity_min = 8.0
+initial_velocity_max = 14.0
+scale_min = 0.3
+scale_max = 0.6
+gravity = Vector3(0, -9.8, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smoke"]
+albedo_color = Color(0.3, 0.3, 0.33, 0.55)
+transparency = 1
+emission_enabled = false
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_smoke"]
+emission_shape = 1
+emission_sphere_radius = 0.6
+initial_velocity_min = 1.0
+initial_velocity_max = 2.5
+scale_min = 0.8
+scale_max = 1.6
+gravity = Vector3(0, 10, 0)
+
+[sub_resource type="TorusMesh" id="TorusMesh_shockwave"]
+inner_radius = 0.3
+outer_radius = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shockwave"]
+albedo_color = Color(1, 0.9, 0.55, 0.85)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.7, 0.2, 1)
+emission_energy_multiplier = 1.8
+no_depth_test = true
+
+[node name="BarrelExplosionVFX" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Fire" type="GPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+amount = 64
+lifetime = 0.5
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("StandardMaterial3D_fire")
+process_material = SubResource("PPM_fire")
+
+[node name="Sparks" type="GPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+amount = 80
+lifetime = 0.4
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("StandardMaterial3D_sparks")
+process_material = SubResource("PPM_sparks")
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+amount = 24
+lifetime = 2.0
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("StandardMaterial3D_smoke")
+process_material = SubResource("PPM_smoke")
+
+[node name="Shockwave" type="MeshInstance3D" parent="."]
+visible = false
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("TorusMesh_shockwave")
+surface_material_override/0 = SubResource("StandardMaterial3D_shockwave")
