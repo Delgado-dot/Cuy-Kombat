@@ -13,10 +13,21 @@ signal player_exited_interaction_range(player: CharacterBody3D)
 
 @export var throw_impulse := 40.0
 
+## Fuerza horizontal del knockback aplicada al Player cuando este objeto lo
+## impacta físicamente. 0.0 = el objeto no empuja a los jugadores.
+@export var impact_knockback_force := 10.0
+## Impulso mínimo del contacto (PhysicsDirectBodyState3D.get_contact_impulse)
+## para considerar el impacto como real y aplicar el knockback.
+@export var impact_knockback_threshold := 1.0
+## Tiempo mínimo entre knockbacks a un mismo Player (evita múltiples knockbacks
+## por el mismo contacto mientras los cuerpos siguen tocándose).
+@export var impact_knockback_cooldown := 0.5
+
 var _nearby_players: Array[CharacterBody3D] = []
 var _grabbed_player: CharacterBody3D
 var _is_grabbed := false
 var _collision_layer_before_grab := 1
+var _last_impact_knockback_times := {}
 
 
 func _ready() -> void:
@@ -42,6 +53,55 @@ func throw(player: CharacterBody3D) -> void:
 	var throw_direction := -player.global_transform.basis.z.normalized()
 	release_from_being_grabbed()
 	apply_central_impulse(throw_direction * throw_impulse)
+
+
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	_apply_impact_knockback(state)
+
+
+## Detecta contactos físicos reales con jugadores y, para los impactos
+## significativos, les aplica el knockback configurado (impact_knockback_force).
+##
+## Usa el mecanismo físico existente de Godot (contactos reportados en
+## PhysicsDirectBodyState3D), no la proximidad. Se ejecuta una vez por impacto
+## (con cooldown por jugador) para no spamear knockbacks mientras los cuerpos
+## siguen en contacto.
+func _apply_impact_knockback(state: PhysicsDirectBodyState3D) -> void:
+	if impact_knockback_force <= 0.0:
+		return
+	if freeze or _is_grabbed:
+		return
+	if state.get_contact_count() <= 0:
+		return
+
+	var now := Time.get_ticks_msec() / 1000.0
+
+	for contact_index in state.get_contact_count():
+		var impulse := state.get_contact_impulse(contact_index).length()
+		if impulse < impact_knockback_threshold:
+			continue
+
+		var collider: Object = state.get_contact_collider_object(contact_index)
+		if collider == null or not (collider is CharacterBody3D):
+			continue
+		if not collider.has_method("apply_knockback"):
+			continue
+
+		var player := collider as CharacterBody3D
+		var player_id := player.get_instance_id()
+		if _last_impact_knockback_times.has(player_id):
+			var last_time: float = _last_impact_knockback_times[player_id]
+			if now - last_time < impact_knockback_cooldown:
+				continue
+
+		_last_impact_knockback_times[player_id] = now
+
+		var direction := player.global_position - global_position
+		direction.y = 0.0
+		if direction.length_squared() < 0.0001:
+			direction = -player.global_transform.basis.z
+
+		player.apply_knockback(direction.normalized(), impact_knockback_force, 0.0, false)
 
 
 func _physics_process(_delta: float) -> void:

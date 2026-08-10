@@ -8,7 +8,8 @@ signal exploded()
 ## Radio en metros desde el centro del barrel que recibe el efecto de la explosión.
 @export var explosion_radius := 6.0
 ## Fuerza horizontal máxima del knockback (aplicada en el centro de la explosión).
-@export var explosion_force := 18.0
+## 18.0 aumentada un 10%: 18.0 × 1.10 = 19.8.
+@export var explosion_force := 19.8
 ## Fuerza vertical máxima del knockback (aplicada en el centro de la explosión).
 @export var explosion_up_force := 7.0
 ## Duración del estado de knockback aplicado a los jugadores.
@@ -62,7 +63,7 @@ func _explode() -> void:
 			direction.normalized(),
 			explosion_force * falloff,
 			explosion_up_force * falloff,
-			true,
+			false,
 			explosion_duration
 		)
 

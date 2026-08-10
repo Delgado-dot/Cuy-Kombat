@@ -13,6 +13,8 @@ var _is_broken := false
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	super._integrate_forces(state)
+
 	if freeze or _is_broken:
 		return
 

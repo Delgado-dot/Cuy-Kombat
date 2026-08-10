@@ -77,8 +77,17 @@ func _check() -> void:
 	var vfx_spawned := vfx != null and vfx.is_inside_tree()
 	var vfx_purely_visual := _is_purely_visual(vfx)
 
+	# El empuje de la explosión: explosion_force = 19.8 (18.0 × 1.10).
+	var explosion_force: float = barrel.explosion_force
+	var force_is_19_8 := absf(explosion_force - 19.8) <= 0.01
+	# La explosión NO debe aturdir ni cambiar el color del Player (sin stun).
+	var near_stun_pending: bool = player_near.get("_stun_pending")
+	var explosion_sin_cambio_color := not near_stun_pending
+
 	print("[BEXP TEST] barrel.is_broken=%s" % barrel.is_broken())
 	print("[BEXP TEST] explosiones totales=%d (esperado 1)" % _explosions)
+	print("[BEXP TEST] explosion_force=%.2f (esperado 19.8) -> %s" % [explosion_force, force_is_19_8])
+	print("[BEXP TEST] explosion_sin_stun/sin_cambio_color=%s" % explosion_sin_cambio_color)
 	print("[BEXP TEST] estados: near=%d mid=%d edge=%d far=%d (KNOCKBACK=%d NORMAL=%d)" % [
 		near_state, mid_state, edge_state, far_state,
 		PlayerScript.PlayerState.KNOCKBACK, PlayerScript.PlayerState.NORMAL,
@@ -95,6 +104,8 @@ func _check() -> void:
 		"far_mas_6m_NO_afectado": far_dist > barrel.explosion_radius and far_state == PlayerScript.PlayerState.NORMAL,
 		"fuerza_decrece_con_distancia": near_speed > mid_speed and mid_speed > edge_speed,
 		"knockback_sale_del_centro": knocked_away_from_center,
+		"fuerza_base_explosion_19_8": force_is_19_8,
+		"explosion_sin_cambio_color": explosion_sin_cambio_color,
 		"vfx_activado_al_explorar": vfx_spawned,
 		"vfx_solo_visual": vfx_purely_visual,
 	}

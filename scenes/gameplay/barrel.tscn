@@ -13,6 +13,7 @@ height = 1.2
 mass = 3.0
 contact_monitor = true
 max_contacts_reported = 8
+impact_knockback_force = 0.0
 script = ExtResource("2_barrel")
 explosion_vfx_scene = ExtResource("4_vfx")
 
