@@ -11,13 +11,9 @@ signal player_entered_interaction_range(player: CharacterBody3D)
 ## Emitted when a player leaves this object's interaction range.
 signal player_exited_interaction_range(player: CharacterBody3D)
 
-## Emitted when the currently selected player requests an interaction.
-signal interaction_requested(player: CharacterBody3D)
-
 @export var throw_impulse := 20.0
 
 var _nearby_players: Array[CharacterBody3D] = []
-var _current_interacting_player: CharacterBody3D
 var _grabbed_player: CharacterBody3D
 var _is_grabbed := false
 var _collision_layer_before_grab := 1
@@ -32,11 +28,6 @@ func _ready() -> void:
 ## Returns true while at least one CharacterBody3D is inside the interaction area.
 func has_player_in_interaction_range() -> bool:
 	return not _nearby_players.is_empty()
-
-
-## Returns the player currently selected to interact with this object.
-func get_interacting_player() -> CharacterBody3D:
-	return _current_interacting_player
 
 
 func is_grabbed_by(player: CharacterBody3D) -> bool:
@@ -113,8 +104,6 @@ func _on_interaction_area_body_entered(body: Node3D) -> void:
 		return
 
 	_nearby_players.append(player)
-	if _current_interacting_player == null:
-		_current_interacting_player = player
 
 	player_entered_interaction_range.emit(player)
 
@@ -128,10 +117,5 @@ func _on_interaction_area_body_exited(body: Node3D) -> void:
 		return
 
 	_nearby_players.erase(player)
-	if _current_interacting_player == player:
-		if _nearby_players.is_empty():
-			_current_interacting_player = null
-		else:
-			_current_interacting_player = _nearby_players[0]
 
 	player_exited_interaction_range.emit(player)
