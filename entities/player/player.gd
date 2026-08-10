@@ -345,6 +345,9 @@ func _punch_key() -> Key:
 func _grab_action() -> StringName:
 	return &"grab_p2" if control_scheme == "arrows" else &"grab_p1"
 
+func _throw_action() -> StringName:
+	return &"throw_p2" if control_scheme == "arrows" else &"throw_p1"
+
 func _update_tackle_charge(delta: float) -> void:
 	if _tackle_cooldown_left > 0.0:
 		_cancel_tackle_charge()
@@ -575,6 +578,11 @@ func _update_grabbing(delta: float) -> void:
 		return
 
 	if _grabbed_target.get_player_state() != PlayerState.GRABBED:
+		_release_grab()
+		return
+
+	if _grabbed_target is InteractableObject and Input.is_action_just_pressed(_throw_action()):
+		(_grabbed_target as InteractableObject).throw(self)
 		_release_grab()
 		return
 
