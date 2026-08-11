@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://entities/player/visuals/cuy_combate_mejorado.tscn" id="1_cuy"]
+
+[sub_resource type="Environment" id="Environment_showcase"]
+background_mode = 1
+background_color = Color(0.035, 0.045, 0.075, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.38, 0.44, 0.62, 1)
+ambient_light_energy = 0.78
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.88
+
+[sub_resource type="StandardMaterial3D" id="Material_ground"]
+albedo_color = Color(0.075, 0.085, 0.115, 1)
+metallic = 0.0
+roughness = 0.9
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+material = SubResource("Material_ground")
+size = Vector2(8, 5)
+
+[sub_resource type="StandardMaterial3D" id="Material_backdrop"]
+albedo_color = Color(0.055, 0.038, 0.08, 1)
+metallic = 0.0
+roughness = 1.0
+
+[node name="CuyCombateShowcase" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_showcase")
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Lighting"]
+rotation = Vector3(-0.62, -2.42, -0.12)
+light_color = Color(1, 0.82, 0.66, 1)
+light_energy = 1.0
+shadow_enabled = true
+
+[node name="FillLight" type="DirectionalLight3D" parent="Lighting"]
+rotation = Vector3(-0.35, 0.85, 0.18)
+light_color = Color(0.45, 0.62, 1, 1)
+light_energy = 0.36
+
+[node name="RimLight" type="OmniLight3D" parent="Lighting"]
+position = Vector3(0, 2.1, 1.4)
+light_color = Color(1, 0.36, 0.2, 1)
+light_energy = 1.1
+omni_range = 4.5
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.005, 0)
+mesh = SubResource("PlaneMesh_ground")
+
+[node name="Backdrop" type="CSGBox3D" parent="."]
+position = Vector3(0, 1.45, 1.25)
+size = Vector3(7, 3.2, 0.15)
+material = SubResource("Material_backdrop")
+
+[node name="Models" type="Node3D" parent="."]
+
+[node name="FrontView" parent="Models" instance=ExtResource("1_cuy")]
+position = Vector3(-1.05, 0, 0)
+
+[node name="ThreeQuarterView" parent="Models" instance=ExtResource("1_cuy")]
+position = Vector3(1.05, 0, 0)
+rotation = Vector3(0, -0.65, 0)
+
+[node name="FrontLabel" type="Label3D" parent="."]
+position = Vector3(-1.05, 1.82, -0.02)
+modulate = Color(1, 0.83, 0.38, 1)
+outline_modulate = Color(0.04, 0.025, 0.04, 1)
+text = "FRENTE"
+font_size = 54
+outline_size = 10
+billboard = 1
+pixel_size = 0.0022
+
+[node name="ThreeQuarterLabel" type="Label3D" parent="."]
+position = Vector3(1.05, 1.82, -0.02)
+modulate = Color(1, 0.83, 0.38, 1)
+outline_modulate = Color(0.04, 0.025, 0.04, 1)
+text = "VISTA 3/4"
+font_size = 54
+outline_size = 10
+billboard = 1
+pixel_size = 0.0022
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(0, 0.95, -4.15)
+rotation = Vector3(-0.04, 3.14159, 0)
+current = true
+fov = 38.0
+near = 0.05
+far = 30.0

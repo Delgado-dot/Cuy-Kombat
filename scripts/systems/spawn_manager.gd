@@ -22,11 +22,18 @@ func colocar_jugadores() -> void:
 	elif spawn_one == null:
 		push_error("SpawnManager: no se encontró SpawnJugador1.")
 	else:
-		player_one.global_transform = spawn_one.global_transform
+		_colocar_jugador(player_one, spawn_one)
 
 	if player_two == null:
 		push_error("SpawnManager: no se encontró Player2.")
 	elif spawn_two == null:
 		push_error("SpawnManager: no se encontró SpawnJugador2.")
 	else:
-		player_two.global_transform = spawn_two.global_transform
+		_colocar_jugador(player_two, spawn_two)
+
+
+func _colocar_jugador(player: Node3D, spawn_point: Marker3D) -> void:
+	var player_scale := player.scale
+	player.global_position = spawn_point.global_position
+	player.global_rotation = spawn_point.global_rotation
+	player.scale = player_scale

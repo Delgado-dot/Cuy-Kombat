@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_ui"]
+[ext_resource type="PackedScene" path="res://scenes/ui/scenario_select_ui.tscn" id="2_selector"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
 bg_color = Color(0.035, 0.055, 0.105, 0.97)
@@ -518,6 +519,8 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 17
 text = "Presiona ENTER para seleccionar"
 horizontal_alignment = 1
+
+[node name="ScenarioSelectUI" parent="." instance=ExtResource("2_selector")]
 
 [node name="ControlsScreen" type="Control" parent="."]
 unique_name_in_owner = true

@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal scenario_confirmed(scenario_id: StringName)
+
 const COUNTDOWN_STEPS := ["3", "2", "1"]
 const COUNTDOWN_STEP_DURATION := 0.85
 const FIGHT_MESSAGE_DURATION := 0.65
@@ -12,6 +14,7 @@ const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
 @onready var _main_menu := %MainMenu as Control
 @onready var _controls_screen := %ControlsScreen as Control
 @onready var _options_screen := %OptionsScreen as Control
+@onready var _scenario_select_ui := $ScenarioSelectUI as Control
 @onready var _pause_menu := %PauseMenu as Control
 @onready var _gameplay_hud := %GameplayHUD as Control
 @onready var _round_timer := %RoundTimer as Timer
@@ -58,6 +61,11 @@ func _input(event: InputEvent) -> void:
 		_show_main_menu_panel()
 		return
 
+	if _scenario_select_ui.visible:
+		get_viewport().set_input_as_handled()
+		_on_scenario_back_requested()
+		return
+
 	if _options_screen.visible:
 		get_viewport().set_input_as_handled()
 		_on_options_back_pressed()
@@ -81,6 +89,7 @@ func show_main_menu() -> void:
 	_main_menu.visible = true
 	_controls_screen.visible = false
 	_options_screen.visible = false
+	_scenario_select_ui.call("hide_selector")
 	_pause_menu.visible = false
 	_gameplay_hud.visible = false
 	_countdown_overlay.visible = false
@@ -93,6 +102,7 @@ func show_gameplay() -> void:
 	_main_menu.visible = false
 	_controls_screen.visible = false
 	_options_screen.visible = false
+	_scenario_select_ui.call("hide_selector")
 	_pause_menu.visible = false
 
 
@@ -101,7 +111,8 @@ func hide_eliminated_message() -> void:
 
 
 func can_start_match_from_keyboard() -> bool:
-	return _main_menu.visible and not get_tree().paused
+	# El botón JUGAR enfocado procesa ENTER y abre el selector sin saltárselo.
+	return false
 
 
 func _connect_buttons() -> void:
@@ -114,6 +125,8 @@ func _connect_buttons() -> void:
 	_resume_button.pressed.connect(_resume_match)
 	_restart_button.pressed.connect(_restart_round)
 	_pause_options_button.pressed.connect(_on_pause_options_pressed)
+	_scenario_select_ui.connect("scenario_confirmed", _on_scenario_confirmed)
+	_scenario_select_ui.connect("back_requested", _on_scenario_back_requested)
 
 	_pause_main_menu_button.disabled = true
 	_pause_main_menu_button.tooltip_text = "Disponible cuando exista un retorno seguro al menú."
@@ -143,8 +156,23 @@ func _connect_game_manager() -> void:
 
 
 func _on_play_pressed() -> void:
-	if _game_manager != null and _game_manager.has_method("iniciar_partida"):
-		_game_manager.iniciar_partida()
+	show_scenario_selector()
+
+
+func show_scenario_selector() -> void:
+	_main_menu.visible = false
+	_controls_screen.visible = false
+	_options_screen.visible = false
+	_scenario_select_ui.call("show_selector")
+
+
+func _on_scenario_back_requested() -> void:
+	_scenario_select_ui.call("hide_selector")
+	_show_main_menu_panel()
+
+
+func _on_scenario_confirmed(scenario_id: StringName) -> void:
+	scenario_confirmed.emit(scenario_id)
 
 
 func _on_controls_pressed() -> void:
@@ -156,6 +184,7 @@ func _on_controls_pressed() -> void:
 func _show_main_menu_panel() -> void:
 	_controls_screen.visible = false
 	_options_screen.visible = false
+	_scenario_select_ui.call("hide_selector")
 	_main_menu.visible = true
 	_play_button.grab_focus()
 
