@@ -1,0 +1,14 @@
+newmtl Dark
+Kd 0.085 0.038 0.026
+Ks 0.08 0.08 0.08
+Ns 25
+
+newmtl Orange
+Kd 0.88 0.39 0.09
+Ks 0.08 0.08 0.08
+Ns 22
+
+newmtl Cream
+Kd 0.965 0.895 0.76
+Ks 0.06 0.06 0.06
+Ns 18

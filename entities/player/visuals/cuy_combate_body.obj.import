@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bbbr73aqaie1g"
+path="res://.godot/imported/cuy_combate_body.obj-2cb9f7f5809ab6f0b0c5848c69d6a6db.mesh"
+
+[deps]
+
+files=["res://.godot/imported/cuy_combate_body.obj-2cb9f7f5809ab6f0b0c5848c69d6a6db.mesh"]
+
+source_file="res://entities/player/visuals/cuy_combate_body.obj"
+dest_files=["res://.godot/imported/cuy_combate_body.obj-2cb9f7f5809ab6f0b0c5848c69d6a6db.mesh", "res://.godot/imported/cuy_combate_body.obj-2cb9f7f5809ab6f0b0c5848c69d6a6db.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
