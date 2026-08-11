@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bcsj1j0lsi3c"]
 
 [ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
-[ext_resource type="PackedScene" path="res://entities/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://d0a2dqbx6wdl5" path="res://entities/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
 [ext_resource type="Script" uid="uid://hvsl5fya0pcj" path="res://scripts/systems/game_manager.gd" id="5_game_manager"]
 [ext_resource type="Script" uid="uid://b5nwi6c61tqas" path="res://scripts/systems/spawn_manager.gd" id="6_spawn_manager"]

@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://b4xt2nptbe3jn" path="res://assets/models/CuyAnimado.glb" id="3_cuy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-radius = 0.4
-height = 1.6
+radius = 0.75
+height = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_charge_back"]
 albedo_color = Color(0.08, 0.08, 0.08, 1)
@@ -49,15 +49,16 @@ size = Vector3(1.6, 1.6, 0.5)
 script = ExtResource("1_player_script")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=527811442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
 shape = SubResource("CapsuleShape3D_player")
 
 [node name="Visual" type="Node3D" parent="." unique_id=1701648717]
 
 [node name="CuyModel" parent="Visual" unique_id=733490156 instance=ExtResource("3_cuy")]
-transform = Transform3D(-2.312, 0, 0, 0, 2.312, 0, 0, 0, -2.312, 0, -0.7776, 0)
+transform = Transform3D(-2.312, 0, 0, 0, 2.312, 0, 0, 0, -2.312, 0, -0.6156, 0)
 
 [node name="ChargeBar" type="Node3D" parent="Visual" unique_id=1535774266]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96, 0)
 visible = false
 
 [node name="Back" type="MeshInstance3D" parent="Visual/ChargeBar" unique_id=1564792775]
@@ -101,3 +102,6 @@ shape = SubResource("BoxShape3D_grab")
 
 [node name="GrabPoint" type="Node3D" parent="." unique_id=547321994]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.35)
+
+[node name="CarryPoint" type="Node3D" parent="." unique_id=1957394211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -1.15)

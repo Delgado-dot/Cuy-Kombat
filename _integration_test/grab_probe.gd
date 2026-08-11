@@ -1,17 +1,14 @@
 extends Node
 
-const MAIN_SCENE := "res://main.tscn"
+const PLAYER_SCENE := "res://entities/player/player.tscn"
 
 const STATE_NORMAL := 0
 const STATE_GRABBING := 4
 const STATE_GRABBED := 5
 const STATE_KNOCKED := 6
 
-var _main: Node
-var _gm: Node
 var _p1: Node
 var _p2: Node
-var _main_menu: Node
 var _results: Array = []
 
 
@@ -20,7 +17,21 @@ func _ready() -> void:
 
 
 func _run() -> void:
-	await _setup()
+	var floor_body := StaticBody3D.new()
+	floor_body.name = "Floor"
+	floor_body.collision_layer = 1
+	floor_body.collision_mask = 0
+	var fcs := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(30, 0.4, 30)
+	fcs.shape = shape
+	floor_body.add_child(fcs)
+	floor_body.position = Vector3(0, -0.2, 0)
+	add_child(floor_body)
+
+	_p1 = _spawn("P1", Vector3(6.0, 1, 0), -PI / 2, "wasd")
+	_p2 = _spawn("P2", Vector3(7.5, 1, 0), PI / 2, "arrows")
+	await _ticks(5)
 
 	var ext := _model_extents(_p1)
 	var front := -ext.position.z
@@ -40,26 +51,20 @@ func _run() -> void:
 	get_tree().quit(1 if fails > 0 else 0)
 
 
-func _setup() -> void:
-	var packed: PackedScene = load(MAIN_SCENE)
-	_main = packed.instantiate()
-	add_child(_main)
-	await _ticks(10)
-	_gm = _main.get_node("GameManager")
-	_p1 = _main.get_node("Player1")
-	_p2 = _main.get_node("Player2")
-	_main_menu = _main.get_node("MainMenu")
-	_main_menu._play_button.pressed.emit()
-	await _ticks(10)
-
-
 func _grab_cycle(cycle: int) -> void:
 	var grabber: Node = _p1 if cycle == 1 else _p2
 	var victim: Node = _p2 if cycle == 1 else _p1
 	var action: StringName = &"grab_p1" if cycle == 1 else &"grab_p2"
 
-	_reset_player(_p1, Vector3(0, 1, 8.7), PI)
-	_reset_player(_p2, Vector3(0, 1, 9.7), 0.0)
+	_reset_player(_p1, Vector3(6.0, 1, 0), -PI / 2)
+	_reset_player(_p2, Vector3(7.5, 1, 0), PI / 2)
+	await _ticks(3)
+	_press(KEY_D)
+	_press(KEY_LEFT)
+	for i in 25:
+		await get_tree().physics_frame
+	_release(KEY_D)
+	_release(KEY_LEFT)
 	await _ticks(3)
 	_action_press(action, true)
 
@@ -90,8 +95,8 @@ func _grab_cycle(cycle: int) -> void:
 
 func _knocked_grab_check() -> void:
 	_p2.set("knockout_hits", 4)
-	_reset_player(_p1, Vector3(0, 1, 8.7), PI)
-	_reset_player(_p2, Vector3(0, 1, 9.7), 0.0)
+	_reset_player(_p1, Vector3(6.0, 1, 0), -PI / 2)
+	_reset_player(_p2, Vector3(7.5, 1, 0), PI / 2)
 	await _ticks(3)
 	while float(_p1.get("_punch_cooldown_left")) > 0.0:
 		await get_tree().physics_frame
@@ -114,6 +119,24 @@ func _knocked_grab_check() -> void:
 		"p1=%d p2=%d" % [int(_p1.get("_state")), int(_p2.get("_state"))])
 	_action_press("grab_p1", false)
 	await _ticks(5)
+
+
+func _spawn(name: String, pos: Vector3, rot_y: float, scheme: String) -> Node:
+	var ps: PackedScene = load(PLAYER_SCENE)
+	var p := ps.instantiate()
+	p.name = name
+	p.control_scheme = scheme
+	p.position = pos
+	p.rotation.y = rot_y
+	add_child(p)
+	return p
+
+
+func _grabber_hitbox_overlap(grabber: Node) -> int:
+	var gb := grabber.get_node_or_null("GrabHitbox") as Area3D
+	if gb == null:
+		return -1
+	return gb.get_overlapping_bodies().size()
 
 
 func _model_extents(player: Node) -> AABB:
@@ -232,7 +255,6 @@ func _reset_player(p: Node, pos: Vector3, rot_y: float) -> void:
 	p.collision_layer = 1
 	p.collision_mask = 1
 	p.visible = true
-	p.set_physics_process(true)
 	var cs := p.get_node_or_null("CollisionShape3D") as CollisionShape3D
 	if cs != null:
 		cs.disabled = false
