@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="1_ui"]
 
@@ -182,6 +182,38 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_hud_bar_p1"]
+bg_color = Color(1, 0.28, 0.64, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.025, 0.012, 0.03, 0.98)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.58)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+anti_aliasing = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_hud_bar_p2"]
+bg_color = Color(0.25, 0.76, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.012, 0.025, 0.045, 0.98)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.58)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+anti_aliasing = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_controls_panel"]
 bg_color = Color(0.025, 0.045, 0.09, 0.88)
@@ -896,6 +928,254 @@ theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "ATRÁS"
+
+[node name="GameplayHUD" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RoundTimer" type="Timer" parent="GameplayHUD"]
+unique_name_in_owner = true
+process_mode = 1
+wait_time = 1.0
+
+[node name="PlayerOneHUD" type="Control" parent="GameplayHUD"]
+layout_mode = 1
+offset_left = 34.0
+offset_top = 10.0
+offset_right = 314.0
+offset_bottom = 104.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="GameplayHUD/PlayerOneHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 56.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.32, 0.67, 1)
+theme_override_colors/font_outline_color = Color(0.025, 0.012, 0.03, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 48
+text = "P1"
+vertical_alignment = 1
+
+[node name="Bar" type="Panel" parent="GameplayHUD/PlayerOneHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 58.0
+offset_right = -4.0
+offset_bottom = 86.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_hud_bar_p1")
+
+[node name="RoundTimerLabel" type="Label" parent="GameplayHUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 2.0
+offset_right = 150.0
+offset_bottom = 76.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 0.98, 1)
+theme_override_colors/font_outline_color = Color(0.018, 0.012, 0.025, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.88)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 5
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 56
+text = "01:45"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerTwoHUD" type="Control" parent="GameplayHUD"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -314.0
+offset_top = 10.0
+offset_right = -34.0
+offset_bottom = 104.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="GameplayHUD/PlayerTwoHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 56.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.3, 0.78, 1, 1)
+theme_override_colors/font_outline_color = Color(0.012, 0.025, 0.045, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.78)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 48
+text = "P2"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Bar" type="Panel" parent="GameplayHUD/PlayerTwoHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 4.0
+offset_top = 58.0
+offset_bottom = 86.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_hud_bar_p2")
+
+[node name="CountdownOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Backdrop" type="ColorRect" parent="CountdownOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.025, 0.065, 0.12)
+
+[node name="Center" type="CenterContainer" parent="CountdownOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CountdownLabel" type="Label" parent="CountdownOverlay/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 230)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.08, 1)
+theme_override_colors/font_outline_color = Color(0.045, 0.015, 0.055, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 18
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 10
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 138
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EliminatedOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Backdrop" type="ColorRect" parent="EliminatedOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.02, 0.055, 0.28)
+
+[node name="Center" type="CenterContainer" parent="EliminatedOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Message" type="VBoxContainer" parent="EliminatedOverlay/Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="TitleRow" type="HBoxContainer" parent="EliminatedOverlay/Center/Message"]
+custom_minimum_size = Vector2(760, 100)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="EliminatedPlayerLabel" type="Label" parent="EliminatedOverlay/Center/Message/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.43, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0.025, 0.012, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.88)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 7
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 62
+text = "P1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EliminatedText" type="Label" parent="EliminatedOverlay/Center/Message/TitleRow"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.8, 1)
+theme_override_colors/font_outline_color = Color(0.025, 0.012, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.88)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 7
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 62
+text = "ELIMINADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="EliminatedOverlay/Center/Message"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.73, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.015, 0.04, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 7
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 5
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 34
+text = "¡SE CAYÓ!"
+horizontal_alignment = 1
 
 [node name="PauseMenu" type="Control" parent="."]
 unique_name_in_owner = true

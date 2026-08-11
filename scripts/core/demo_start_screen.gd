@@ -1,5 +1,7 @@
 extends Node3D
 
+const ELIMINATED_MESSAGE_DURATION := 1.5
+
 @export var game_manager_path: NodePath
 @export var start_screen_path: NodePath
 @export var winner_screen_path: NodePath
@@ -66,6 +68,10 @@ func _can_start_from_keyboard() -> bool:
 
 func _on_match_finished(winner: Node) -> void:
 	var winner_number: int = _game_manager.get_player_number(winner)
+
+	await get_tree().create_timer(ELIMINATED_MESSAGE_DURATION, false).timeout
+	if _start_screen != null and _start_screen.has_method("hide_eliminated_message"):
+		_start_screen.call("hide_eliminated_message")
 
 	if _winner_screen != null and _winner_screen.has_method("show_winner"):
 		_winner_screen.call("show_winner", winner_number)

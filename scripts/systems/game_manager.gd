@@ -2,10 +2,13 @@ class_name GameManager
 extends Node
 
 signal match_started
+signal combat_started
+signal player_eliminated(player: Node)
 signal match_finished(winner: Node)
 
 enum MatchState {
 	WAITING,
+	COUNTDOWN,
 	PLAYING,
 	FINISHED,
 }
@@ -33,9 +36,18 @@ func iniciar_partida() -> void:
 	if match_state != MatchState.WAITING:
 		return
 
+	match_state = MatchState.COUNTDOWN
+	_set_players_input(false)
+	match_started.emit()
+
+
+func comenzar_combate() -> void:
+	if match_state != MatchState.COUNTDOWN:
+		return
+
 	match_state = MatchState.PLAYING
 	_set_players_input(true)
-	match_started.emit()
+	combat_started.emit()
 
 
 func jugador_eliminado(player: Node) -> void:
@@ -48,6 +60,7 @@ func jugador_eliminado(player: Node) -> void:
 		push_error("GameManager: no se pudo determinar al jugador ganador.")
 		return
 
+	player_eliminated.emit(player)
 	finalizar_partida(winner)
 
 
