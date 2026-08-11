@@ -48,6 +48,12 @@ enum PlayerState {
 @export var punch_arm_forward_shift := 0.32
 @export var knockout_threshold := 5
 @export var knocked_duration := 3.5
+@export var knocked_fall_duration := 0.7
+@export var knocked_fall_speed := 4.0
+@export var recovery_duration := 0.9
+@export var knocked_recovery_speed := 6.0
+@export var knocked_friction := 9.0
+@export var knocked_pivot_offset := Vector3(0, -0.12, 0)
 @export var knockout_color := Color(0.6, 0.6, 0.66, 1.0)
 @export var grab_follow_speed := 12.0
 @export var grab_pose_duration := 0.15
@@ -85,6 +91,15 @@ var knockout_hits := 0
 var _knockout_pending := false
 var _knocked_time_left := 0.0
 var _knocked_timer_paused := false
+var _knocked_pivot: Node3D
+var _knocked_fall_axis := Vector3.RIGHT
+var _knocked_fall_angle := 0.0
+var _knocked_fall_time := 0.0
+var _knocked_visual_active := false
+var _recovering := false
+var _recovery_time := 0.0
+var _knocked_fall_start_angle := 0.0
+var _cuy_model_local_transform := Transform3D.IDENTITY
 var _punch_effect_time := 0.0
 var _punch_effect_material: StandardMaterial3D
 var _body_material: StandardMaterial3D
@@ -120,6 +135,7 @@ var _right_arm_rest_rot := Vector3.ZERO
 @onready var _grab_hitbox := get_node_or_null("GrabHitbox") as Area3D
 @onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
 @onready var _cuy_anim_player := get_node_or_null("Visual/CuyModel/AnimationPlayer") as AnimationPlayer
+@onready var _cuy_model := get_node_or_null("Visual/CuyModel") as Node3D
 
 var _current_cuy_anim := ""
 
@@ -226,7 +242,7 @@ func _setup_cuy_animations() -> void:
 	if _cuy_anim_player == null:
 		return
 
-	for _anim_name in ["Idle", "Walk", "Run"]:
+	for _anim_name in ["Idle", "Run"]:
 		var _anim := _cuy_anim_player.get_animation(_anim_name)
 		if _anim != null:
 			_anim.loop_mode = Animation.LOOP_LINEAR
@@ -238,22 +254,19 @@ func _update_animation() -> void:
 	if _cuy_anim_player == null:
 		return
 
+	if _state == PlayerState.KNOCKED:
+		_current_cuy_anim = ""
+		_cuy_anim_player.pause()
+		return
+
 	var target := "Idle"
 
-	if _state == PlayerState.KNOCKED:
-		target = "Derrota"
-	elif _state == PlayerState.GRABBED:
+	if _state == PlayerState.GRABBED:
 		target = "Idle"
 	elif not is_on_floor():
 		target = "Jump"
-	else:
-		var horizontal_speed := Vector3(velocity.x, 0.0, velocity.z).length()
-		var speed_ratio := clampf(horizontal_speed / move_speed, 0.0, 1.0)
-
-		if speed_ratio > 0.6:
-			target = "Run"
-		elif speed_ratio > 0.05:
-			target = "Walk"
+	elif Vector3(velocity.x, 0.0, velocity.z).length() > 0.2:
+		target = "Run"
 
 	if _current_cuy_anim != target:
 		_current_cuy_anim = target
@@ -545,6 +558,7 @@ func register_punch_hit() -> void:
 	knockout_hits += 1
 	if knockout_hits >= knockout_threshold:
 		_knockout_pending = true
+		_start_knocked()
 
 func _try_start_grab() -> void:
 	if not Input.is_action_just_pressed(_grab_action()):
@@ -689,7 +703,7 @@ func is_grabbing() -> bool:
 func get_grab_point_global() -> Vector3:
 	if _grab_point != null:
 		return _grab_point.global_position
-	return global_position + -global_transform.basis.z * 0.9
+	return global_position + -global_transform.basis.z * 1.35
 
 func start_being_grabbed(grabbing_player: Node3D) -> void:
 	_grabbed_by = grabbing_player
@@ -812,18 +826,20 @@ func _update_stun(delta: float) -> void:
 func _start_knocked() -> void:
 	_state = PlayerState.KNOCKED
 	_knockout_pending = false
+	_recovering = false
+	_recovery_time = 0.0
 	_knocked_time_left = knocked_duration
 	_knocked_timer_paused = false
 	_charge_time = 0.0
-	_horizontal_velocity = Vector3.ZERO
-	_external_push = Vector3.ZERO
+	_horizontal_velocity = Vector3(velocity.x, 0.0, velocity.z)
 	_set_body_color(knockout_color)
+	_start_knocked_fall()
 
 func _update_knocked(delta: float) -> void:
 	if not _knocked_timer_paused:
 		_knocked_time_left -= delta
 
-	_horizontal_velocity = _horizontal_velocity.move_toward(Vector3.ZERO, deceleration * delta)
+	_horizontal_velocity = _horizontal_velocity.move_toward(Vector3.ZERO, knocked_friction * delta)
 	_external_push = _external_push.move_toward(Vector3.ZERO, body_push_friction * delta)
 	velocity.x = _horizontal_velocity.x + _external_push.x
 	velocity.z = _horizontal_velocity.z + _external_push.z
@@ -834,18 +850,111 @@ func _update_knocked(delta: float) -> void:
 	else:
 		velocity.y -= gravity * delta
 
-	if _knocked_time_left <= 0.0:
-		_recover_from_knocked()
+	if _recovering:
+		_update_knocked_recovery(delta)
+	else:
+		_update_knocked_fall(delta)
+		if _knocked_time_left <= 0.0:
+			_begin_knocked_recovery()
 
 func _recover_from_knocked() -> void:
 	_state = PlayerState.NORMAL
 	knockout_hits = 0
 	_knocked_time_left = 0.0
 	_knocked_timer_paused = false
+	_recovering = false
+	_recovery_time = 0.0
+	_knocked_fall_start_angle = 0.0
 	_horizontal_velocity = Vector3.ZERO
 	_external_push = Vector3.ZERO
 	velocity = Vector3.ZERO
 	_restore_body_color()
+	_reset_knocked_visual()
+
+func _start_knocked_fall() -> void:
+	_knocked_visual_active = false
+
+	if _visual == null or _cuy_model == null:
+		return
+
+	if _knocked_pivot == null or not is_instance_valid(_knocked_pivot):
+		_knocked_pivot = Node3D.new()
+		_knocked_pivot.name = "KnockedPivot"
+		_visual.add_child(_knocked_pivot)
+		_knocked_pivot.position = knocked_pivot_offset
+		_cuy_model_local_transform = _cuy_model.transform
+		_cuy_model.reparent(_knocked_pivot)
+
+	var dir := Vector3(_horizontal_velocity.x, 0.0, _horizontal_velocity.z)
+	if dir.length_squared() < 0.001:
+		dir = -global_transform.basis.z
+	dir = dir.normalized()
+
+	var axis_world := -Vector3.UP.cross(dir).normalized()
+	if axis_world.length_squared() < 0.001:
+		axis_world = -Vector3.RIGHT
+
+	_knocked_fall_axis = (_knocked_pivot.global_transform.basis.inverse() * axis_world).normalized()
+	_knocked_fall_angle = 0.0
+	_knocked_fall_time = 0.0
+	_knocked_visual_active = true
+
+func _update_knocked_fall(delta: float) -> void:
+	if not _knocked_visual_active or _knocked_pivot == null or not is_instance_valid(_knocked_pivot):
+		return
+
+	_knocked_fall_time += delta
+	var progress := clampf(_knocked_fall_time / knocked_fall_duration, 0.0, 1.0)
+	var target_angle := _ease_out_cubic(progress) * (PI / 2.0)
+	if not is_on_floor():
+		target_angle = minf(target_angle, deg_to_rad(30.0))
+
+	_knocked_fall_angle = move_toward(_knocked_fall_angle, target_angle, knocked_fall_speed * delta)
+	_knocked_pivot.basis = Basis(_knocked_fall_axis, _knocked_fall_angle)
+
+func _begin_knocked_recovery() -> void:
+	_recovering = true
+	_recovery_time = 0.0
+	_knocked_fall_start_angle = _knocked_fall_angle
+
+func _update_knocked_recovery(delta: float) -> void:
+	if not _knocked_timer_paused:
+		_recovery_time += delta
+
+	var progress := clampf(_recovery_time / recovery_duration, 0.0, 1.0)
+	var target_angle := lerpf(_knocked_fall_start_angle, 0.0, _ease_in_out_cubic(progress))
+	_knocked_fall_angle = move_toward(_knocked_fall_angle, target_angle, knocked_recovery_speed * delta)
+
+	if _knocked_pivot != null and is_instance_valid(_knocked_pivot):
+		_knocked_pivot.basis = Basis(_knocked_fall_axis, _knocked_fall_angle)
+
+	if progress >= 1.0 and absf(_knocked_fall_angle) < 0.01:
+		_recover_from_knocked()
+
+func _reset_knocked_visual() -> void:
+	_knocked_visual_active = false
+	_knocked_fall_time = 0.0
+	_knocked_fall_angle = 0.0
+
+	if _knocked_pivot != null and is_instance_valid(_knocked_pivot):
+		_knocked_pivot.basis = Basis.IDENTITY
+		if _visual != null and _cuy_model != null and is_instance_valid(_cuy_model):
+			_cuy_model.reparent(_visual)
+			_cuy_model.transform = _cuy_model_local_transform
+		_knocked_pivot.queue_free()
+		_knocked_pivot = null
+
+	if _visual != null:
+		_visual.rotation = Vector3.ZERO
+		_visual.scale = Vector3.ONE
+
+func _ease_out_cubic(t: float) -> float:
+	return 1.0 - pow(1.0 - t, 3.0)
+
+func _ease_in_out_cubic(t: float) -> float:
+	if t < 0.5:
+		return 4.0 * t * t * t
+	return 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0
 
 func set_knocked_timer_paused(paused: bool) -> void:
 	_knocked_timer_paused = paused
