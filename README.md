@@ -29,27 +29,27 @@ La principal forma de ganar una ronda será **expulsar a los demás jugadores de
 ┌──────────────┐
 │ Inicia partida│
 └──────┬───────┘
-       ↓
+	   ↓
 ┌──────────────┐
 │ Aparecen los │
 │   jugadores  │
 └──────┬───────┘
-       ↓
+	   ↓
 ┌──────────────┐
 │   Combate    │
 │   físico     │
 └──────┬───────┘
-       ↓
+	   ↓
 ┌──────────────┐
 │ Tackle /     │
 │ Knockback    │
 └──────┬───────┘
-       ↓
+	   ↓
 ┌──────────────┐
 │ Jugador sale │
 │ de la arena  │
 └──────┬───────┘
-       ↓
+	   ↓
 ┌──────────────┐
 │    Victoria  │
 └──────────────┘
@@ -98,8 +98,8 @@ El jugador mantiene presionado el botón correspondiente para cargarlo.
 
 ```text
 0% ───── 50% ───── 100%
-                     ↓
-                  TACKLE
+					 ↓
+				  TACKLE
 ```
 
 Cuando alcanza el 100%:
@@ -127,14 +127,14 @@ A diferencia del contacto normal, el knockback:
 
 ```text
 Jugador atacante
-       🐹💨
-         │
-         ▼
-        💥
-         │
-         ▼
-       🐹 ─────────→
-          Knockback
+	   🐹💨
+		 │
+		 ▼
+		💥
+		 │
+		 ▼
+	   🐹 ─────────→
+		  Knockback
 ```
 
 ---
