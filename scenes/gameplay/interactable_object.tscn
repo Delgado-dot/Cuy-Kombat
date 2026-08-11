@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/interactable_object.gd" id="1_interactable"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_object"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_object"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_interaction"]
+radius = 2.0
+
+[node name="InteractableObject" type="RigidBody3D"]
+mass = 2.0
+script = ExtResource("1_interactable")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_object")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_object")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+monitoring = true
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("SphereShape3D_interaction")

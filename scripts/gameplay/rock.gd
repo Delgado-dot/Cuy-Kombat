@@ -1,0 +1,3 @@
+extends InteractableObject
+
+class_name Rock

@@ -53,10 +53,14 @@ enum PlayerState {
 @export var punch_effect_max_scale := 2.0
 @export var head_sway_angle := 0.12
 @export var head_sway_speed := 4.0
-@export var headbutt_angle := 0.8
-@export var headbutt_offset := 0.09
-@export var headbutt_duration := 0.12
-@export var headbutt_recovery := 0.22
+@export var headbutt_distance := 0.35
+@export var headbutt_rotation := 1.15
+@export var headbutt_anticipation_time := 0.05
+@export var headbutt_anticipation_pull := 0.12
+@export var headbutt_forward_time := 0.08
+@export var headbutt_hold_time := 0.03
+@export var headbutt_return_time := 0.1
+@export var headbutt_rebound := 0.25
 @export var hit_reaction_angle := 0.4
 @export var hit_reaction_duration := 0.3
 @export var knockout_threshold := 5
@@ -76,6 +80,8 @@ enum PlayerState {
 @export var impact_recovery_speed := 0.7
 @export var throw_force := 14.0
 @export var throw_upward_force := 7.0
+@export var object_throw_force := 16.0
+@export var object_throw_upward_force := 5.0
 @export var lean_amount := 0.16
 @export var walk_sway_amount := 0.08
 @export var walk_sway_speed := 9.0
@@ -136,6 +142,7 @@ var _spine_bone := -1
 var _head_moving := false
 var _head_rest_forward_local := Vector3(0.0, 0.0, -1.0)
 var _head_rest_right_local := Vector3(1.0, 0.0, 0.0)
+var _headbutt_dir_local := Vector3(0.0, 0.0, 1.0)
 var _head_anim_q := Quaternion.IDENTITY
 var _head_offset_q := Quaternion.IDENTITY
 var _head_offset_pos := Vector3.ZERO
@@ -150,6 +157,7 @@ var _hit_reaction_total := 0.0
 var _hit_reaction_sign := 1.0
 var _grabbed_target: Node3D
 var _grabbed_by: Node3D
+var _carried_object: InteractableObject
 var _collision_layer_before_grab := 1
 var _collision_mask_before_grab := 1
 var _last_grab_point_pos := Vector3.ZERO
@@ -188,6 +196,7 @@ func _physics_process(delta: float) -> void:
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
 	_update_punch_effect(delta)
+	_update_carried_object(delta)
 
 	if _state == PlayerState.KNOCKBACK:
 		_update_knockback(delta)
@@ -306,6 +315,7 @@ func _setup_cuy_animations() -> void:
 				var head_global_rest := _cuy_skeleton.get_bone_global_rest(_head_bone)
 				_head_rest_forward_local = (head_global_rest.basis.inverse() * Vector3(0.0, 0.0, -1.0)).normalized()
 				_head_rest_right_local = (head_global_rest.basis.inverse() * Vector3(1.0, 0.0, 0.0)).normalized()
+				_headbutt_dir_local = (head_global_rest.basis * Vector3(0.0, 0.0, 1.0)).normalized()
 
 	_current_cuy_anim = "Idle"
 	_cuy_anim_player.play("Idle")
@@ -595,16 +605,12 @@ func _update_head_visual(delta: float) -> void:
 
 	if _headbutt_active:
 		_headbutt_elapsed += delta
-		var total := headbutt_duration + headbutt_recovery
+		var total := headbutt_anticipation_time + headbutt_forward_time + headbutt_hold_time + headbutt_return_time
 		if _headbutt_elapsed >= total:
 			_headbutt_active = false
 			_headbutt_k = 0.0
-		elif _headbutt_elapsed < headbutt_duration:
-			var p := clampf(_headbutt_elapsed / maxf(headbutt_duration, 0.0001), 0.0, 1.0)
-			_headbutt_k = _ease_out_cubic(p)
 		else:
-			var p := clampf((_headbutt_elapsed - headbutt_duration) / maxf(headbutt_recovery, 0.0001), 0.0, 1.0)
-			_headbutt_k = 1.0 - p * p * p
+			_headbutt_k = _headbutt_curve(_headbutt_elapsed)
 	else:
 		_headbutt_k = 0.0
 
@@ -615,10 +621,9 @@ func _update_head_visual(delta: float) -> void:
 		_head_offset_q = Quaternion(_head_rest_forward_local, wobble * _hit_reaction_sign * hit_reaction_angle)
 		_head_offset_pos = Vector3.ZERO
 	elif _headbutt_active:
-		var sway_gain := 1.0 - 0.6 * _headbutt_k
-		var headbutt_rot := Quaternion(_head_rest_right_local, _headbutt_k * headbutt_angle)
-		_head_offset_q = (headbutt_rot * Quaternion(_head_rest_forward_local, _head_sway_value * sway_gain)).normalized()
-		_head_offset_pos = _head_rest_forward_local * (_headbutt_k * headbutt_offset)
+		var headbutt_rot := Quaternion(_head_rest_right_local, _headbutt_k * headbutt_rotation)
+		_head_offset_q = headbutt_rot
+		_head_offset_pos = _headbutt_dir_local * (_headbutt_k * headbutt_distance)
 	else:
 		_head_offset_q = Quaternion(_head_rest_forward_local, _head_sway_value)
 		_head_offset_pos = Vector3.ZERO
@@ -699,24 +704,39 @@ func _try_start_grab() -> void:
 		return
 	if _state != PlayerState.NORMAL:
 		return
+	if _carried_object != null:
+		return
 
 	var target := _find_grab_target()
 	if target == null:
 		return
 
-	_start_grab(target)
+	if target is InteractableObject:
+		_start_object_grab(target as InteractableObject)
+	else:
+		_start_grab(target)
 
+
+## Agarre de objetos: sistema separado del agarre de jugadores.
+## El jugador permanece en PlayerState.NORMAL; el objeto es el agarrado.
+func _start_object_grab(object: InteractableObject) -> void:
+	_carried_object = object
+	object.start_being_grabbed(self)
+
+
+## Busca objetivo de agarre con prioridad: primero jugadores (sistema Kevin),
+## luego objetos InteractableObject (sistema de objetos).
 func _find_grab_target() -> Node3D:
 	if _grab_hitbox == null:
 		return null
 
-	var best_target: Node3D = null
-	var best_distance := INF
+	var best_player: Node3D = null
+	var best_player_distance := INF
+	var best_object: InteractableObject = null
+	var best_object_distance := INF
 
 	for body in _grab_hitbox.get_overlapping_bodies():
 		if body == self:
-			continue
-		if not (body is CharacterBody3D):
 			continue
 		if not body.has_method("can_be_grabbed"):
 			continue
@@ -724,11 +744,18 @@ func _find_grab_target() -> Node3D:
 			continue
 
 		var distance := global_position.distance_to(body.global_position)
-		if distance < best_distance:
-			best_distance = distance
-			best_target = body
+		if body is CharacterBody3D:
+			if distance < best_player_distance:
+				best_player_distance = distance
+				best_player = body
+		elif body is InteractableObject:
+			if distance < best_object_distance:
+				best_object_distance = distance
+				best_object = body
 
-	return best_target
+	if best_player != null:
+		return best_player
+	return best_object
 
 func _start_grab(target: Node3D) -> void:
 	_state = PlayerState.GRABBING
@@ -757,6 +784,61 @@ func _release_grab() -> void:
 		_state = PlayerState.NORMAL
 
 	_set_grab_pose(false)
+
+
+## Libera el objeto agarrado (sin lanzamiento).
+func _release_object_carry() -> void:
+	if _carried_object == null:
+		return
+
+	var object := _carried_object
+	_carried_object = null
+
+	if is_instance_valid(object):
+		object.release_from_being_grabbed()
+
+
+## Mantiene/suelta o lanza el objeto cargado. La posición del objeto sobre el
+## CarryPoint la mantiene su propio _physics_process (mecanismo de Delgado);
+## aquí solo se decide qué hacer con él: soltar si el jugador deja de agarrar
+## (o su estado deja de ser NORMAL), o lanzar al pulsar THROW.
+func _update_carried_object(_delta: float) -> void:
+	if _carried_object == null:
+		return
+	if not is_instance_valid(_carried_object):
+		_carried_object = null
+		return
+	if _state != PlayerState.NORMAL or not input_enabled:
+		_release_object_carry()
+		return
+	if Input.is_action_just_pressed(_throw_action()):
+		_throw_carried_object()
+		return
+	if not Input.is_action_pressed(_grab_action()):
+		_release_object_carry()
+
+
+## Lanzamiento de objetos: secuencia completa.
+## 1. Guardar la referencia del objeto.
+## 2. release_from_being_grabbed() (restaura física y capa de colisión).
+## 3. Limpiar la referencia cargada.
+## 4. Aplicar impulso hacia el frente del jugador (velocidad independiente de
+##    la masa del objeto, escalando el impulso por su masa).
+func _throw_carried_object() -> void:
+	var object := _carried_object
+	_release_object_carry()
+
+	if object == null or not is_instance_valid(object):
+		return
+
+	var direction := -global_transform.basis.z
+	direction.y = 0.0
+	direction = direction.normalized()
+
+	object.apply_central_impulse(
+		direction * object_throw_force * object.mass
+		+ Vector3.UP * object_throw_upward_force * object.mass
+	)
 
 func _update_grabbing(delta: float) -> void:
 	if _try_start_throw():
@@ -1190,6 +1272,31 @@ func _reset_knocked_visual() -> void:
 
 func _ease_out_cubic(t: float) -> float:
 	return 1.0 - pow(1.0 - t, 3.0)
+
+func _ease_out_quart(t: float) -> float:
+	return 1.0 - pow(1.0 - t, 4.0)
+
+func _headbutt_curve(elapsed: float) -> float:
+	var ant := maxf(headbutt_anticipation_time, 0.0001)
+	var fwd := maxf(headbutt_forward_time, 0.0001)
+	var hold := maxf(headbutt_hold_time, 0.0)
+	var ret := maxf(headbutt_return_time, 0.0001)
+	var t := elapsed
+
+	if t < ant:
+		return lerpf(0.0, -headbutt_anticipation_pull, _ease_out_cubic(t / ant))
+
+	t -= ant
+	if t < fwd:
+		return lerpf(-headbutt_anticipation_pull, 1.0, _ease_out_quart(t / fwd))
+
+	t -= fwd
+	if t < hold:
+		return 1.0
+
+	t -= hold
+	var p := clampf(t / ret, 0.0, 1.0)
+	return (1.0 - p) * cos(p * PI * (1.0 + headbutt_rebound))
 
 func _ease_in_out_cubic(t: float) -> float:
 	if t < 0.5:

@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="9_controls"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="10_main_menu"]
+[ext_resource type="Script" uid="uid://df3d1bfef85kt" path="res://scripts/gameplay/objects_spawner.gd" id="11_objects_spawner"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -58,6 +59,13 @@ collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone" unique_id=622535333]
 shape = SubResource("BoxShape3D_death_zone")
+
+[node name="ObjectsSpawner" type="Node3D" parent="." unique_id=972311708]
+script = ExtResource("11_objects_spawner")
+min_spawn_radius = 7.5
+max_spawn_radius = 14.0
+avoid_distance = 4.0
+avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
 
 [node name="MainMenu" parent="." unique_id=530259561 instance=ExtResource("10_main_menu")]
 game_manager_path = NodePath("../GameManager")
