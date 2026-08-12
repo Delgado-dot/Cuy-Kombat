@@ -27,6 +27,7 @@ func _ready() -> void:
 	_play_button.grab_focus()
 
 	_connect_buttons()
+	MusicManager.play_menu_music()
 
 
 func _connect_buttons() -> void:

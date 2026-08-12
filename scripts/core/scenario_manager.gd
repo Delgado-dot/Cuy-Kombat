@@ -97,6 +97,7 @@ func _start_match(scenario_id: StringName) -> void:
 	if _objects_spawner != null and _objects_spawner.has_method("_spawn_objects"):
 		_objects_spawner.call("_spawn_objects")
 
+	MusicManager.play_arena_music()
 	_game_manager.iniciar_partida()
 	_switching = false
 
