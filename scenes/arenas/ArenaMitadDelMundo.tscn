@@ -1,0 +1,1278 @@
+[gd_scene format=3 uid="uid://ingj0dkvs0ep"]
+
+[sub_resource type="StandardMaterial3D" id="MatBasePiedra"]
+albedo_color = Color(0.33, 0.3, 0.25, 1)
+roughness = 0.96
+
+[sub_resource type="StandardMaterial3D" id="MatAdoquin"]
+albedo_color = Color(0.46, 0.4, 0.32, 1)
+roughness = 0.93
+
+[sub_resource type="StandardMaterial3D" id="MatCesped"]
+albedo_color = Color(0.16, 0.36, 0.09, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatBordePiedra"]
+albedo_color = Color(0.31, 0.27, 0.22, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="MatVacio"]
+albedo_color = Color(0.025, 0.045, 0.07, 1)
+roughness = 0.98
+
+[sub_resource type="CylinderMesh" id="MeshDiscoVacio"]
+material = SubResource("MatVacio")
+top_radius = 2.68
+bottom_radius = 2.68
+height = 0.12
+radial_segments = 32
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatJuntaAdoquin"]
+albedo_color = Color(0.24, 0.25, 0.23, 1)
+
+[sub_resource type="BoxMesh" id="MeshUnidadCaja"]
+
+[sub_resource type="StandardMaterial3D" id="MatLineaEcuador"]
+albedo_color = Color(1, 0.72, 0.025, 1)
+roughness = 0.76
+
+[sub_resource type="BoxMesh" id="MeshBloqueBorde"]
+material = SubResource("MatBordePiedra")
+size = Vector3(2.52, 0.72, 1.08)
+
+[sub_resource type="BoxShape3D" id="ShapeSuelo"]
+size = Vector3(3.7, 0.5, 5.6)
+
+[sub_resource type="BoxShape3D" id="ShapeBorde"]
+size = Vector3(2.55, 0.8, 1)
+
+[sub_resource type="CylinderShape3D" id="ShapeAgujero"]
+height = 18.0
+radius = 2.9
+
+[sub_resource type="StandardMaterial3D" id="MatRocaInferior"]
+cull_mode = 2
+albedo_color = Color(0.14, 0.19, 0.2, 1)
+roughness = 0.99
+
+[sub_resource type="CylinderMesh" id="MeshPuntaRoca"]
+top_radius = 1.35
+bottom_radius = 0.06
+height = 6.2
+radial_segments = 6
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatMonumentoOscuro"]
+albedo_color = Color(0.19, 0.16, 0.13, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatMonumento"]
+albedo_color = Color(0.38, 0.31, 0.22, 1)
+roughness = 0.94
+
+[sub_resource type="SphereMesh" id="MeshEsfera"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="MeshUnidadCilindro"]
+height = 1.0
+radial_segments = 12
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatBanderaAmarilla"]
+albedo_color = Color(1, 0.75, 0.02, 1)
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="MatBanderaAzul"]
+albedo_color = Color(0.02, 0.21, 0.62, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="MatBanderaRoja"]
+albedo_color = Color(0.78, 0.04, 0.07, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="MatCasaBlanca"]
+albedo_color = Color(0.91, 0.87, 0.75, 1)
+roughness = 0.96
+
+[sub_resource type="StandardMaterial3D" id="MatTeja"]
+albedo_color = Color(0.57, 0.22, 0.09, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="MeshPiramide"]
+top_radius = 0.0
+height = 1.0
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatVentana"]
+albedo_color = Color(0.15, 0.28, 0.34, 1)
+roughness = 0.72
+
+[sub_resource type="StandardMaterial3D" id="MatCasaCrema"]
+albedo_color = Color(0.86, 0.76, 0.58, 1)
+roughness = 0.96
+
+[sub_resource type="StandardMaterial3D" id="MatTronco"]
+albedo_color = Color(0.27, 0.14, 0.07, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatHojasA"]
+albedo_color = Color(0.2, 0.46, 0.15, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatHojasB"]
+albedo_color = Color(0.34, 0.57, 0.16, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaLejos"]
+albedo_color = Color(0.14, 0.29, 0.39, 1)
+
+[sub_resource type="CylinderMesh" id="MeshMontana"]
+top_radius = 0.04
+height = 1.0
+radial_segments = 7
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaCerca"]
+albedo_color = Color(0.075, 0.18, 0.21, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatNube"]
+albedo_color = Color(0.93, 0.96, 1, 1)
+
+[sub_resource type="Environment" id="EnvironmentMitadDelMundo"]
+background_mode = 1
+background_color = Color(0.075, 0.38, 0.72, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.66, 0.8, 0.96, 1)
+ambient_light_energy = 0.64
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.9
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.31, 0.57, 0.78, 1)
+fog_light_energy = 0.65
+fog_density = 1.0
+fog_height = -5.0
+fog_height_density = 0.01
+fog_depth_begin = 55.0
+fog_depth_end = 150.0
+
+[node name="ArenaMitadDelMundo" type="Node3D" unique_id=1511745362]
+editor_description = "Arena diurna inspirada en la Mitad del Mundo de Ecuador. Mantiene las mismas unidades jugables, SpawnPoints y contrato de eliminacion que ArenaBase."
+
+[node name="Gameplay" type="Node3D" parent="." unique_id=219267474]
+
+[node name="Piso" type="Node3D" parent="Gameplay" unique_id=2103570850]
+
+[node name="BaseAnular" type="CSGPolygon3D" parent="Gameplay/Piso" unique_id=109878284]
+polygon = PackedVector2Array(2.95, -0.95, 9.45, -0.95, 9.45, -0.08, 2.95, -0.08)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 48
+material = SubResource("MatBasePiedra")
+
+[node name="SuperficieAdoquin" type="CSGPolygon3D" parent="Gameplay/Piso" unique_id=839644852]
+polygon = PackedVector2Array(3.05, -0.08, 8.72, -0.08, 8.72, 0.12, 3.05, 0.12)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatAdoquin")
+
+[node name="AnilloCesped" type="CSGPolygon3D" parent="Gameplay/Piso" unique_id=177746648]
+polygon = PackedVector2Array(6.55, 0.115, 8.72, 0.115, 8.72, 0.17, 6.55, 0.17)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatCesped")
+
+[node name="BordeHuecoCentral" type="CSGPolygon3D" parent="Gameplay/Piso" unique_id=1275938388]
+polygon = PackedVector2Array(2.75, -0.18, 3.34, -0.18, 3.34, 0.35, 2.75, 0.35)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 32
+material = SubResource("MatBordePiedra")
+
+[node name="OscuridadDelAgujero" type="MeshInstance3D" parent="Gameplay/Piso" unique_id=2016662862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4, 0)
+cast_shadow = 0
+mesh = SubResource("MeshDiscoVacio")
+
+[node name="JuntasCirculares" type="Node3D" parent="Gameplay/Piso" unique_id=1298302427]
+
+[node name="JuntaCircular1" type="CSGPolygon3D" parent="Gameplay/Piso/JuntasCirculares" unique_id=1163719872]
+polygon = PackedVector2Array(4.215, 0.165, 4.285, 0.165, 4.285, 0.185, 4.215, 0.185)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatJuntaAdoquin")
+
+[node name="JuntaCircular2" type="CSGPolygon3D" parent="Gameplay/Piso/JuntasCirculares" unique_id=102869821]
+polygon = PackedVector2Array(5.615, 0.165, 5.685, 0.165, 5.685, 0.185, 5.615, 0.185)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatJuntaAdoquin")
+
+[node name="JuntaCircular3" type="CSGPolygon3D" parent="Gameplay/Piso/JuntasCirculares" unique_id=733799157]
+polygon = PackedVector2Array(7.015, 0.165, 7.085, 0.165, 7.085, 0.185, 7.015, 0.185)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatJuntaAdoquin")
+
+[node name="JuntaCircular4" type="CSGPolygon3D" parent="Gameplay/Piso/JuntasCirculares" unique_id=295644141]
+polygon = PackedVector2Array(8.385, 0.165, 8.455, 0.165, 8.455, 0.185, 8.385, 0.185)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 64
+smooth_faces = true
+material = SubResource("MatJuntaAdoquin")
+
+[node name="JuntasRadiales" type="Node3D" parent="Gameplay/Piso" unique_id=32543976]
+
+[node name="Junta01" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1653149087]
+transform = Transform3D(0.041574582, 0, 1.932551, 0, 0.018, 0, -0.017220752, 0, 4.665592, 2.250179, 0.18, 5.432412)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta02" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1587806899]
+transform = Transform3D(0.031819813, 0, 3.5708888, 0, 0.018, 0, -0.0318198, 0, 3.57089, 4.157788, 0.18, 4.157788)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta03" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=575428433]
+transform = Transform3D(0.017220765, 0, 4.6655912, 0, 0.018, 0, -0.041574575, 0, 1.9325526, 5.432412, 0.18, 2.250179)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta04" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1489834502]
+transform = Transform3D(1.41262415e-08, 0, 5.05, 0, 0.018, 0, -0.045, 0, 1.5852783e-06, 5.88, 0.18, 0)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta05" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=649112380]
+transform = Transform3D(-0.01722074, 0, 4.6655927, 0, 0.018, 0, -0.041574586, 0, -1.9325496, 5.432412, 0.18, -2.250179)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta06" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=875798747]
+transform = Transform3D(-0.03181979, 0, 3.5708911, 0, 0.018, 0, -0.03181982, 0, -3.5708878, 4.157788, 0.18, -4.157788)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta07" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=197688903]
+transform = Transform3D(-0.041574586, 0, 1.9325496, 0, 0.018, 0, -0.01722074, 0, -4.6655927, 2.250179, 0.18, -5.432412)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta09" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=12381814]
+transform = Transform3D(-0.041574575, 0, -1.9325526, 0, 0.018, 0, 0.017220765, 0, -4.6655912, -2.250179, 0.18, -5.432412)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta10" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1907641711]
+transform = Transform3D(-0.0318198, 0, -3.57089, 0, 0.018, 0, 0.031819813, 0, -3.5708888, -4.157788, 0.18, -4.157788)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta11" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1280621667]
+transform = Transform3D(-0.017220741, 0, -4.6655927, 0, 0.018, 0, 0.041574586, 0, -1.9325498, -5.432412, 0.18, -2.250179)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta12" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1800813819]
+transform = Transform3D(5.3661964e-10, 0, -5.05, 0, 0.018, 0, 0.045, 0, 6.022065e-08, -5.88, 0.18, 0)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta13" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1077892142]
+transform = Transform3D(0.017220763, 0, -4.6655912, 0, 0.018, 0, 0.041574575, 0, 1.9325522, -5.432412, 0.18, 2.250179)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta14" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1703959365]
+transform = Transform3D(0.0318198, 0, -3.57089, 0, 0.018, 0, 0.031819813, 0, 3.5708888, -4.157788, 0.18, 4.157788)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Junta15" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales" unique_id=1591838252]
+transform = Transform3D(0.041574575, 0, -1.9325536, 0, 0.018, 0, 0.017220775, 0, 4.6655912, -2.250179, 0.18, 5.432412)
+material_override = SubResource("MatJuntaAdoquin")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="LineaEcuatorial" type="Node3D" parent="Gameplay/Piso" unique_id=566968080]
+
+[node name="LineaNorte" type="MeshInstance3D" parent="Gameplay/Piso/LineaEcuatorial" unique_id=1505800259]
+transform = Transform3D(0.42, 0, 0, 0, 0.04, 0, 0, 0, 5.08, 0, 0.205, -5.86)
+material_override = SubResource("MatLineaEcuador")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="LineaSur" type="MeshInstance3D" parent="Gameplay/Piso/LineaEcuatorial" unique_id=765894233]
+transform = Transform3D(0.42, 0, 0, 0, 0.04, 0, 0, 0, 5.08, 0, 0.205, 5.86)
+material_override = SubResource("MatLineaEcuador")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="BordeExterior" type="Node3D" parent="Gameplay" unique_id=457615407]
+
+[node name="Bloque00" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1718724358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 9.2)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque01" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1192391559]
+transform = Transform3D(0.96592593, 0, 0.2588187, 0, 1, 0, -0.2588187, 0, 0.96592593, 2.381135, 0.3, 8.886518)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque02" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=103931205]
+transform = Transform3D(0.86602527, 0, 0.50000024, 0, 1, 0, -0.50000024, 0, 0.86602527, 4.6, 0.3, 7.967434)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque03" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1089173483]
+transform = Transform3D(0.7071069, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, 0.7071069, 6.505382, 0.3, 6.505382)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque04" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1253216957]
+transform = Transform3D(0.49999955, 0, 0.8660257, 0, 1, 0, -0.8660257, 0, 0.49999955, 7.967434, 0.3, 4.6)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque05" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1449258803]
+transform = Transform3D(0.25881895, 0, 0.9659259, 0, 1, 0, -0.9659259, 0, 0.25881895, 8.886518, 0.3, 2.381135)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque06" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1355158180]
+transform = Transform3D(3.1391647e-07, 0, 1, 0, 1, 0, -1, 0, 3.1391647e-07, 9.2, 0.3, 0)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque07" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1280990292]
+transform = Transform3D(-0.25881925, 0, 0.96592575, 0, 1, 0, -0.96592575, 0, -0.25881925, 8.886518, 0.3, -2.381135)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque08" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=778931949]
+transform = Transform3D(-0.49999985, 0, 0.8660255, 0, 1, 0, -0.8660255, 0, -0.49999985, 7.967434, 0.3, -4.6)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque09" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=914351444]
+transform = Transform3D(-0.7071065, 0, 0.7071071, 0, 1, 0, -0.7071071, 0, -0.7071065, 6.505382, 0.3, -6.505382)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque10" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1832211777]
+transform = Transform3D(-0.8660255, 0, 0.49999982, 0, 1, 0, -0.49999982, 0, -0.8660255, 4.6, 0.3, -7.967434)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque11" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1461042824]
+transform = Transform3D(-0.96592575, 0, 0.25881937, 0, 1, 0, -0.25881937, 0, -0.96592575, 2.381135, 0.3, -8.886518)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque12" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1169489729]
+transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0, 0.3, -9.2)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque13" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1037227081]
+transform = Transform3D(-0.9659258, 0, -0.25881907, 0, 1, 0, 0.25881907, 0, -0.9659258, -2.381135, 0.3, -8.886518)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque14" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=235820799]
+transform = Transform3D(-0.8660256, 0, -0.49999958, 0, 1, 0, 0.49999958, 0, -0.8660256, -4.6, 0.3, -7.967434)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque15" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=133111275]
+transform = Transform3D(-0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, -0.70710665, -6.505382, 0.3, -6.505382)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque16" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=28539835]
+transform = Transform3D(-0.5000003, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, -0.5000003, -7.967434, 0.3, -4.6)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque17" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1298460269]
+transform = Transform3D(-0.25881854, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.25881854, -8.886518, 0.3, -2.381135)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque18" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1532372872]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -9.2, 0.3, 0)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque19" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1460587737]
+transform = Transform3D(0.25881854, 0, -0.96592593, 0, 1, 0, 0.96592593, 0, 0.25881854, -8.886518, 0.3, 2.381135)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque20" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1874911955]
+transform = Transform3D(0.50000036, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, 0.50000036, -7.967434, 0.3, 4.6)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque21" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=8692732]
+transform = Transform3D(0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, 0.70710665, -6.505382, 0.3, 6.505382)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque22" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=1525386021]
+transform = Transform3D(0.86602557, 0, -0.49999976, 0, 1, 0, 0.49999976, 0, 0.86602557, -4.6, 0.3, 7.967434)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="Bloque23" type="MeshInstance3D" parent="Gameplay/BordeExterior" unique_id=612043782]
+transform = Transform3D(0.9659259, 0, -0.25881884, 0, 1, 0, 0.25881884, 0, 0.9659259, -2.381135, 0.3, 8.886518)
+mesh = SubResource("MeshBloqueBorde")
+
+[node name="GameplayCollision" type="Node3D" parent="." unique_id=1174756]
+
+[node name="PisoAnular" type="StaticBody3D" parent="GameplayCollision" unique_id=1933578993]
+
+[node name="Segmento00" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=504725056]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 5.9)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento01" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=424684916]
+transform = Transform3D(0.92387956, 0, 0.38268337, 0, 1, 0, -0.38268337, 0, 0.92387956, 2.257832, -0.25, 5.450889)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento02" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=316771235]
+transform = Transform3D(0.7071069, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, 0.7071069, 4.17193, -0.25, 4.17193)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento03" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=133862996]
+transform = Transform3D(0.38268366, 0, 0.92387944, 0, 1, 0, -0.92387944, 0, 0.38268366, 5.450889, -0.25, 2.257832)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento04" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=509515059]
+transform = Transform3D(3.1391647e-07, 0, 1, 0, 1, 0, -1, 0, 3.1391647e-07, 5.9, -0.25, 0)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento05" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=2073029299]
+transform = Transform3D(-0.38268307, 0, 0.9238797, 0, 1, 0, -0.9238797, 0, -0.38268307, 5.450889, -0.25, -2.257832)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento06" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=2063890588]
+transform = Transform3D(-0.7071065, 0, 0.7071071, 0, 1, 0, -0.7071071, 0, -0.7071065, 4.17193, -0.25, -4.17193)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento07" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=638258183]
+transform = Transform3D(-0.9238797, 0, 0.38268307, 0, 1, 0, -0.38268307, 0, -0.9238797, 2.257832, -0.25, -5.450889)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento08" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=200373706]
+transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0, -0.25, -5.9)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento09" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=2076717081]
+transform = Transform3D(-0.92387944, 0, -0.38268366, 0, 1, 0, 0.38268366, 0, -0.92387944, -2.257832, -0.25, -5.450889)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento10" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=1066498344]
+transform = Transform3D(-0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, -0.70710665, -4.17193, -0.25, -4.17193)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento11" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=2095642520]
+transform = Transform3D(-0.38268313, 0, -0.9238797, 0, 1, 0, 0.9238797, 0, -0.38268313, -5.450889, -0.25, -2.257832)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento12" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=588767992]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -5.9, -0.25, 0)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento13" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=1243626368]
+transform = Transform3D(0.3826836, 0, -0.92387944, 0, 1, 0, 0.92387944, 0, 0.3826836, -5.450889, -0.25, 2.257832)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento14" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=1980838374]
+transform = Transform3D(0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, 0.70710665, -4.17193, -0.25, 4.17193)
+shape = SubResource("ShapeSuelo")
+
+[node name="Segmento15" type="CollisionShape3D" parent="GameplayCollision/PisoAnular" unique_id=1989580150]
+transform = Transform3D(0.9238794, 0, -0.38268387, 0, 1, 0, 0.38268387, 0, 0.9238794, -2.257832, -0.25, 5.450889)
+shape = SubResource("ShapeSuelo")
+
+[node name="BordeExterior" type="StaticBody3D" parent="GameplayCollision" unique_id=1135737695]
+
+[node name="Segmento00" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1610283916]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 9.2)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento01" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=243227829]
+transform = Transform3D(0.96592593, 0, 0.2588187, 0, 1, 0, -0.2588187, 0, 0.96592593, 2.381135, 0.3, 8.886518)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento02" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1487437766]
+transform = Transform3D(0.86602527, 0, 0.50000024, 0, 1, 0, -0.50000024, 0, 0.86602527, 4.6, 0.3, 7.967434)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento03" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1436732336]
+transform = Transform3D(0.7071069, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, 0.7071069, 6.505382, 0.3, 6.505382)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento04" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=259934558]
+transform = Transform3D(0.49999955, 0, 0.8660257, 0, 1, 0, -0.8660257, 0, 0.49999955, 7.967434, 0.3, 4.6)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento05" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1639789259]
+transform = Transform3D(0.25881895, 0, 0.9659259, 0, 1, 0, -0.9659259, 0, 0.25881895, 8.886518, 0.3, 2.381135)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento06" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1456333321]
+transform = Transform3D(3.1391647e-07, 0, 1, 0, 1, 0, -1, 0, 3.1391647e-07, 9.2, 0.3, 0)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento07" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=159305611]
+transform = Transform3D(-0.25881925, 0, 0.96592575, 0, 1, 0, -0.96592575, 0, -0.25881925, 8.886518, 0.3, -2.381135)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento08" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=417650617]
+transform = Transform3D(-0.49999985, 0, 0.8660255, 0, 1, 0, -0.8660255, 0, -0.49999985, 7.967434, 0.3, -4.6)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento09" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1026223344]
+transform = Transform3D(-0.7071065, 0, 0.7071071, 0, 1, 0, -0.7071071, 0, -0.7071065, 6.505382, 0.3, -6.505382)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento10" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=400072856]
+transform = Transform3D(-0.8660255, 0, 0.49999982, 0, 1, 0, -0.49999982, 0, -0.8660255, 4.6, 0.3, -7.967434)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento11" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1177206885]
+transform = Transform3D(-0.96592575, 0, 0.25881937, 0, 1, 0, -0.25881937, 0, -0.96592575, 2.381135, 0.3, -8.886518)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento12" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1626080479]
+transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0, 0.3, -9.2)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento13" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1657256603]
+transform = Transform3D(-0.9659258, 0, -0.25881907, 0, 1, 0, 0.25881907, 0, -0.9659258, -2.381135, 0.3, -8.886518)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento14" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=350242449]
+transform = Transform3D(-0.8660256, 0, -0.49999958, 0, 1, 0, 0.49999958, 0, -0.8660256, -4.6, 0.3, -7.967434)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento15" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=961775619]
+transform = Transform3D(-0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, -0.70710665, -6.505382, 0.3, -6.505382)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento16" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1118931451]
+transform = Transform3D(-0.5000003, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, -0.5000003, -7.967434, 0.3, -4.6)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento17" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=132664654]
+transform = Transform3D(-0.25881854, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.25881854, -8.886518, 0.3, -2.381135)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento18" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=595307934]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, -9.2, 0.3, 0)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento19" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1508008810]
+transform = Transform3D(0.25881854, 0, -0.96592593, 0, 1, 0, 0.96592593, 0, 0.25881854, -8.886518, 0.3, 2.381135)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento20" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=2070938361]
+transform = Transform3D(0.50000036, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, 0.50000036, -7.967434, 0.3, 4.6)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento21" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1347593653]
+transform = Transform3D(0.70710665, 0, -0.7071069, 0, 1, 0, 0.7071069, 0, 0.70710665, -6.505382, 0.3, 6.505382)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento22" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=1084954433]
+transform = Transform3D(0.86602557, 0, -0.49999976, 0, 1, 0, 0.49999976, 0, 0.86602557, -4.6, 0.3, 7.967434)
+shape = SubResource("ShapeBorde")
+
+[node name="Segmento23" type="CollisionShape3D" parent="GameplayCollision/BordeExterior" unique_id=726429840]
+transform = Transform3D(0.9659259, 0, -0.25881884, 0, 1, 0, 0.25881884, 0, 0.9659259, -2.381135, 0.3, 8.886518)
+shape = SubResource("ShapeBorde")
+
+[node name="ZonaEliminacion" type="Node3D" parent="." unique_id=1358957300]
+
+[node name="AgujeroCentral" type="Area3D" parent="ZonaEliminacion" unique_id=1286923697]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9, 0)
+collision_layer = 0
+
+[node name="ZonaCaidaCentral" type="CollisionShape3D" parent="ZonaEliminacion/AgujeroCentral" unique_id=11270170]
+shape = SubResource("ShapeAgujero")
+
+[node name="PuntosDeAparicion" type="Node3D" parent="." unique_id=1988021367]
+
+[node name="SpawnJugador1" type="Marker3D" parent="PuntosDeAparicion" unique_id=1300564256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 6)
+
+[node name="SpawnJugador2" type="Marker3D" parent="PuntosDeAparicion" unique_id=384346810]
+transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0, 0.12, -6)
+
+[node name="SpawnJugador3" type="Marker3D" parent="PuntosDeAparicion" unique_id=1326874782]
+transform = Transform3D(3.1391647e-07, 0, 1, 0, 1, 0, -1, 0, 3.1391647e-07, 6, 0.12, 0)
+
+[node name="SpawnJugador4" type="Marker3D" parent="PuntosDeAparicion" unique_id=1641121811]
+transform = Transform3D(3.1391647e-07, 0, -1, 0, 1, 0, 1, 0, 3.1391647e-07, -6, 0.12, 0)
+
+[node name="Decoracion" type="Node3D" parent="." unique_id=392834834]
+
+[node name="PlataformaFlotante" type="Node3D" parent="Decoracion" unique_id=1804336898]
+
+[node name="FaldonRocoso" type="CSGPolygon3D" parent="Decoracion/PlataformaFlotante" unique_id=1000142036]
+polygon = PackedVector2Array(2.8, -0.94, 9.24, -0.94, 8.45, -2.15, 7.15, -4, 5.15, -5.9, 3.15, -7.35, 2.8, -7.35)
+mode = 1
+spin_degrees = 360.0
+spin_sides = 16
+material = SubResource("MatRocaInferior")
+
+[node name="PuntasRocosas" type="Node3D" parent="Decoracion/PlataformaFlotante" unique_id=2091388530]
+
+[node name="Punta00" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=327132736]
+transform = Transform3D(0.8173774, 0.07352152, 0, -0.06553005, 0.91705763, 0, 0, 0, 0.82, 0, -4.15, 5.7)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta01" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1281146968]
+transform = Transform3D(0.7682974, -0.06920814, 0.4450002, 0.07112407, 0.99680173, 0, -0.443577, 0.039957363, 0.7707625, 2.85, -4.33, 4.936345)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta02" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=2103976406]
+transform = Transform3D(0.4784644, 0.043153893, 0.83138466, -0.0767181, 1.076546, 0, -0.82872564, -0.074744835, 0.47999957, 4.936345, -4.51, 2.85)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta03" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=371979394]
+transform = Transform3D(3.2229985e-07, -2.3079615e-08, 1.03, 0.08231213, 0.91705763, 0, -1.0267057, 0.07352152, 3.2333395e-07, 5.7, -4.15, 0)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta04" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=2004789310]
+transform = Transform3D(-0.40868858, -0.039957333, 0.7101409, -0.06553005, 0.99680173, 0, -0.7078697, -0.06920816, -0.40999988, 4.936345, -4.33, -2.85)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta05" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1073592412]
+transform = Transform3D(-0.7682976, 0.07474481, 0.44499984, 0.07112407, 1.076546, 0, -0.4435766, 0.04315392, -0.7707627, 2.85, -4.51, -4.936345)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta06" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=224375306]
+transform = Transform3D(-0.9569296, -0.07352152, -3.128077e-07, -0.0767181, 0.91705763, 0, 3.1180724e-07, 2.3956352e-08, -0.96, 0, -4.15, -5.7)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta07" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1319035191]
+transform = Transform3D(-0.8891535, 0.06920817, -0.51499957, 0.08231213, 0.99680173, 0, 0.51335245, -0.03995731, -0.8920064, -2.85, -4.33, -4.936345)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta08" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1448318317]
+transform = Transform3D(-0.40868896, -0.043153957, -0.71014065, -0.06553005, 1.076546, 0, 0.70786947, 0.07474479, -0.41000023, -4.936345, -4.51, -2.85)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta09" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1104401492]
+transform = Transform3D(1.05792e-08, -8.767353e-10, -0.89, 0.07112407, 0.91705763, 0, 0.8871535, -0.07352152, 1.0613143e-08, -5.7, -4.15, 0)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta10" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1531121097]
+transform = Transform3D(0.47846517, 0.039957374, -0.8313842, -0.0767181, 0.99680173, 0, 0.8287252, 0.06920814, 0.48000035, -4.936345, -4.33, 2.85)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta11" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=411986339]
+transform = Transform3D(0.8891534, -0.07474482, -0.51499975, 0.08231213, 1.076546, 0, 0.51335263, -0.043153916, 0.89200634, -2.85, -4.51, 4.936345)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal01" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1196007736]
+transform = Transform3D(1.1974772, 0.08601874, -0.27635565, -0.09989336, 1.116418, 0, 0.34433976, 0.024735061, 0.96105546, -7.3, -4.6, 6.6)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal02" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1466193989]
+transform = Transform3D(1.3870683, -0.057679784, -0.23972888, 0.070970416, 1.1785252, 0, 0.29564312, -0.012294009, 1.1247356, -5.6, -4.75, 7.1)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal03" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=2016403569]
+transform = Transform3D(1.4841359, 0.043557886, -0.16745174, -0.059984, 1.0991201, 0, 0.20914724, 0.00613826, 1.1882592, -3.8, -4.55, 7.4)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal04" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1677430751]
+transform = Transform3D(1.6131247, -0.07477144, -0.08533028, 0.09714169, 1.2477506, 0, 0.11310352, -0.0052425666, 1.2170123, -2, -5, 7.6)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal05" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1056942038]
+transform = Transform3D(1.72, 0, 0, 0, 1.18, 0, 0, 0, 1.25, 0, -4.8, 7.7)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal06" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1620212930]
+transform = Transform3D(1.5732945, 0.07656596, 0.08533028, -0.09474313, 1.2776966, 0, -0.11031084, -0.0053683883, 1.2170123, 2.1, -5.1, 7.6)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal07" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=318080570]
+transform = Transform3D(1.4643475, -0.044349845, 0.16745174, 0.059184216, 1.1191041, 0, -0.20635861, 0.0062498646, 1.1882592, 4, -4.65, 7.4)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal08" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1889866640]
+transform = Transform3D(1.3675321, 0.05865741, 0.23972888, -0.06997084, 1.1985004, 0, -0.29147914, -0.012502383, 1.1247356, 5.8, -4.9, 7.1)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="RocaFrontal09" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/PuntasRocosas" unique_id=1912784991]
+transform = Transform3D(1.1687378, -0.08294664, 0.27635565, 0.09749592, 1.076546, 0, -0.3360756, 0.023851668, 0.96105546, 7.5, -4.55, 6.6)
+material_override = SubResource("MatRocaInferior")
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Monumento" type="Node3D" parent="Decoracion" unique_id=1321036719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33971786, 0.38024712, -13.6)
+
+[node name="EscalinataInferior" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=2027057047]
+transform = Transform3D(5.8, 0, 0, 0, 0.44, 0, 0, 0, 4.2, 0, 0.22, 0)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="EscalinataMedia" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=1290649157]
+transform = Transform3D(4.9, 0, 0, 0, 0.48, 0, 0, 0, 3.45, 0, 0.68, 0)
+material_override = SubResource("MatMonumento")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Plinto" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=2124423660]
+transform = Transform3D(3.9, 0, 0, 0, 0.62, 0, 0, 0, 2.75, 0, 1.18, 0)
+material_override = SubResource("MatMonumento")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="TorreInferior" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=1382783420]
+transform = Transform3D(3.2, 0, 0, 0, 3.55, 0, 0, 0, 2.3, 0, 3.25, 0)
+material_override = SubResource("MatMonumento")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="TorreMedia" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=1664293720]
+transform = Transform3D(2.55, 0, 0, 0, 1.95, 0, 0, 0, 1.92, 0, 5.95, 0)
+material_override = SubResource("MatMonumento")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Cornisa" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=798778693]
+transform = Transform3D(2.3, 0, 0, 0, 0.38, 0, 0, 0, 1.76, 0, 7.16, 0)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="TorreSuperior" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=1314513413]
+transform = Transform3D(1.8, 0, 0, 0, 0.95, 0, 0, 0, 1.48, 0, 7.82, 0)
+material_override = SubResource("MatMonumento")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="PlacaFrontal" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=1688176486]
+transform = Transform3D(1.15, 0, 0, 0, 1.35, 0, 0, 0, 0.08, 0, 4.55, 1.175)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="GloboTerráqueo" type="MeshInstance3D" parent="Decoracion/Monumento" unique_id=882489461]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 9.05, 0)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshEsfera")
+
+[node name="LetraN" type="Label3D" parent="Decoracion/Monumento" unique_id=1475138579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085559845, 5.98, 1.3524227)
+pixel_size = 0.007
+billboard = 1
+modulate = Color(1, 0.72, 0.02, 1)
+outline_modulate = Color(0.12, 0.08, 0.03, 1)
+text = "N"
+font_size = 72
+outline_size = 10
+
+[node name="BanderasEcuador" type="Node3D" parent="Decoracion" unique_id=1497253423]
+
+[node name="BanderaIzquierda" type="Node3D" parent="Decoracion/BanderasEcuador" unique_id=1432235160]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3, 0, -11.8)
+
+[node name="Poste" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaIzquierda" unique_id=1991050091]
+transform = Transform3D(0.11, 0, 0, 0, 5.3, 0, 0, 0, 0.11, 0, 2.65, 0)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Amarillo" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaIzquierda" unique_id=1645918814]
+transform = Transform3D(1.9, 0, 0, 0, 0.48, 0, 0, 0, 0.08, 0.95, 4.78, 0)
+material_override = SubResource("MatBanderaAmarilla")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Azul" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaIzquierda" unique_id=969759542]
+transform = Transform3D(1.9, 0, 0, 0, 0.24, 0, 0, 0, 0.08, 0.95, 4.42, 0)
+material_override = SubResource("MatBanderaAzul")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Rojo" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaIzquierda" unique_id=101019993]
+transform = Transform3D(1.9, 0, 0, 0, 0.24, 0, 0, 0, 0.08, 0.95, 4.18, 0)
+material_override = SubResource("MatBanderaRoja")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="BanderaDerecha" type="Node3D" parent="Decoracion/BanderasEcuador" unique_id=445080903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 0, -11.8)
+
+[node name="Poste" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaDerecha" unique_id=1487986871]
+transform = Transform3D(0.11, 0, 0, 0, 5.3, 0, 0, 0, 0.11, 0, 2.65, 0)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Amarillo" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaDerecha" unique_id=472232149]
+transform = Transform3D(1.9, 0, 0, 0, 0.48, 0, 0, 0, 0.08, -0.95, 4.78, 0)
+material_override = SubResource("MatBanderaAmarilla")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Azul" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaDerecha" unique_id=1884297926]
+transform = Transform3D(1.9, 0, 0, 0, 0.24, 0, 0, 0, 0.08, -0.95, 4.42, 0)
+material_override = SubResource("MatBanderaAzul")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Rojo" type="MeshInstance3D" parent="Decoracion/BanderasEcuador/BanderaDerecha" unique_id=545530891]
+transform = Transform3D(1.9, 0, 0, 0, 0.24, 0, 0, 0, 0.08, -0.95, 4.18, 0)
+material_override = SubResource("MatBanderaRoja")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="CasasEcuatorianas" type="Node3D" parent="Decoracion" unique_id=86078414]
+
+[node name="CasaIzquierdaA" type="Node3D" parent="Decoracion/CasasEcuatorianas" unique_id=1075146824]
+transform = Transform3D(0.9950042, 0, 0.09983342, 0, 1, 0, -0.09983342, 0, 0.9950042, -11.5, 0, -14.5)
+
+[node name="Paredes" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaA" unique_id=604611865]
+transform = Transform3D(3.2, 0, 0, 0, 2.4, 0, 0, 0, 2.25, 0, 1.2, 0)
+material_override = SubResource("MatCasaBlanca")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaA" unique_id=1901139594]
+transform = Transform3D(2.5809402, 0, 1.909188, 0, 1.15, 0, -2.5809393, 0, 1.9091886, 0, 2.95, 0)
+material_override = SubResource("MatTeja")
+mesh = SubResource("MeshPiramide")
+
+[node name="VentanaIzquierda" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaA" unique_id=14101967]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, -0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="VentanaDerecha" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaA" unique_id=877155129]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, 0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Puerta" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaA" unique_id=330481089]
+transform = Transform3D(0.62, 0, 0, 0, 1.15, 0, 0, 0, 0.08, 0, 0.58, 1.15)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="CasaIzquierdaB" type="Node3D" parent="Decoracion/CasasEcuatorianas" unique_id=1912370864]
+transform = Transform3D(0.99680173, 0, -0.07991469, 0, 1, 0, 0.07991469, 0, 0.99680173, -15, 0, -18)
+
+[node name="Paredes" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaB" unique_id=1447402380]
+transform = Transform3D(3.2, 0, 0, 0, 2.4, 0, 0, 0, 2.25, 0, 1.2, 0)
+material_override = SubResource("MatCasaCrema")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaB" unique_id=234046110]
+transform = Transform3D(2.5809402, 0, 1.909188, 0, 1.15, 0, -2.5809393, 0, 1.9091886, 0, 2.95, 0)
+material_override = SubResource("MatTeja")
+mesh = SubResource("MeshPiramide")
+
+[node name="VentanaIzquierda" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaB" unique_id=523881530]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, -0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="VentanaDerecha" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaB" unique_id=1759166185]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, 0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Puerta" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaIzquierdaB" unique_id=1276403541]
+transform = Transform3D(0.62, 0, 0, 0, 1.15, 0, 0, 0, 0.08, 0, 0.58, 1.15)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="CasaDerechaA" type="Node3D" parent="Decoracion/CasasEcuatorianas" unique_id=77069244]
+transform = Transform3D(0.99875027, 0, -0.04997917, 0, 1, 0, 0.04997917, 0, 0.99875027, 11.5, 0, -14.8)
+
+[node name="Paredes" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaA" unique_id=679747277]
+transform = Transform3D(3.2, 0, 0, 0, 2.4, 0, 0, 0, 2.25, 0, 1.2, 0)
+material_override = SubResource("MatCasaCrema")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaA" unique_id=228909823]
+transform = Transform3D(2.5809402, 0, 1.909188, 0, 1.15, 0, -2.5809393, 0, 1.9091886, 0, 2.95, 0)
+material_override = SubResource("MatTeja")
+mesh = SubResource("MeshPiramide")
+
+[node name="VentanaIzquierda" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaA" unique_id=1121716701]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, -0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="VentanaDerecha" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaA" unique_id=166782555]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, 0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Puerta" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaA" unique_id=193917650]
+transform = Transform3D(0.62, 0, 0, 0, 1.15, 0, 0, 0, 0.08, 0, 0.58, 1.15)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="CasaDerechaB" type="Node3D" parent="Decoracion/CasasEcuatorianas" unique_id=567002793]
+transform = Transform3D(0.99680173, 0, 0.07991469, 0, 1, 0, -0.07991469, 0, 0.99680173, 15.2, 0, -18.3)
+
+[node name="Paredes" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaB" unique_id=1157125939]
+transform = Transform3D(3.2, 0, 0, 0, 2.4, 0, 0, 0, 2.25, 0, 1.2, 0)
+material_override = SubResource("MatCasaBlanca")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaB" unique_id=969225620]
+transform = Transform3D(2.5809402, 0, 1.909188, 0, 1.15, 0, -2.5809393, 0, 1.9091886, 0, 2.95, 0)
+material_override = SubResource("MatTeja")
+mesh = SubResource("MeshPiramide")
+
+[node name="VentanaIzquierda" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaB" unique_id=368487212]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, -0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="VentanaDerecha" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaB" unique_id=618556106]
+transform = Transform3D(0.48, 0, 0, 0, 0.6, 0, 0, 0, 0.07, 0.72, 1.45, 1.145)
+material_override = SubResource("MatVentana")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Puerta" type="MeshInstance3D" parent="Decoracion/CasasEcuatorianas/CasaDerechaB" unique_id=1193565490]
+transform = Transform3D(0.62, 0, 0, 0, 1.15, 0, 0, 0, 0.08, 0, 0.58, 1.15)
+material_override = SubResource("MatMonumentoOscuro")
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Vegetacion" type="Node3D" parent="Decoracion" unique_id=502890524]
+
+[node name="Arbol01" type="Node3D" parent="Decoracion/Vegetacion" unique_id=364910904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.6, 0, -11.2)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol01" unique_id=921914499]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol01" unique_id=1558053575]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol01" unique_id=744823102]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol02" type="Node3D" parent="Decoracion/Vegetacion" unique_id=1033936695]
+transform = Transform3D(1.08, 0, 0, 0, 1.08, 0, 0, 0, 1.08, 9.4, 0, -11)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol02" unique_id=1483596740]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol02" unique_id=617650254]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol02" unique_id=425534022]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol03" type="Node3D" parent="Decoracion/Vegetacion" unique_id=515693158]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, -13, 0, -16.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol03" unique_id=2110254434]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol03" unique_id=847440046]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol03" unique_id=511565440]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol04" type="Node3D" parent="Decoracion/Vegetacion" unique_id=274012839]
+transform = Transform3D(0.98, 0, 0, 0, 0.98, 0, 0, 0, 0.98, 13.3, 0, -16)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol04" unique_id=720770972]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol04" unique_id=1725586783]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol04" unique_id=2087991073]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol05" type="Node3D" parent="Decoracion/Vegetacion" unique_id=2111639800]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, -18, 0, -21)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol05" unique_id=1365402752]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol05" unique_id=657771840]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol05" unique_id=1082183568]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol06" type="Node3D" parent="Decoracion/Vegetacion" unique_id=1350969735]
+transform = Transform3D(1.12, 0, 0, 0, 1.12, 0, 0, 0, 1.12, 18, 0, -21.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol06" unique_id=1595009002]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol06" unique_id=1257660467]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol06" unique_id=389451851]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol07" type="Node3D" parent="Decoracion/Vegetacion" unique_id=1264530082]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, -7, 0, -17.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol07" unique_id=1013676377]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol07" unique_id=1125413725]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol07" unique_id=1969652180]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Arbol08" type="Node3D" parent="Decoracion/Vegetacion" unique_id=816743281]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 7.2, 0, -18)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol08" unique_id=646623232]
+transform = Transform3D(0.38, 0, 0, 0, 2.1, 0, 0, 0, 0.38, 0, 1.05, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol08" unique_id=1945070535]
+transform = Transform3D(2.2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.75, 0)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/Arbol08" unique_id=2030000179]
+transform = Transform3D(1.4, 0, 0, 0, 1.35, 0, 0, 0, 1.3, 0.72, 2.55, 0.15)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="MontanasSierra" type="Node3D" parent="Decoracion" unique_id=388017070]
+
+[node name="MontanaLejana01" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=455718151]
+transform = Transform3D(9, 0, 0, 0, 15, 0, 0, 0, 8, -21, 7, -29)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana02" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1868168908]
+transform = Transform3D(8, 0, 0, 0, 12, 0, 0, 0, 7, -14, 5.5, -27)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana03" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=452170670]
+transform = Transform3D(9, 0, 0, 0, 14, 0, 0, 0, 8, -7, 6.2, -30)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana04" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=205524100]
+transform = Transform3D(8, 0, 0, 0, 12, 0, 0, 0, 7, 0, 5, -28)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana05" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=708432304]
+transform = Transform3D(9, 0, 0, 0, 14, 0, 0, 0, 8, 7, 6, -30)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana06" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1936673580]
+transform = Transform3D(8, 0, 0, 0, 12, 0, 0, 0, 7, 14, 5.4, -27)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaLejana07" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1223065347]
+transform = Transform3D(9, 0, 0, 0, 15, 0, 0, 0, 8, 21, 7, -29)
+material_override = SubResource("MatMontanaLejos")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercana01" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1931861002]
+transform = Transform3D(8, 0, 0, 0, 10, 0, 0, 0, 7, -17, 4, -23)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercana02" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1563050861]
+transform = Transform3D(7, 0, 0, 0, 9, 0, 0, 0, 6, -9, 3.4, -22)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercana03" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=1614515468]
+transform = Transform3D(7, 0, 0, 0, 9, 0, 0, 0, 6, 9, 3.5, -22)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercana04" type="MeshInstance3D" parent="Decoracion/MontanasSierra" unique_id=644456765]
+transform = Transform3D(8, 0, 0, 0, 10, 0, 0, 0, 7, 17, 4.1, -23)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="Nubes" type="Node3D" parent="Decoracion" unique_id=525862582]
+
+[node name="NubeIzquierda" type="Node3D" parent="Decoracion/Nubes" unique_id=1094425974]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -11.5, 13.2, -24)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeIzquierda" unique_id=1599201784]
+transform = Transform3D(2.2, 0, 0, 0, 1.2, 0, 0, 0, 1.1, -1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeIzquierda" unique_id=1941763301]
+transform = Transform3D(2.5, 0, 0, 0, 1.6, 0, 0, 0, 1.25, 0, 0.25, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeIzquierda" unique_id=374868449]
+transform = Transform3D(2.1, 0, 0, 0, 1.2, 0, 0, 0, 1.1, 1.1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="NubeCentral" type="Node3D" parent="Decoracion/Nubes" unique_id=894712398]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 15, -31)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeCentral" unique_id=2010872662]
+transform = Transform3D(2.2, 0, 0, 0, 1.2, 0, 0, 0, 1.1, -1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeCentral" unique_id=1749948729]
+transform = Transform3D(2.5, 0, 0, 0, 1.6, 0, 0, 0, 1.25, 0, 0.25, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeCentral" unique_id=153814135]
+transform = Transform3D(2.1, 0, 0, 0, 1.2, 0, 0, 0, 1.1, 1.1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="NubeDerecha" type="Node3D" parent="Decoracion/Nubes" unique_id=1925941130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 13.8, -25)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeDerecha" unique_id=422433070]
+transform = Transform3D(2.2, 0, 0, 0, 1.2, 0, 0, 0, 1.1, -1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeDerecha" unique_id=417799099]
+transform = Transform3D(2.5, 0, 0, 0, 1.6, 0, 0, 0, 1.25, 0, 0.25, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeDerecha" unique_id=1071093449]
+transform = Transform3D(2.1, 0, 0, 0, 1.2, 0, 0, 0, 1.1, 1.1, 0, 0)
+material_override = SubResource("MatNube")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Lighting" type="Node3D" parent="." unique_id=45061123]
+
+[node name="LuzSolar" type="DirectionalLight3D" parent="Lighting" unique_id=1651239263]
+transform = Transform3D(0.73040897, 0.5749541, -0.36868754, -0.1116189, 0.63302195, 0.7660447, 0.6738278, -0.51837337, 0.52654064, 0, 0, 0)
+light_color = Color(1, 0.88, 0.67, 1)
+shadow_enabled = true
+directional_shadow_max_distance = 70.0
+
+[node name="LuzRelleno" type="DirectionalLight3D" parent="Lighting" unique_id=847264231]
+transform = Transform3D(-0.7852443, -0.1564359, 0.59909874, 0.07506968, 0.93636835, 0.3428978, -0.61461866, 0.3142327, -0.7235343, 0, 0, 0)
+light_color = Color(0.34, 0.57, 0.94, 1)
+light_energy = 0.32
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=405001235]
+environment = SubResource("EnvironmentMitadDelMundo")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=109317690]
+transform = Transform3D(1, 0, 0, 0, 0.94604236, 0.32404304, 0, -0.32404304, 0.94604236, 0, 7.2, 18.5)
+fov = 50.0
+near = 0.1
+far = 220.0

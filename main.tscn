@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="10_main_menu"]
 [ext_resource type="Script" uid="uid://df3d1bfef85kt" path="res://scripts/gameplay/objects_spawner.gd" id="11_objects_spawner"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="12_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/scenario_select_ui.tscn" id="13_scenario_select"]
+[ext_resource type="Script" path="res://scripts/core/scenario_manager.gd" id="14_scenario_manager"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -72,6 +74,7 @@ avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
 game_manager_path = NodePath("../GameManager")
 winner_screen_path = NodePath("../WinnerScreen")
 controls_screen_path = NodePath("../ControlsScreen")
+scenario_select_path = NodePath("../ScenarioSelectUI")
 
 [node name="WinnerScreen" parent="." unique_id=91899860 instance=ExtResource("7_winner")]
 
@@ -83,3 +86,14 @@ game_manager_path = NodePath("../GameManager")
 player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2")])
 
 [node name="ControlsScreen" parent="." unique_id=1684430220 instance=ExtResource("9_controls")]
+
+[node name="ScenarioSelectUI" parent="." instance=ExtResource("13_scenario_select")]
+visible = false
+
+[node name="ScenarioManager" type="Node" parent="."]
+script = ExtResource("14_scenario_manager")
+game_manager_path = NodePath("../GameManager")
+spawn_manager_path = NodePath("../SpawnManager")
+scenario_select_path = NodePath("../ScenarioSelectUI")
+arena_path = NodePath("../Arena")
+objects_spawner_path = NodePath("../ObjectsSpawner")

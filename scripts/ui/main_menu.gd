@@ -3,6 +3,7 @@ extends CanvasLayer
 @export var game_manager_path: NodePath
 @export var winner_screen_path: NodePath
 @export var controls_screen_path: NodePath
+@export var scenario_select_path: NodePath
 
 @onready var _menu_root := %MainMenu as Control
 @onready var _play_button := %PlayButton as Button
@@ -15,6 +16,7 @@ var _game_manager: Node
 var _winner_screen: CanvasLayer
 var _controls_screen: CanvasLayer
 var _controls_root: Control
+var _scenario_select: Node
 
 
 func _ready() -> void:
@@ -23,11 +25,16 @@ func _ready() -> void:
 	_game_manager = get_node_or_null(game_manager_path)
 	_winner_screen = get_node_or_null(winner_screen_path) as CanvasLayer
 	_controls_screen = get_node_or_null(controls_screen_path) as CanvasLayer
+	_scenario_select = get_node_or_null(scenario_select_path)
 
 	if _controls_screen != null:
 		_controls_root = _controls_screen.get_node_or_null("ControlsScreen") as Control
 		if _controls_root != null:
 			_controls_root.visibility_changed.connect(_on_controls_visibility_changed)
+
+	if _scenario_select != null and _scenario_select.has_signal("back_requested"):
+		if not _scenario_select.is_connected("back_requested", _on_scenario_back_requested):
+			_scenario_select.connect("back_requested", _on_scenario_back_requested)
 
 	_menu_root.visible = true
 	_options_message.visible = false
@@ -69,8 +76,24 @@ func _connect_game_manager() -> void:
 
 
 func _on_play_pressed() -> void:
+	open_scenario_selector()
+
+
+func open_scenario_selector() -> void:
+	if _scenario_select != null and _scenario_select.has_method("show_selector"):
+		_menu_root.visible = false
+		_scenario_select.call("show_selector")
+		return
+
 	if _game_manager != null and _game_manager.has_method("iniciar_partida"):
 		_game_manager.iniciar_partida()
+
+
+func _on_scenario_back_requested() -> void:
+	if _scenario_select != null and _scenario_select.has_method("hide_selector"):
+		_scenario_select.call("hide_selector")
+	_menu_root.visible = true
+	_play_button.grab_focus()
 
 
 func _on_controls_pressed() -> void:
