@@ -45,4 +45,4 @@ func _update_confetti_area() -> void:
 
 func _return_to_main_menu() -> void:
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	ScreenFlow.go_to_main_menu()

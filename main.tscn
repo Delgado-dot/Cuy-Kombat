@@ -7,11 +7,8 @@
 [ext_resource type="Script" uid="uid://b5nwi6c61tqas" path="res://scripts/systems/spawn_manager.gd" id="6_spawn_manager"]
 [ext_resource type="PackedScene" path="res://scenes/ui/winner_screen.tscn" id="7_winner"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="8_pause"]
-[ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="9_controls"]
-[ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="10_main_menu"]
 [ext_resource type="Script" uid="uid://df3d1bfef85kt" path="res://scripts/gameplay/objects_spawner.gd" id="11_objects_spawner"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="12_hud"]
-[ext_resource type="PackedScene" path="res://scenes/ui/scenario_select_ui.tscn" id="13_scenario_select"]
 [ext_resource type="Script" uid="uid://yiag3rkhyccj" path="res://scripts/core/scenario_manager.gd" id="14_scenario_manager"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
@@ -70,12 +67,6 @@ max_spawn_radius = 14.0
 avoid_distance = 4.0
 avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
 
-[node name="MainMenu" parent="." unique_id=530259561 instance=ExtResource("10_main_menu")]
-game_manager_path = NodePath("../GameManager")
-winner_screen_path = NodePath("../WinnerScreen")
-controls_screen_path = NodePath("../ControlsScreen")
-scenario_select_path = NodePath("../ScenarioSelectUI")
-
 [node name="WinnerScreen" parent="." unique_id=91899860 instance=ExtResource("7_winner")]
 
 [node name="PauseMenu" parent="." unique_id=1684430219 instance=ExtResource("8_pause")]
@@ -85,15 +76,9 @@ game_manager_path = NodePath("../GameManager")
 game_manager_path = NodePath("../GameManager")
 player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2")])
 
-[node name="ControlsScreen" parent="." unique_id=1684430220 instance=ExtResource("9_controls")]
-
-[node name="ScenarioSelectUI" parent="." unique_id=20968596 instance=ExtResource("13_scenario_select")]
-layout_mode = 3
-
 [node name="ScenarioManager" type="Node" parent="." unique_id=191488213]
 script = ExtResource("14_scenario_manager")
 game_manager_path = NodePath("../GameManager")
 spawn_manager_path = NodePath("../SpawnManager")
-scenario_select_path = NodePath("../ScenarioSelectUI")
 arena_path = NodePath("../Arena")
 objects_spawner_path = NodePath("../ObjectsSpawner")

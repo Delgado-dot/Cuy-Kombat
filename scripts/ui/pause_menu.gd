@@ -19,11 +19,10 @@ func _ready() -> void:
 
 	_resume_button.pressed.connect(_resume_match)
 	_restart_button.pressed.connect(_restart_round)
+	_pause_main_menu_button.pressed.connect(_exit_to_main_menu)
 
 	_pause_options_button.disabled = true
 	_pause_options_button.tooltip_text = "Disponible en una fase futura."
-	_pause_main_menu_button.disabled = true
-	_pause_main_menu_button.tooltip_text = "Disponible en una fase futura."
 
 	_connect_game_manager()
 
@@ -57,6 +56,13 @@ func _resume_match() -> void:
 func _restart_round() -> void:
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+
+
+func _exit_to_main_menu() -> void:
+	_match_active = false
+	_pause_menu.visible = false
+	get_tree().paused = false
+	ScreenFlow.go_to_main_menu()
 
 
 func _connect_game_manager() -> void:

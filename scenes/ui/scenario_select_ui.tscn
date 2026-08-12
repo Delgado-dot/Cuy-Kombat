@@ -356,7 +356,7 @@ corner_radius_bottom_left = 17
 
 [node name="ScenarioSelectUI" type="Control"]
 process_mode = 3
-visible = false
+visible = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

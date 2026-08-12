@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://u1ml84ycke00"
+path="res://.godot/imported/Pixelado Pata.mp3-86833aa815d0bf3db55be3b74ad1d8b8.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Pixelado Pata.mp3"
+dest_files=["res://.godot/imported/Pixelado Pata.mp3-86833aa815d0bf3db55be3b74ad1d8b8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -171,6 +171,7 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_primary")
 theme_override_styles/hover = SubResource("StyleBox_primary_hover")
 theme_override_styles/pressed = SubResource("StyleBox_primary_pressed")
+theme_override_styles/focus = SubResource("StyleBox_primary_hover")
 text = "REANUDAR"
 
 [node name="RestartButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
@@ -182,6 +183,7 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+theme_override_styles/focus = SubResource("StyleBox_button_hover")
 text = "REINICIAR RONDA"
 
 [node name="PauseOptionsButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
@@ -193,6 +195,7 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+theme_override_styles/focus = SubResource("StyleBox_button_hover")
 text = "OPCIONES"
 disabled = true
 
@@ -200,12 +203,13 @@ disabled = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(390, 56)
 layout_mode = 2
-tooltip_text = "Disponible en una fase futura"
-theme_override_colors/font_disabled_color = Color(0.42, 0.45, 0.52, 1)
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
 theme_override_font_sizes/font_size = 22
-theme_override_styles/disabled = SubResource("StyleBox_disabled")
+theme_override_styles/normal = SubResource("StyleBox_button")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+theme_override_styles/focus = SubResource("StyleBox_button_hover")
 text = "MENÚ PRINCIPAL"
-disabled = true
 
 [node name="Hint" type="Label" parent="PauseMenu/Center/Panel/Padding/Content"]
 layout_mode = 2

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://np5cgmsh188g"
+path="res://.godot/imported/Volcán de Cristal.mp3-84913b96e46833d96c59a55cf5d8a458.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Volcán de Cristal.mp3"
+dest_files=["res://.godot/imported/Volcán de Cristal.mp3-84913b96e46833d96c59a55cf5d8a458.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

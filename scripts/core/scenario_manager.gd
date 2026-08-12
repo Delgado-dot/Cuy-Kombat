@@ -26,17 +26,25 @@ func _ready() -> void:
 	_scenario_select = get_node_or_null(scenario_select_path)
 	_objects_spawner = get_node_or_null(objects_spawner_path)
 
+	if _scenario_select != null:
+		if not _scenario_select.has_signal("scenario_confirmed"):
+			push_error("ScenarioManager: ScenarioSelectUI no expone scenario_confirmed.")
+			return
+		if not _scenario_select.is_connected("scenario_confirmed", _on_scenario_confirmed):
+			_scenario_select.connect("scenario_confirmed", _on_scenario_confirmed)
+
+	# main.tscn es gameplay puro: sin selector embebido se arranca la partida
+	# con el escenario elegido en ScreenFlow (o el volcánico por defecto).
 	if _scenario_select == null:
-		push_error("ScenarioManager: no se encontró ScenarioSelectUI.")
-		return
-	if not _scenario_select.has_signal("scenario_confirmed"):
-		push_error("ScenarioManager: ScenarioSelectUI no expone scenario_confirmed.")
-		return
-	if not _scenario_select.is_connected("scenario_confirmed", _on_scenario_confirmed):
-		_scenario_select.connect("scenario_confirmed", _on_scenario_confirmed)
+		await get_tree().process_frame
+		_start_match(ScreenFlow.selected_scenario)
 
 
 func _on_scenario_confirmed(scenario_id: StringName) -> void:
+	_start_match(scenario_id)
+
+
+func _start_match(scenario_id: StringName) -> void:
 	if _switching:
 		return
 	if _game_manager == null or _game_manager.get("match_state") != GameManager.MatchState.WAITING:
@@ -75,7 +83,7 @@ func _on_scenario_confirmed(scenario_id: StringName) -> void:
 	new_arena.name = arena_name
 	new_arena.transform = arena_transform
 	parent.add_child(new_arena)
-	move_child(new_arena, mini(arena_index, parent.get_child_count() - 1))
+	parent.move_child(new_arena, mini(arena_index, parent.get_child_count() - 1))
 
 	await get_tree().physics_frame
 	await get_tree().process_frame

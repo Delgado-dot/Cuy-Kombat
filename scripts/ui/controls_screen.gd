@@ -22,20 +22,12 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not _controls_root.visible:
 		return
-	if not (event is InputEventKey and event.pressed and not event.echo):
+	if not event.is_action_pressed("ui_cancel"):
 		return
-	if event.keycode == KEY_ESCAPE:
-		get_viewport().set_input_as_handled()
-		close()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not _controls_root.visible:
+	if event is InputEventKey and event.echo:
 		return
-	if not (event is InputEventKey and event.pressed and not event.echo):
-		return
-	if event.keycode == KEY_ENTER:
-		get_viewport().set_input_as_handled()
+	get_viewport().set_input_as_handled()
+	close()
 
 
 func open(_from_screen: Node = null) -> void:
@@ -45,5 +37,3 @@ func open(_from_screen: Node = null) -> void:
 
 func close() -> void:
 	_controls_root.visible = false
-	if _open_button != null and _open_button.is_inside_tree():
-		_open_button.grab_focus()

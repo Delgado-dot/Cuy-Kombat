@@ -1,11 +1,8 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
-
-[sub_resource type="SystemFont" id="SystemFont_title"]
-font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
-font_weight = 1000
-font_stretch = 118
+[ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="2_controls"]
+[ext_resource type="Texture2D" uid="uid://b8mpm3gfhpogk" path="res://assets/imagenes/fondo menu.png" id="3_bg"]
 
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Arial", "Noto Sans")
@@ -145,10 +142,55 @@ expand_margin_top = 1.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_primary_focus"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.86, 0.12, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0.86, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.35, 0.2, 0, 0.85)
+shadow_size = 14
+shadow_offset = Vector2(0, 6)
+skew = Vector2(-0.035, 0)
+expand_margin_left = 5.0
+expand_margin_top = 4.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_focus"]
+content_margin_top = 9.0
+content_margin_bottom = 9.0
+bg_color = Color(0.1, 0.18, 0.3, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.86, 0.25, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 11
+shadow_offset = Vector2(0, 5)
+skew = Vector2(-0.025, 0)
+expand_margin_left = 4.0
+expand_margin_top = 3.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
 [node name="MainMenu" type="CanvasLayer"]
 process_mode = 3
 layer = 20
 script = ExtResource("1_script")
+controls_screen_path = NodePath("ControlsScreen")
 
 [node name="MainMenu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -158,14 +200,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Backdrop" type="ColorRect" parent="MainMenu"]
+[node name="FondoMenu" type="TextureRect" parent="MainMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.015, 0.025, 0.065, 0.35)
+texture = ExtResource("3_bg")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="Margin" type="MarginContainer" parent="MainMenu"]
 layout_mode = 1
@@ -173,9 +217,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = 28.0
+offset_top = 280.0
 offset_right = -32.0
-offset_bottom = -28.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -197,57 +241,11 @@ theme_override_constants/margin_bottom = 20
 [node name="Content" type="VBoxContainer" parent="MainMenu/Margin/Center/Panel/Padding"]
 layout_mode = 2
 theme_override_constants/separation = 13
-alignment = 1
-
-[node name="Title" type="HBoxContainer" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
-layout_mode = 2
-theme_override_constants/separation = 6
-alignment = 1
-
-[node name="Cuy" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content/Title"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.4, 0.69, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
-theme_override_constants/outline_size = 14
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 11
-theme_override_constants/shadow_outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_title")
-theme_override_font_sizes/font_size = 90
-text = "CUY"
-
-[node name="Kombat" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content/Title"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.46, 0.87, 0.48, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
-theme_override_constants/outline_size = 14
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 11
-theme_override_constants/shadow_outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_title")
-theme_override_font_sizes/font_size = 90
-text = "KOMBAT"
-
-[node name="Subtitle" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 19
-text = "A chaotic 3D party brawler"
-horizontal_alignment = 1
-
-[node name="Spacer" type="Control" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
+alignment = 2
 
 [node name="PlayButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(440, 70)
+custom_minimum_size = Vector2(400, 62)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
@@ -260,12 +258,12 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBox_main_primary")
 theme_override_styles/hover = SubResource("StyleBox_main_primary_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_primary_pressed")
-theme_override_styles/focus = SubResource("StyleBox_main_primary_hover")
+theme_override_styles/focus = SubResource("StyleBox_main_primary_focus")
 text = "JUGAR"
 
 [node name="ControlsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(410, 60)
+custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
@@ -276,12 +274,12 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
 theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
-theme_override_styles/focus = SubResource("StyleBox_main_dark_hover")
+theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "CONTROLES"
 
 [node name="MainOptionsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(410, 60)
+custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
@@ -292,12 +290,12 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
 theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
-theme_override_styles/focus = SubResource("StyleBox_main_dark_hover")
+theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "OPCIONES"
 
 [node name="QuitButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(410, 60)
+custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 0.72, 0.77, 1)
@@ -308,7 +306,7 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
 theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
-theme_override_styles/focus = SubResource("StyleBox_main_dark_hover")
+theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "SALIR"
 
 [node name="OptionsMessage" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
@@ -327,5 +325,8 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 17
-text = "Presiona ENTER para jugar"
+text = "ENTER o A para jugar"
 horizontal_alignment = 1
+
+[node name="ControlsScreen" parent="." instance=ExtResource("2_controls")]
+open_button_path = NodePath("../MainMenu/Margin/Center/Panel/Padding/Content/ControlsButton")
