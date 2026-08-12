@@ -15,6 +15,7 @@ enum MatchState {
 
 var match_state := MatchState.WAITING
 var _players: Array[Node] = []
+var _eliminated_players: Array[Node] = []
 
 @onready var _death_zone := get_node_or_null(death_zone_path) as Area3D
 
@@ -41,8 +42,12 @@ func iniciar_partida() -> void:
 func jugador_eliminado(player: Node) -> void:
 	if match_state != MatchState.PLAYING:
 		return
+	if player in _eliminated_players:
+		return
 
-	var winner := _find_remaining_player(player)
+	_eliminated_players.append(player)
+
+	var winner := _find_remaining_player()
 
 	if winner == null:
 		push_error("GameManager: no se pudo determinar al jugador ganador.")
@@ -100,6 +105,7 @@ func _get_player_health(player: Node) -> float:
 
 func _register_players() -> void:
 	_players.clear()
+	_eliminated_players.clear()
 
 	for player_path in player_paths:
 		var player := get_node_or_null(player_path)
@@ -120,12 +126,17 @@ func _set_players_input(enabled: bool) -> void:
 		player.set("input_enabled", enabled)
 
 
-func _find_remaining_player(eliminated_player: Node) -> Node:
-	for player in _players:
-		if player != eliminated_player:
-			return player
+func _find_remaining_player() -> Node:
+	var remaining: Node = null
 
-	return null
+	for player in _players:
+		if player in _eliminated_players:
+			continue
+		if remaining != null:
+			return null
+		remaining = player
+
+	return remaining
 
 
 func _on_death_zone_body_entered(body: Node3D) -> void:
