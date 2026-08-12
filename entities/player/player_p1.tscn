@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://zwe48t86vh1ma"]
+
+[ext_resource type="PackedScene" uid="uid://d0a2dqbx6wdl5" path="res://entities/player/player.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://br17te2pkuit3" path="res://assets/CUY/personajes_blender/conejo_andino/conejo_andino.glb" id="2_conejo"]
+[ext_resource type="Script" path="res://entities/player/animations/anim_setup.gd" id="3_anim_setup"]
+
+[node name="Player" instance=ExtResource("1_base")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = ""
+root_node = NodePath("Visual/CuyModel/CuyCharacter")
+
+[node name="CuyCharacter" parent="Visual/CuyModel" instance=ExtResource("2_conejo")]
+transform = Transform3D(-0.648308, 0, 0, 0, 0.648308, 0, 0, 0, -0.648308, 0, -0.622785, 0)
