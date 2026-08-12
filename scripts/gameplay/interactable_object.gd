@@ -180,10 +180,19 @@ func _apply_impact_knockback(state: PhysicsDirectBodyState3D) -> void:
 				0.0,
 				true
 			)
+			_on_projectile_hit_player(player)
 			_is_projectile = false
 			_projectile_speed = 0.0
 		else:
 			player.apply_knockback(direction.normalized(), impact_knockback_force, 0.0, false)
+
+
+## Hook llamado cuando este objeto, viajando como proyectil lanzado, golpea
+## físicamente a un jugador (nunca al lanzador, que ya queda excluido). Las
+## subclases destructibles (p. ej. Barrel) lo usan para romperse en el acto
+## reutilizando el flujo normal: _handle_impact → _break → _explode.
+func _on_projectile_hit_player(_player: CharacterBody3D) -> void:
+	pass
 
 
 ## --- Feedback visual/audiovisual común (solo visual, no toca física) ---

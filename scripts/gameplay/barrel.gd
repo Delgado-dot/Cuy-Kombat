@@ -48,6 +48,18 @@ func _break() -> void:
 	queue_free()
 
 
+## Un barril lanzado que golpea directamente a un jugador explota en el acto.
+## Reutiliza el flujo normal de ruptura (impact_detected → _break → _explode):
+## el jugador recibe el golpe del proyectil y luego el efecto de área de la
+## explosión. El lanzador ya quedó excluido del impacto del proyectil y también
+## se excluye del área de la explosión.
+func _on_projectile_hit_player(player: CharacterBody3D) -> void:
+	if _is_broken:
+		return
+	var intensity := maxf(_projectile_speed, linear_velocity.length())
+	_handle_impact(player, intensity, global_position)
+
+
 ## Al romperse, lanza a todos los jugadores dentro del radio, con fuerza que
 ## disminuye desde el centro hasta el límite del radio. Reutiliza el sistema de
 ## knockback existente del Player (apply_knockback). Se ejecuta una sola vez.
@@ -64,6 +76,12 @@ func _explode() -> void:
 
 	for player in _find_all_players():
 		if not is_instance_valid(player):
+			continue
+
+		# El lanzador del barril no recibe el área de la explosión de su propio
+		# objeto (también está excluido del impacto directo del proyectil).
+		if _last_thrower != null and is_instance_valid(_last_thrower) \
+				and player == _last_thrower:
 			continue
 
 		var distance := player.global_position.distance_to(center)
