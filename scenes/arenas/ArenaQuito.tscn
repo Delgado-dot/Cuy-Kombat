@@ -1,15 +1,34 @@
 [gd_scene format=3 uid="uid://ibqi8bdwjfly"]
 
 [sub_resource type="StandardMaterial3D" id="MatBasePiedra"]
-albedo_color = Color(0.12, 0.075, 0.07, 1)
+albedo_color = Color(0.105, 0.075, 0.065, 1)
 roughness = 0.96
 
-[sub_resource type="StandardMaterial3D" id="MatPlazaAdoquin"]
-albedo_color = Color(0.34, 0.25, 0.19, 1)
-roughness = 0.92
+[sub_resource type="Shader" id="ShaderAdoquinColonial"]
+code = "shader_type spatial;\nrender_mode diffuse_burley, specular_schlick_ggx;\n\nfloat hash21(vec2 p) {\n    p = fract(p * vec2(123.34, 345.45));\n    p += dot(p, p + 34.345);\n    return fract(p.x * p.y);\n}\n\nvoid fragment() {\n    vec2 world = VERTEX.xz;\n    float radius = length(world);\n    float angle01 = atan(world.y, world.x) / 6.2831853 + 0.5;\n    float radial_frequency = 0.95;\n    float radial_coord = radius * radial_frequency;\n    float ring = floor(radial_coord);\n    float stagger = mod(ring, 2.0) * 0.5;\n    float sectors = max(8.0, ring * 2.25);\n    float angular_coord = angle01 * sectors + stagger;\n    vec2 cell = vec2(floor(angular_coord), ring);\n    float rnd = hash21(cell);\n    float ring_edge = abs(fract(radial_coord) - 0.5);\n    float angular_phase = fract(angular_coord);\n    float angular_edge = min(angular_phase, 1.0 - angular_phase);\n    float ring_aa = max(fwidth(radial_coord) * 1.5, 0.012);\n    float spoke_aa = max(fwidth(angular_coord) * 1.35, 0.012);\n    float ring_line = 1.0 - smoothstep(0.045 - ring_aa, 0.12 + ring_aa, ring_edge);\n    float spoke_line = 1.0 - smoothstep(0.04 - spoke_aa, 0.115 + spoke_aa, angular_edge);\n    float mortar = max(ring_line, spoke_line);\n    float broad_variation = 0.5 + 0.5 * sin(radius * 0.48 + angle01 * 3.0);\n    vec3 stone_dark = vec3(0.21, 0.165, 0.12);\n    vec3 stone_light = vec3(0.3, 0.235, 0.17);\n    vec3 stone = mix(stone_dark, stone_light, 0.38 + rnd * 0.3);\n    stone *= mix(0.96, 1.04, broad_variation);\n    vec3 mortar_color = vec3(0.145, 0.115, 0.095);\n    ALBEDO = mix(stone, mortar_color, mortar * 0.38);\n    ROUGHNESS = mix(0.94, 0.985, mortar);\n    METALLIC = 0.0;\n}"
+
+[sub_resource type="ShaderMaterial" id="MatPlazaAdoquin"]
+render_priority = 0
+shader = SubResource("ShaderAdoquinColonial")
+
+[sub_resource type="StandardMaterial3D" id="MatAdoquinClaro"]
+albedo_color = Color(0.36, 0.3, 0.225, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="MatAdoquinOscuro"]
+albedo_color = Color(0.115, 0.09, 0.085, 1)
+roughness = 0.96
+
+[sub_resource type="BoxMesh" id="MeshJuntaRadial"]
+material = SubResource("MatAdoquinOscuro")
+size = Vector3(0.055, 0.035, 5.3)
+
+[sub_resource type="BoxMesh" id="MeshAdoquinDetalle"]
+material = SubResource("MatAdoquinClaro")
+size = Vector3(0.86, 0.035, 0.44)
 
 [sub_resource type="StandardMaterial3D" id="MatBordeHueco"]
-albedo_color = Color(0.19, 0.14, 0.14, 1)
+albedo_color = Color(0.12, 0.095, 0.09, 1)
 roughness = 0.96
 
 [sub_resource type="StandardMaterial3D" id="MatVacio"]
@@ -28,11 +47,15 @@ radial_segments = 48
 rings = 1
 
 [sub_resource type="StandardMaterial3D" id="MatJuntaAdoquin"]
-albedo_color = Color(0.12, 0.085, 0.09, 1)
+albedo_color = Color(0.075, 0.06, 0.065, 1)
 
 [sub_resource type="StandardMaterial3D" id="MatBordeExterior"]
-albedo_color = Color(0.28, 0.15, 0.14, 1)
+albedo_color = Color(0.19, 0.145, 0.12, 1)
 roughness = 0.93
+
+[sub_resource type="StandardMaterial3D" id="MatBordeExteriorClaro"]
+albedo_color = Color(0.29, 0.22, 0.17, 1)
+roughness = 0.9
 
 [sub_resource type="BoxMesh" id="MeshBloqueBorde"]
 material = SubResource("MatBordeExterior")
@@ -49,7 +72,12 @@ height = 18.0
 radius = 2.9
 
 [sub_resource type="StandardMaterial3D" id="MatRocaInferior"]
-albedo_color = Color(0.075, 0.035, 0.055, 1)
+albedo_color = Color(0.105, 0.07, 0.085, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatRocaInferiorCalida"]
+albedo_color = Color(0.17, 0.095, 0.075, 1)
+roughness = 0.96
 
 [sub_resource type="CylinderMesh" id="MeshRocaInferior"]
 material = SubResource("MatRocaInferior")
@@ -60,16 +88,70 @@ radial_segments = 6
 rings = 1
 
 [sub_resource type="StandardMaterial3D" id="MatIglesia"]
-albedo_color = Color(0.62, 0.51, 0.37, 1)
+albedo_color = Color(0.49, 0.405, 0.3, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="MatIglesiaDetalle"]
+albedo_color = Color(0.19, 0.145, 0.12, 1)
+roughness = 0.96
+
+[sub_resource type="StandardMaterial3D" id="MatCasaCrema"]
+albedo_color = Color(0.52, 0.46, 0.365, 1)
+roughness = 0.93
+
+[sub_resource type="StandardMaterial3D" id="MatCasaOcre"]
+albedo_color = Color(0.44, 0.31, 0.22, 1)
 roughness = 0.94
 
 [sub_resource type="BoxMesh" id="MeshIglesiaCuerpo"]
 material = SubResource("MatIglesia")
 size = Vector3(7.8, 5.4, 2.1)
 
-[sub_resource type="StandardMaterial3D" id="MatIglesiaDetalle"]
-albedo_color = Color(0.3, 0.22, 0.18, 1)
-roughness = 0.96
+[sub_resource type="BoxMesh" id="MeshIglesiaAla"]
+material = SubResource("MatIglesia")
+size = Vector3(3.25, 4.15, 2.35)
+
+[sub_resource type="BoxMesh" id="MeshZocaloIglesia"]
+material = SubResource("MatIglesiaDetalle")
+size = Vector3(11.8, 0.42, 3.05)
+
+[sub_resource type="BoxMesh" id="MeshCornisaTorre"]
+material = SubResource("MatIglesiaDetalle")
+size = Vector3(2.45, 0.32, 2.52)
+
+[sub_resource type="StandardMaterial3D" id="MatVanoCampana"]
+albedo_color = Color(0.065, 0.032, 0.035, 1)
+roughness = 0.82
+emission_enabled = true
+emission = Color(0.42, 0.12, 0.025, 1)
+emission_energy_multiplier = 0.75
+
+[sub_resource type="CylinderMesh" id="MeshVanoCampana"]
+material = SubResource("MatVanoCampana")
+top_radius = 0.43
+bottom_radius = 0.43
+height = 0.12
+radial_segments = 16
+rings = 1
+
+[sub_resource type="TorusMesh" id="MeshArcoPortada"]
+material = SubResource("MatIglesiaDetalle")
+inner_radius = 0.72
+outer_radius = 0.94
+rings = 20
+ring_segments = 10
+
+[sub_resource type="BoxMesh" id="MeshRelieveFachada"]
+material = SubResource("MatIglesiaDetalle")
+size = Vector3(2.4, 0.28, 0.24)
+
+[sub_resource type="CylinderMesh" id="MeshPinaculo"]
+material = SubResource("MatIglesiaDetalle")
+top_radius = 0.0
+bottom_radius = 0.22
+height = 0.85
+radial_segments = 8
+rings = 1
 
 [sub_resource type="BoxMesh" id="MeshDetallePiedra"]
 material = SubResource("MatIglesiaDetalle")
@@ -118,8 +200,12 @@ material = SubResource("MatVentana")
 size = Vector3(0.62, 0.92, 0.12)
 
 [sub_resource type="BoxMesh" id="MeshCasa"]
-material = SubResource("MatIglesia")
+material = SubResource("MatCasaCrema")
 size = Vector3(5.2, 3.5, 2.5)
+
+[sub_resource type="BoxMesh" id="MeshCornisaCasa"]
+material = SubResource("MatIglesiaDetalle")
+size = Vector3(5.45, 0.18, 2.7)
 
 [sub_resource type="BoxMesh" id="MeshTecho"]
 material = SubResource("MatTeja")
@@ -128,6 +214,51 @@ size = Vector3(5.7, 0.48, 2.95)
 [sub_resource type="BoxMesh" id="MeshBalcon"]
 material = SubResource("MatMadera")
 size = Vector3(2.5, 0.16, 0.72)
+
+[sub_resource type="BoxMesh" id="MeshBarandaHorizontal"]
+material = SubResource("MatMadera")
+size = Vector3(2.55, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="MeshBarandaVertical"]
+material = SubResource("MatMadera")
+size = Vector3(0.09, 0.72, 0.09)
+
+[sub_resource type="StandardMaterial3D" id="MatMaceta"]
+albedo_color = Color(0.44, 0.13, 0.065, 1)
+roughness = 0.92
+
+[sub_resource type="CylinderMesh" id="MeshMaceta"]
+material = SubResource("MatMaceta")
+top_radius = 0.48
+bottom_radius = 0.34
+height = 0.56
+radial_segments = 10
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="MatHojasNocturnas"]
+albedo_color = Color(0.105, 0.26, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="MeshHojasMaceta"]
+material = SubResource("MatHojasNocturnas")
+radius = 0.48
+height = 0.78
+radial_segments = 10
+rings = 6
+
+[sub_resource type="StandardMaterial3D" id="MatFlores"]
+albedo_color = Color(0.95, 0.22, 0.28, 1)
+roughness = 0.7
+emission_enabled = true
+emission = Color(0.4, 0.03, 0.035, 1)
+emission_energy_multiplier = 0.35
+
+[sub_resource type="SphereMesh" id="MeshFlor"]
+material = SubResource("MatFlores")
+radius = 0.13
+height = 0.22
+radial_segments = 8
+rings = 4
 
 [sub_resource type="StandardMaterial3D" id="MatMetal"]
 albedo_color = Color(0.055, 0.045, 0.07, 1)
@@ -184,7 +315,7 @@ material = SubResource("MatBanderin")
 size = Vector3(0.65, 0.42, 0.05)
 
 [sub_resource type="StandardMaterial3D" id="MatMontana"]
-albedo_color = Color(0.07, 0.045, 0.12, 1)
+albedo_color = Color(0.085, 0.065, 0.14, 1)
 
 [sub_resource type="CylinderMesh" id="MeshMontanaGrande"]
 material = SubResource("MatMontana")
@@ -195,7 +326,7 @@ radial_segments = 7
 rings = 1
 
 [sub_resource type="StandardMaterial3D" id="MatMontanaLejana"]
-albedo_color = Color(0.035, 0.035, 0.085, 1)
+albedo_color = Color(0.055, 0.05, 0.11, 1)
 
 [sub_resource type="CylinderMesh" id="MeshMontanaLejana"]
 material = SubResource("MatMontanaLejana")
@@ -205,29 +336,79 @@ height = 12.5
 radial_segments = 6
 rings = 1
 
+[sub_resource type="StandardMaterial3D" id="MatLuzCiudad"]
+albedo_color = Color(1, 0.53, 0.12, 1)
+roughness = 0.25
+emission_enabled = true
+emission = Color(1, 0.32, 0.035, 1)
+emission_energy_multiplier = 3.5
+
+[sub_resource type="BoxMesh" id="MeshLuzCiudad"]
+material = SubResource("MatLuzCiudad")
+size = Vector3(0.18, 0.14, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="MatCiudadCercana"]
+albedo_color = Color(0.075, 0.055, 0.09, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatCiudadLejana"]
+albedo_color = Color(0.045, 0.04, 0.075, 1)
+roughness = 0.98
+
+[sub_resource type="BoxMesh" id="MeshEdificioCiudad"]
+material = SubResource("MatCiudadCercana")
+size = Vector3(3.2, 4.4, 2.4)
+
+[sub_resource type="BoxMesh" id="MeshEdificioCiudadLejano"]
+material = SubResource("MatCiudadLejana")
+size = Vector3(2.3, 3.2, 1.7)
+
+[sub_resource type="StandardMaterial3D" id="MatFacetaIsla"]
+albedo_color = Color(0.14, 0.07, 0.075, 1)
+roughness = 0.96
+emission_enabled = true
+emission = Color(0.18, 0.035, 0.018, 1)
+emission_energy_multiplier = 0.22
+
+[sub_resource type="PrismMesh" id="MeshFacetaIsla"]
+material = SubResource("MatFacetaIsla")
+size = Vector3(2.4, 5.5, 1.7)
+
+[sub_resource type="ProceduralSkyMaterial" id="CieloQuitoMaterial"]
+sky_top_color = Color(0.012, 0.018, 0.07, 1)
+sky_horizon_color = Color(0.16, 0.075, 0.17, 1)
+ground_bottom_color = Color(0.022, 0.012, 0.045, 1)
+ground_horizon_color = Color(0.18, 0.07, 0.125, 1)
+sun_angle_max = 4.0
+sun_curve = 0.08
+
+[sub_resource type="Sky" id="CieloQuito"]
+sky_material = SubResource("CieloQuitoMaterial")
+
 [sub_resource type="Environment" id="EnvironmentQuito"]
-background_mode = 1
-background_color = Color(0.012, 0.022, 0.075, 1)
+background_mode = 2
+sky = SubResource("CieloQuito")
+background_energy_multiplier = 0.9
 ambient_light_source = 3
-ambient_light_color = Color(0.19, 0.23, 0.48, 1)
-ambient_light_energy = 0.62
+ambient_light_color = Color(0.25, 0.24, 0.42, 1)
+ambient_light_energy = 0.82
 reflected_light_source = 2
 tonemap_mode = 2
-tonemap_exposure = 1.05
+tonemap_exposure = 1.02
 glow_enabled = true
-glow_intensity = 0.72
-glow_bloom = 0.1
+glow_intensity = 0.85
+glow_bloom = 0.14
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.11, 0.07, 0.18, 1)
-fog_light_energy = 0.55
-fog_density = 1.0
-fog_aerial_perspective = 0.62
-fog_height = -4.0
-fog_height_density = 0.018
+fog_light_color = Color(0.2, 0.09, 0.16, 1)
+fog_light_energy = 0.7
+fog_density = 0.008
+fog_aerial_perspective = 0.72
+fog_height = -5.0
+fog_height_density = 0.026
 fog_depth_curve = 1.2
-fog_depth_begin = 55.0
-fog_depth_end = 175.0
+fog_depth_begin = 30.0
+fog_depth_end = 145.0
 
 [node name="ArenaQuito" type="Node3D" unique_id=1854846992]
 editor_description = "Arena nocturna jugable inspirada en la Plaza de San Francisco y el Centro Historico de Quito."
@@ -297,10 +478,111 @@ spin_sides = 64
 smooth_faces = true
 material = SubResource("MatJuntaAdoquin")
 
+[node name="JuntasRadiales" type="Node3D" parent="Gameplay/Piso"]
+
+[node name="Junta00" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145, 5.85)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta01" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.9238795, 0, 0.3826834, 0, 1, 0, -0.3826834, 0, 0.9238795, 2.2387, 0.145, 5.4049)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta02" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.7071068, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071068, 4.1366, 0.145, 4.1366)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta03" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.3826834, 0, 0.9238795, 0, 1, 0, -0.9238795, 0, 0.3826834, 5.4049, 0.145, 2.2387)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta04" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 5.85, 0.145, 0)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta05" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.3826834, 0, 0.9238795, 0, 1, 0, -0.9238795, 0, -0.3826834, 5.4049, 0.145, -2.2387)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta06" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.7071068, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, -0.7071068, 4.1366, 0.145, -4.1366)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta07" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.9238795, 0, 0.3826834, 0, 1, 0, -0.3826834, 0, -0.9238795, 2.2387, 0.145, -5.4049)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta08" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.145, -5.85)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta09" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.9238795, 0, -0.3826834, 0, 1, 0, 0.3826834, 0, -0.9238795, -2.2387, 0.145, -5.4049)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta10" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, -0.7071068, -4.1366, 0.145, -4.1366)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta11" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(-0.3826834, 0, -0.9238795, 0, 1, 0, 0.9238795, 0, -0.3826834, -5.4049, 0.145, -2.2387)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta12" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -5.85, 0.145, 0)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta13" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.3826834, 0, -0.9238795, 0, 1, 0, 0.9238795, 0, 0.3826834, -5.4049, 0.145, 2.2387)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta14" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -4.1366, 0.145, 4.1366)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="Junta15" type="MeshInstance3D" parent="Gameplay/Piso/JuntasRadiales"]
+transform = Transform3D(0.9238795, 0, -0.3826834, 0, 1, 0, 0.3826834, 0, 0.9238795, -2.2387, 0.145, 5.4049)
+mesh = SubResource("MeshJuntaRadial")
+
+[node name="AdoquinesConLuz" type="Node3D" parent="Gameplay/Piso"]
+
+[node name="Adoquin01" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(0.9238795, 0, 0.3826834, 0, 1, 0, -0.3826834, 0, 0.9238795, 1.72, 0.158, 4.16)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin02" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(0.3826834, 0, 0.9238795, 0, 1, 0, -0.9238795, 0, 0.3826834, 4.16, 0.158, 1.72)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin03" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(-0.3826834, 0, 0.9238795, 0, 1, 0, -0.9238795, 0, -0.3826834, 4.16, 0.158, -1.72)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin04" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(-0.9238795, 0, 0.3826834, 0, 1, 0, -0.3826834, 0, -0.9238795, 1.72, 0.158, -4.16)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin05" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(-0.9238795, 0, -0.3826834, 0, 1, 0, 0.3826834, 0, -0.9238795, -1.72, 0.158, -4.16)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin06" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(-0.3826834, 0, -0.9238795, 0, 1, 0, 0.9238795, 0, -0.3826834, -4.16, 0.158, -1.72)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin07" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(0.3826834, 0, -0.9238795, 0, 1, 0, 0.9238795, 0, 0.3826834, -4.16, 0.158, 1.72)
+mesh = SubResource("MeshAdoquinDetalle")
+
+[node name="Adoquin08" type="MeshInstance3D" parent="Gameplay/Piso/AdoquinesConLuz"]
+transform = Transform3D(0.9238795, 0, -0.3826834, 0, 1, 0, 0.3826834, 0, 0.9238795, -1.72, 0.158, 4.16)
+mesh = SubResource("MeshAdoquinDetalle")
+
 [node name="BordeExteriorVisual" type="Node3D" parent="Gameplay" unique_id=680937910]
 
 [node name="Bloque00" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=498327846]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 9.2)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque01" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=624682402]
@@ -317,6 +599,7 @@ mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque04" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=948144383]
 transform = Transform3D(0.49999955, 0, 0.8660257, 0, 1, 0, -0.8660257, 0, 0.49999955, 7.967434, 0.3, 4.6)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque05" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=350288040]
@@ -333,6 +616,7 @@ mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque08" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1259661880]
 transform = Transform3D(-0.49999985, 0, 0.8660255, 0, 1, 0, -0.8660255, 0, -0.49999985, 7.967434, 0.3, -4.6)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque09" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1256581232]
@@ -349,6 +633,7 @@ mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque12" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1098562431]
 transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0, 0.3, -9.2)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque13" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=185519216]
@@ -365,6 +650,7 @@ mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque16" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1759751562]
 transform = Transform3D(-0.5000003, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, -0.5000003, -7.967434, 0.3, -4.6)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque17" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1806221974]
@@ -381,6 +667,7 @@ mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque20" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=2096389765]
 transform = Transform3D(0.50000036, 0, -0.8660252, 0, 1, 0, 0.8660252, 0, 0.50000036, -7.967434, 0.3, 4.6)
+material_override = SubResource("MatBordeExteriorClaro")
 mesh = SubResource("MeshBloqueBorde")
 
 [node name="Bloque21" type="MeshInstance3D" parent="Gameplay/BordeExteriorVisual" unique_id=1221731820]
@@ -599,6 +886,7 @@ material = SubResource("MatRocaInferior")
 
 [node name="Roca00" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=1623308971]
 transform = Transform3D(0.7344413, 0.038628623, 0.14852545, -0.044829167, 0.8955072, 0.059936017, -0.14521152, -0.08108441, 0.7326991, 0, -4.8, 6.3)
+material_override = SubResource("MatRocaInferiorCalida")
 mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca01" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=286352507]
@@ -607,6 +895,7 @@ mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca02" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=1860392920]
 transform = Transform3D(0.10349561, -0.09469029, 0.94079804, 0.056783613, 1.0945089, 0.07591895, -0.94263685, 0.05553584, 0.10786702, 5.9917, -5.9, 1.9468)
+material_override = SubResource("MatRocaInferiorCalida")
 mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca03" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=917158906]
@@ -615,6 +904,7 @@ mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca04" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=784844000]
 transform = Transform3D(-0.68224776, -0.029872991, 0.31051293, 0, 0.89712155, 0.059936017, -0.3115092, 0.06542593, -0.68006575, 3.703, -5.35, -5.0968)
+material_override = SubResource("MatRocaInferiorCalida")
 mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca05" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=1494860905]
@@ -623,6 +913,7 @@ mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca06" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=1606268194]
 transform = Transform3D(-0.64450914, 0.020055318, -0.6977163, -0.056783613, 1.0945089, 0.07591895, 0.6956175, 0.107927136, -0.64025646, -3.703, -4.8, -5.0968)
+material_override = SubResource("MatRocaInferiorCalida")
 mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca07" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=46529528]
@@ -631,11 +922,30 @@ mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca08" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=861437509]
 transform = Transform3D(0.37131903, 0.03596974, -0.65094066, 0.044829167, 0.8955072, 0.059936017, 0.6500865, -0.08229841, 0.36767375, -5.9917, -5.9, 1.9468)
+material_override = SubResource("MatRocaInferiorCalida")
 mesh = SubResource("MeshRocaInferior")
 
 [node name="Roca09" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/RocasInferiores" unique_id=1696657025]
 transform = Transform3D(0.77351713, 0.021415297, -0.35190907, -0.050806392, 0.99500805, -0.06792749, 0.34869763, 0.09747031, 0.7707438, -3.703, -4.8, 5.0968)
 mesh = SubResource("MeshRocaInferior")
+
+[node name="FacetasFrontales" type="Node3D" parent="Decoracion/PlataformaFlotante"]
+
+[node name="FacetaIzquierda" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/FacetasFrontales"]
+transform = Transform3D(0.86, 0, -0.28, 0.1, 0.96, 0.16, 0.27, -0.17, 0.84, -4.8, -3.3, 6.3)
+mesh = SubResource("MeshFacetaIsla")
+
+[node name="FacetaCentroIzquierda" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/FacetasFrontales"]
+transform = Transform3D(0.92, 0, -0.12, 0.04, 1.08, 0.14, 0.12, -0.14, 0.9, -1.7, -3.9, 7.15)
+mesh = SubResource("MeshFacetaIsla")
+
+[node name="FacetaCentroDerecha" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/FacetasFrontales"]
+transform = Transform3D(0.92, 0, 0.12, -0.04, 1.08, 0.14, -0.12, -0.14, 0.9, 1.7, -3.9, 7.15)
+mesh = SubResource("MeshFacetaIsla")
+
+[node name="FacetaDerecha" type="MeshInstance3D" parent="Decoracion/PlataformaFlotante/FacetasFrontales"]
+transform = Transform3D(0.86, 0, 0.28, -0.1, 0.96, 0.16, -0.27, -0.17, 0.84, 4.8, -3.3, 6.3)
+mesh = SubResource("MeshFacetaIsla")
 
 [node name="IglesiaSanFrancisco" type="Node3D" parent="Decoracion" unique_id=586912444]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15.5)
@@ -643,6 +953,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15.5)
 [node name="CuerpoCentral" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=1481800515]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65, 0)
 mesh = SubResource("MeshIglesiaCuerpo")
+
+[node name="AlaIzquierda" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 2.05, -0.05)
+mesh = SubResource("MeshIglesiaAla")
+
+[node name="AlaDerecha" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 2.05, -0.05)
+mesh = SubResource("MeshIglesiaAla")
+
+[node name="Zocalo" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.05)
+mesh = SubResource("MeshZocaloIglesia")
 
 [node name="CornisaPrincipal" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=945447569]
 transform = Transform3D(8.5, 0, 0, 0, 0.28, 0, 0, 0, 1, 0, 5.35, 1.02)
@@ -653,24 +975,66 @@ transform = Transform3D(3, 0, 0, 0, 1.1, 0, 0, 0, 1, 0, 6, 0.15)
 mesh = SubResource("MeshCupula")
 
 [node name="TorreIzquierda" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=1283041794]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 3.6, 0)
+transform = Transform3D(1.08, 0, 0, 0, 1.06, 0, 0, 0, 1.08, -4.45, 3.7, 0)
 mesh = SubResource("MeshTorre")
 
 [node name="TorreDerecha" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=1712113592]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, 3.6, 0)
+transform = Transform3D(1.08, 0, 0, 0, 1.06, 0, 0, 0, 1.08, 4.45, 3.7, 0)
 mesh = SubResource("MeshTorre")
 
+[node name="CornisaTorreIzquierda" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.45, 7.37, 0)
+mesh = SubResource("MeshCornisaTorre")
+
+[node name="CornisaTorreDerecha" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45, 7.37, 0)
+mesh = SubResource("MeshCornisaTorre")
+
 [node name="CupulaIzquierda" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=813227281]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 8, 0)
+transform = Transform3D(1.05, 0, 0, 0, 1.25, 0, 0, 0, 1.05, -4.45, 8.25, 0)
 mesh = SubResource("MeshCupula")
 
 [node name="CupulaDerecha" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=768229443]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, 8, 0)
+transform = Transform3D(1.05, 0, 0, 0, 1.25, 0, 0, 0, 1.05, 4.45, 8.25, 0)
 mesh = SubResource("MeshCupula")
+
+[node name="VanoCampanaIzquierdo" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -4.45, 6.05, 1.16)
+mesh = SubResource("MeshVanoCampana")
+
+[node name="VanoCampanaDerecho" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 4.45, 6.05, 1.16)
+mesh = SubResource("MeshVanoCampana")
 
 [node name="PuertaPrincipal" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=750347916]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 1.12)
 mesh = SubResource("MeshPuerta")
+
+[node name="PortadaBarroca" type="Node3D" parent="Decoracion/IglesiaSanFrancisco"]
+
+[node name="ArcoPrincipal" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(1.15, 0, 0, 0, 0, -1, 0, 1.2, 0, 0, 2.38, 1.24)
+mesh = SubResource("MeshArcoPortada")
+
+[node name="RelieveSuperior" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.62, 1.22)
+mesh = SubResource("MeshRelieveFachada")
+
+[node name="RelieveIzquierdo" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(0.72, 0, 0, 0, 0.7, 0, 0, 0, 1, -2.55, 4.65, 1.22)
+mesh = SubResource("MeshRelieveFachada")
+
+[node name="RelieveDerecho" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(0.72, 0, 0, 0, 0.7, 0, 0, 0, 1, 2.55, 4.65, 1.22)
+mesh = SubResource("MeshRelieveFachada")
+
+[node name="PinaculoIzquierdo" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.45, 7.85, 0)
+mesh = SubResource("MeshPinaculo")
+
+[node name="PinaculoDerecho" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco/PortadaBarroca"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.45, 7.85, 0)
+mesh = SubResource("MeshPinaculo")
 
 [node name="Columna01" type="MeshInstance3D" parent="Decoracion/IglesiaSanFrancisco" unique_id=86123462]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7, 2.35, 1.18)
@@ -732,6 +1096,10 @@ mesh = SubResource("MeshCasa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
 mesh = SubResource("MeshTecho")
 
+[node name="Cornisa" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66, 0)
+mesh = SubResource("MeshCornisaCasa")
+
 [node name="Balcon" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaA" unique_id=563685171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 1.45)
 mesh = SubResource("MeshBalcon")
@@ -756,11 +1124,16 @@ mesh = SubResource("MeshVentana")
 transform = Transform3D(0.96105546, 0, 0.27635565, 0, 1, 0, -0.27635565, 0, 0.96105546, -16.8, 1.75, -7.5)
 
 [node name="Fachada" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaB" unique_id=2012528233]
+material_override = SubResource("MatCasaOcre")
 mesh = SubResource("MeshCasa")
 
 [node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaB" unique_id=226619079]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
 mesh = SubResource("MeshTecho")
+
+[node name="Cornisa" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66, 0)
+mesh = SubResource("MeshCornisaCasa")
 
 [node name="Balcon" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaIzquierdaB" unique_id=1669328627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 1.45)
@@ -792,6 +1165,10 @@ mesh = SubResource("MeshCasa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
 mesh = SubResource("MeshTecho")
 
+[node name="Cornisa" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66, 0)
+mesh = SubResource("MeshCornisaCasa")
+
 [node name="Balcon" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaA" unique_id=710036555]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 1.45)
 mesh = SubResource("MeshBalcon")
@@ -817,11 +1194,16 @@ transform = Transform3D(0.96105546, 0, -0.27635565, 0, 1, 0, 0.27635565, 0, 0.96
 
 [node name="Fachada" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaB" unique_id=1351686382]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01188755, -0.025181293, 0.04134178)
+material_override = SubResource("MatCasaOcre")
 mesh = SubResource("MeshCasa")
 
 [node name="Techo" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaB" unique_id=1153560891]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
 mesh = SubResource("MeshTecho")
+
+[node name="Cornisa" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66, 0)
+mesh = SubResource("MeshCornisaCasa")
 
 [node name="Balcon" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaB" unique_id=555137199]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 1.45)
@@ -842,6 +1224,94 @@ mesh = SubResource("MeshVentana")
 [node name="Ventana3" type="MeshInstance3D" parent="Decoracion/CasasColoniales/CasaDerechaB" unique_id=2129848569]
 transform = Transform3D(0.75, 0, 0, 0, 0.72, 0, 0, 0, 0.75, 1.45, 0.68, 1.31)
 mesh = SubResource("MeshVentana")
+
+[node name="DetallesColoniales" type="Node3D" parent="Decoracion"]
+
+[node name="BarandaIzquierdaA" type="Node3D" parent="Decoracion/DetallesColoniales"]
+transform = Transform3D(0.9968017, 0, 0.0799147, 0, 1, 0, -0.0799147, 0, 0.9968017, -13, 2.55, -9.48)
+
+[node name="Pasamanos" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+mesh = SubResource("MeshBarandaHorizontal")
+
+[node name="Barrote01" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote02" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote03" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote04" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote05" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaIzquierdaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="BarandaDerechaA" type="Node3D" parent="Decoracion/DetallesColoniales"]
+transform = Transform3D(0.9968017, 0, -0.0799147, 0, 1, 0, 0.0799147, 0, 0.9968017, 13, 2.55, -9.48)
+
+[node name="Pasamanos" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+mesh = SubResource("MeshBarandaHorizontal")
+
+[node name="Barrote01" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote02" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.52, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote03" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote04" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="Barrote05" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/BarandaDerechaA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, -0.38, 0)
+mesh = SubResource("MeshBarandaVertical")
+
+[node name="MacetasDePlaza" type="Node3D" parent="Decoracion/DetallesColoniales"]
+
+[node name="MacetaIzquierda" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, -10.6, 0.3, -3.8)
+mesh = SubResource("MeshMaceta")
+
+[node name="HojasIzquierda" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -10.6, 1.02, -3.8)
+mesh = SubResource("MeshHojasMaceta")
+
+[node name="FlorIzquierda01" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.82, 1.36, -3.62)
+mesh = SubResource("MeshFlor")
+
+[node name="FlorIzquierda02" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -10.32, 1.3, -3.7)
+mesh = SubResource("MeshFlor")
+
+[node name="MacetaDerecha" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 10.6, 0.3, -3.8)
+mesh = SubResource("MeshMaceta")
+
+[node name="HojasDerecha" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 10.6, 1.02, -3.8)
+mesh = SubResource("MeshHojasMaceta")
+
+[node name="FlorDerecha01" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.82, 1.36, -3.62)
+mesh = SubResource("MeshFlor")
+
+[node name="FlorDerecha02" type="MeshInstance3D" parent="Decoracion/DetallesColoniales/MacetasDePlaza"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 10.32, 1.3, -3.7)
+mesh = SubResource("MeshFlor")
 
 [node name="Faroles" type="Node3D" parent="Decoracion" unique_id=1052617732]
 
@@ -1068,27 +1538,189 @@ mesh = SubResource("MeshMontanaLejana")
 transform = Transform3D(0.024953851, 0, 1.1997405, 0, 1.2, 0, -1.1997405, 0, 0.024953851, 28, 4.5, -53)
 mesh = SubResource("MeshMontanaLejana")
 
+[node name="CiudadNocturna" type="Node3D" parent="Decoracion"]
+
+[node name="FilaCercana" type="Node3D" parent="Decoracion/CiudadNocturna"]
+
+[node name="Edificio01" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(1.25, 0, 0, 0, 1.35, 0, 0, 0, 1, -25, 2.7, -30)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio02" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(0.95, 0, 0, 0, 0.92, 0, 0, 0, 1, -20.5, 2.0, -31)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio03" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(1.1, 0, 0, 0, 1.2, 0, 0, 0, 1, -16.5, 2.45, -30.5)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio04" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(0.9, 0, 0, 0, 0.82, 0, 0, 0, 1, -12.6, 1.75, -32)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio05" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(0.9, 0, 0, 0, 0.82, 0, 0, 0, 1, 12.6, 1.75, -32)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio06" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(1.1, 0, 0, 0, 1.2, 0, 0, 0, 1, 16.5, 2.45, -30.5)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio07" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(0.95, 0, 0, 0, 0.92, 0, 0, 0, 1, 20.5, 2.0, -31)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="Edificio08" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaCercana"]
+transform = Transform3D(1.25, 0, 0, 0, 1.35, 0, 0, 0, 1, 25, 2.7, -30)
+mesh = SubResource("MeshEdificioCiudad")
+
+[node name="FilaLejana" type="Node3D" parent="Decoracion/CiudadNocturna"]
+
+[node name="Edificio01" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(1, 0, 0, 0, 1.25, 0, 0, 0, 1, -28, 2.3, -39)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio02" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(0.8, 0, 0, 0, 0.9, 0, 0, 0, 1, -23, 1.65, -40)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio03" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(1.1, 0, 0, 0, 1.45, 0, 0, 0, 1, -18, 2.6, -39)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio04" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(0.9, 0, 0, 0, 1.05, 0, 0, 0, 1, -13.5, 1.9, -41)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio05" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(0.9, 0, 0, 0, 1.05, 0, 0, 0, 1, 13.5, 1.9, -41)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio06" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(1.1, 0, 0, 0, 1.45, 0, 0, 0, 1, 18, 2.6, -39)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio07" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(0.8, 0, 0, 0, 0.9, 0, 0, 0, 1, 23, 1.65, -40)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="Edificio08" type="MeshInstance3D" parent="Decoracion/CiudadNocturna/FilaLejana"]
+transform = Transform3D(1, 0, 0, 0, 1.25, 0, 0, 0, 1, 28, 2.3, -39)
+mesh = SubResource("MeshEdificioCiudadLejano")
+
+[node name="LucesDeQuito" type="Node3D" parent="Decoracion"]
+
+[node name="Luz01" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -24, 6.2, -34)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz02" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -21.5, 8, -35)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz03" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -18.8, 5.3, -34)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz04" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -16, 7.4, -36)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz05" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, -13.5, 9.1, -37)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz06" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, -10.5, 6.2, -35)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz07" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, -7.8, 8.3, -38)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz08" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -4.8, 5.6, -36)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz09" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 4.7, 7.1, -36)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz10" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 7.7, 5.5, -35)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz11" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 10.4, 8.5, -38)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz12" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 13.5, 6.2, -36)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz13" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 16.3, 8, -35)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz14" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 19.1, 5.1, -34)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz15" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 21.8, 7.3, -35)
+mesh = SubResource("MeshLuzCiudad")
+
+[node name="Luz16" type="MeshInstance3D" parent="Decoracion/LucesDeQuito"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 24.5, 9.1, -37)
+mesh = SubResource("MeshLuzCiudad")
+
 [node name="Lighting" type="Node3D" parent="." unique_id=1563604699]
 
 [node name="LuzLuna" type="DirectionalLight3D" parent="Lighting" unique_id=396572515]
 transform = Transform3D(0.8023881, 0.46700925, -0.37158546, -0.085105024, 0.7058011, 0.7032794, 0.5907034, -0.53267914, 0.60607123, 0, 0, 0)
-light_color = Color(0.45, 0.56, 1, 1)
-light_energy = 0.68
+light_color = Color(0.5, 0.58, 0.9, 1)
+light_energy = 0.62
 shadow_enabled = true
+shadow_blur = 1.8
 directional_shadow_max_distance = 80.0
 
 [node name="LuzCalidaPlaza" type="OmniLight3D" parent="Lighting" unique_id=831822132]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 3)
 light_color = Color(1, 0.53, 0.22, 1)
-light_energy = 3.2
+light_energy = 2.7
 shadow_enabled = true
+shadow_blur = 2.0
 omni_range = 20.0
 
 [node name="LuzIglesia" type="OmniLight3D" parent="Lighting" unique_id=1237740590]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.2, -11.5)
 light_color = Color(1, 0.46, 0.16, 1)
-light_energy = 4.2
+light_energy = 3.2
+shadow_enabled = true
+shadow_blur = 1.6
 omni_range = 18.0
+
+[node name="LuzRocaInferiorIzquierda" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -4.2, 6)
+light_color = Color(1, 0.26, 0.08, 1)
+light_energy = 2.4
+omni_range = 13.0
+shadow_enabled = true
+shadow_blur = 2.5
+
+[node name="LuzRocaInferiorDerecha" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, -4.2, 6)
+light_color = Color(1, 0.22, 0.07, 1)
+light_energy = 2.2
+omni_range = 13.0
+shadow_enabled = true
+shadow_blur = 2.5
+
+[node name="LuzHorizonte" type="OmniLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -34)
+light_color = Color(1, 0.2, 0.08, 1)
+light_energy = 2.6
+omni_range = 32.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2131502404]
 environment = SubResource("EnvironmentQuito")
