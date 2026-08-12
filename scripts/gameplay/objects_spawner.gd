@@ -1,7 +1,7 @@
 extends Node3D
 
 ## Spawner minimo del modulo Objetos e Interaccion.
-## Instancia un conjunto aleatorio de objetos (Barrel/BreakableBox/Rock/Log)
+## Instancia un conjunto aleatorio de objetos (Barrel/BreakableBox/Rock)
 ## dentro de la arena, encima del suelo detectado por raycast, evitando
 ## spawn/posiciones de jugadores y solapamiento entre objetos.
 ## No modifica arenas ni SpawnManager. No aplica impulsos ni freeze.
@@ -10,7 +10,6 @@ const OBJECT_SCENES: Array[PackedScene] = [
 	preload("res://scenes/gameplay/barrel.tscn"),
 	preload("res://scenes/gameplay/breakable_box.tscn"),
 	preload("res://scenes/gameplay/rock.tscn"),
-	preload("res://scenes/gameplay/log.tscn"),
 ]
 
 ## Maximo de objetos por arena.
