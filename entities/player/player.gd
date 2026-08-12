@@ -870,6 +870,9 @@ func _throw_carried_object() -> void:
 		+ Vector3.UP * object_throw_upward_force * object.mass
 	)
 
+	if object.has_method("mark_thrown"):
+		object.mark_thrown(self)
+
 func _update_grabbing(delta: float) -> void:
 	if _try_start_throw():
 		return
@@ -1336,7 +1339,7 @@ func _ease_in_out_cubic(t: float) -> float:
 func set_knocked_timer_paused(paused: bool) -> void:
 	_knocked_timer_paused = paused
 
-func apply_knockback(direction: Vector3, force: float, up_force: float, stun := true, duration := -1.0, knock_out := false, tilt_strength := 0.0) -> void:
+func apply_knockback(direction: Vector3, force: float, up_force: float, stun := true, duration := -1.0, knock_out := false, tilt_strength := 0.0, immediate_knockdown := false) -> void:
 	if _state == PlayerState.KNOCKED:
 		return
 	if _grabbed_target != null:
@@ -1356,6 +1359,11 @@ func apply_knockback(direction: Vector3, force: float, up_force: float, stun := 
 	_external_push = Vector3.ZERO
 	velocity = knockback_direction * force
 	velocity.y = up_force + force * 0.15
+
+	if immediate_knockdown:
+		_start_knocked()
+		return
+
 	_knockback_time_left = knockback_duration if duration <= 0.0 else duration
 	_stun_pending = stun and not knock_out
 	if knock_out:

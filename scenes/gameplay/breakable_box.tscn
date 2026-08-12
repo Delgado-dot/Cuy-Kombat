@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/gameplay/interactable_object.tscn" id="1_interactable"]
 [ext_resource type="Script" path="res://scripts/gameplay/breakable_box.gd" id="2_breakable_box"]
 [ext_resource type="PackedScene" path="res://assets/models/Caja.glb" id="3_glb"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/grab_vfx.tscn" id="4_grab"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/throw_vfx.tscn" id="5_throw"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/flight_trail.tscn" id="6_trail"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/object_impact_vfx.tscn" id="7_impact"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/wood_chips.tscn" id="8_wood"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/box_break_vfx.tscn" id="9_break"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/debris_fragment.tscn" id="10_debris"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_box"]
 size = Vector3(1.1, 1.1, 1.1)
@@ -12,6 +19,13 @@ contact_monitor = true
 max_contacts_reported = 8
 impact_knockback_force = 10.0
 script = ExtResource("2_breakable_box")
+grab_vfx_scene = ExtResource("4_grab")
+throw_vfx_scene = ExtResource("5_throw")
+flight_trail_scene = ExtResource("6_trail")
+impact_vfx_scene = ExtResource("7_impact")
+impact_debris_scene = ExtResource("8_wood")
+break_vfx_scene = ExtResource("9_break")
+debris_fragment_scene = ExtResource("10_debris")
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("BoxShape3D_box")
