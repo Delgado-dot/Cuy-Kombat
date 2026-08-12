@@ -34,26 +34,33 @@ const BONE_NAMES = [
 func _get_bone_paths(skeleton_path: NodePath) -> Array[NodePath]:
 	var paths = []
 	for name in BONE_NAMES:
-		paths.append(skeleton_path.subpath(name))
+		paths.append(NodePath(str(skeleton_path) + ":" + name))
 	return paths
 
 ## Crear una animación vacía con tracks para todos los huesos
-func _create_animation(anim_player: AnimationPlayer, name: str, length: float, loop: bool = false) -> Animation:
+func _create_animation(anim_player: AnimationPlayer, name: String, length: float, loop: bool = false) -> Animation:
 	var anim = Animation.new()
 	anim.length = length
 	anim.loop_mode = Animation.LOOP_LINEAR if loop else Animation.LOOP_NONE
 	anim_player.add_animation(name, anim)
 	return anim
 
-## Añadir tracks de transformación para todos los huesos
+## Añadir tracks de transformación para todos los huesos (posición, rotación y escala)
 func _add_bone_tracks(anim: Animation, bone_paths: Array[NodePath]):
 	for path in bone_paths:
-		anim.add_track(Animation.TYPE_TRANSFORM)
+		anim.add_track(Animation.TYPE_POSITION_3D)
+		anim.track_set_path(anim.get_track_count() - 1, path)
+		anim.add_track(Animation.TYPE_ROTATION_3D)
+		anim.track_set_path(anim.get_track_count() - 1, path)
+		anim.add_track(Animation.TYPE_SCALE_3D)
 		anim.track_set_path(anim.get_track_count() - 1, path)
 
-## Insertar keyframe de transformación en un track
-func _set_keyframe(anim: Animation, track_idx: int, time: float, location: Vector3 = Vector3.ZERO, rotation: Quaternion = Quaternion.IDENTITY, scale: Vector3 = Vector3.ONE):
-	anim.track_insert_key(track_idx, time, location, rotation, scale)
+## Insertar keyframe en los 3 tracks (posición, rotación, escala) de un hueso
+func _set_keyframe(anim: Animation, bone_idx: int, time: float, location: Vector3 = Vector3.ZERO, rotation: Quaternion = Quaternion.IDENTITY, scale: Vector3 = Vector3.ONE):
+	var track_base = bone_idx * 3
+	anim.track_insert_key(track_base, time, location)
+	anim.track_insert_key(track_base + 1, time, rotation)
+	anim.track_insert_key(track_base + 2, time, scale)
 
 ## Obtener pose de referencia (pose inicial del modelo)
 func _get_reference_pose(anim_player: AnimationPlayer, bone_paths: Array[NodePath]) -> Array[Dictionary]:
@@ -169,7 +176,7 @@ func _generate_all_animations(anim_player: AnimationPlayer):
 	_set_keyframe(jump, bone_paths.find("Foot_L"), 0.0, Vector3.ZERO, Quaternion(Vector3.RIGHT, 0.2))
 	_set_keyframe(jump, bone_paths.find("Foot_R"), 0.0, Vector3.ZERO, Quaternion(Vector3.RIGHT, 0.2))
 	_set_keyframe(jump, bone_paths.find("Arm_L"), 0.0, Vector3.ZERO, Quaternion(Vector3.RIGHT, 0.5))
-	_set_keyframe(jump, jump.get_track_count() - 1, 0.0) # placeholder
+	_set_keyframe(jump, bone_paths.find("Head"), 0.0, Vector3.ZERO, Quaternion(Vector3.RIGHT, 0.2))
 	
 	# Subida (0.3-0.5s): extensión completa
 	# ... (keyframes de subida)
