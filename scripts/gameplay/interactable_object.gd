@@ -11,8 +11,6 @@ signal player_entered_interaction_range(player: CharacterBody3D)
 ## Emitted when a player leaves this object's interaction range.
 signal player_exited_interaction_range(player: CharacterBody3D)
 
-@export var throw_impulse := 40.0
-
 ## Offset local para colocar este objeto sobre el CarryPoint del jugador
 ## mientras es cargado. No modifica el CarryPoint del jugador.
 @export var carry_offset := Vector3.ZERO
@@ -47,16 +45,6 @@ func has_player_in_interaction_range() -> bool:
 
 func is_grabbed_by(player: CharacterBody3D) -> bool:
 	return _is_grabbed and _grabbed_player == player
-
-
-## Applies a throw impulse toward the player's facing direction.
-func throw(player: CharacterBody3D) -> void:
-	if not is_grabbed_by(player):
-		return
-
-	var throw_direction := -player.global_transform.basis.z.normalized()
-	release_from_being_grabbed()
-	apply_central_impulse(throw_direction * throw_impulse)
 
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
