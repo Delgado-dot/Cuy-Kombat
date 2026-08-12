@@ -2,13 +2,10 @@ class_name GameManager
 extends Node
 
 signal match_started
-signal combat_started
-signal player_eliminated(player: Node)
 signal match_finished(winner: Node)
 
 enum MatchState {
 	WAITING,
-	COUNTDOWN,
 	PLAYING,
 	FINISHED,
 }
@@ -18,6 +15,7 @@ enum MatchState {
 
 var match_state := MatchState.WAITING
 var _players: Array[Node] = []
+var _eliminated_players: Array[Node] = []
 
 @onready var _death_zone := get_node_or_null(death_zone_path) as Area3D
 
@@ -36,31 +34,25 @@ func iniciar_partida() -> void:
 	if match_state != MatchState.WAITING:
 		return
 
-	match_state = MatchState.COUNTDOWN
-	_set_players_input(false)
-	match_started.emit()
-
-
-func comenzar_combate() -> void:
-	if match_state != MatchState.COUNTDOWN:
-		return
-
 	match_state = MatchState.PLAYING
 	_set_players_input(true)
-	combat_started.emit()
+	match_started.emit()
 
 
 func jugador_eliminado(player: Node) -> void:
 	if match_state != MatchState.PLAYING:
 		return
+	if player in _eliminated_players:
+		return
 
-	var winner := _find_remaining_player(player)
+	_eliminated_players.append(player)
+
+	var winner := _find_remaining_player()
 
 	if winner == null:
 		push_error("GameManager: no se pudo determinar al jugador ganador.")
 		return
 
-	player_eliminated.emit(player)
 	finalizar_partida(winner)
 
 
@@ -73,12 +65,47 @@ func finalizar_partida(winner: Node) -> void:
 	match_finished.emit(winner)
 
 
+func finalizar_partida_por_tiempo() -> void:
+	if match_state != MatchState.PLAYING:
+		return
+
+	match_state = MatchState.FINISHED
+	_set_players_input(false)
+	match_finished.emit(_player_leading_by_health())
+
+
 func get_player_number(player: Node) -> int:
 	return _players.find(player) + 1
 
 
+func _player_leading_by_health() -> Node:
+	var best: Node = _players[0] if not _players.is_empty() else null
+	var best_health := -1.0
+
+	for player in _players:
+		var health := _get_player_health(player)
+		if health > best_health:
+			best_health = health
+			best = player
+
+	return best
+
+
+func _get_player_health(player: Node) -> float:
+	if player == null or not is_instance_valid(player):
+		return 0.0
+
+	var threshold := float(player.get("knockout_threshold"))
+	if threshold <= 0.0:
+		return 1.0
+
+	var hits := float(player.get("knockout_hits"))
+	return clampf(1.0 - hits / threshold, 0.0, 1.0)
+
+
 func _register_players() -> void:
 	_players.clear()
+	_eliminated_players.clear()
 
 	for player_path in player_paths:
 		var player := get_node_or_null(player_path)
@@ -99,12 +126,17 @@ func _set_players_input(enabled: bool) -> void:
 		player.set("input_enabled", enabled)
 
 
-func _find_remaining_player(eliminated_player: Node) -> Node:
-	for player in _players:
-		if player != eliminated_player:
-			return player
+func _find_remaining_player() -> Node:
+	var remaining: Node = null
 
-	return null
+	for player in _players:
+		if player in _eliminated_players:
+			continue
+		if remaining != null:
+			return null
+		remaining = player
+
+	return remaining
 
 
 func _on_death_zone_body_entered(body: Node3D) -> void:

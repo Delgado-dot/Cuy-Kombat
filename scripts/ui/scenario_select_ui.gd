@@ -38,8 +38,39 @@ func _ready() -> void:
 	_quito_card.pressed.connect(
 		_select_scenario.bind(SCENARIO_QUITO, _quito_card)
 	)
+	_volcano_card.focus_entered.connect(
+		_select_scenario.bind(SCENARIO_VOLCANICA, _volcano_card)
+	)
+	_mitad_del_mundo_card.focus_entered.connect(
+		_select_scenario.bind(SCENARIO_MITAD_DEL_MUNDO, _mitad_del_mundo_card)
+	)
+	_quito_card.focus_entered.connect(
+		_select_scenario.bind(SCENARIO_QUITO, _quito_card)
+	)
 	_back_button.pressed.connect(_on_back_pressed)
 	_select_scenario(SCENARIO_VOLCANICA, _volcano_card, false)
+	ScreenFlow.register_scenario_select(self)
+	_volcano_card.grab_focus()
+
+
+func _exit_tree() -> void:
+	ScreenFlow.unregister_scenario_select(self)
+
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.echo:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_on_back_pressed()
+	elif event.is_action_pressed("ui_accept"):
+		get_viewport().set_input_as_handled()
+		if _back_button.has_focus():
+			_on_back_pressed()
+		else:
+			_on_confirm_pressed()
 
 
 func show_selector() -> void:

@@ -1,35 +1,9 @@
-[gd_scene format=3 uid="uid://bpko4h5khy208"]
+[gd_scene format=3 uid="uid://d0a2dqbx6wdl5"]
 
 [ext_resource type="Script" uid="uid://cijsrwfh2gtna" path="res://entities/player/player.gd" id="1_player_script"]
-[ext_resource type="PackedScene" path="res://entities/player/visuals/cuy_base.tscn" id="2_cuy_visual"]
-[ext_resource type="Material" path="res://entities/player/visuals/cuy_orange.tres" id="3_cuy_orange"]
-[ext_resource type="Material" path="res://entities/player/visuals/cuy_brown.tres" id="4_cuy_brown"]
-[ext_resource type="Material" path="res://entities/player/visuals/cuy_white.tres" id="5_cuy_white"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-radius = 0.4
-height = 1.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
-albedo_color = Color(0.9, 0.62, 0.18, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
-material = SubResource("StandardMaterial3D_player")
-radius = 0.4
-height = 1.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye"]
-albedo_color = Color(0.02, 0.018, 0.015, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_eye"]
-material = SubResource("StandardMaterial3D_eye")
-radius = 0.075
-height = 0.15
-
-[sub_resource type="SphereMesh" id="SphereMesh_nose"]
-material = SubResource("StandardMaterial3D_eye")
-radius = 0.06
-height = 0.12
+radius = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_charge_back"]
 albedo_color = Color(0.08, 0.08, 0.08, 1)
@@ -69,217 +43,62 @@ outer_radius = 0.26
 [sub_resource type="BoxShape3D" id="BoxShape3D_grab"]
 size = Vector3(1.6, 1.6, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_limb"]
-albedo_color = Color(0.85, 0.72, 0.5, 1)
-roughness = 0.7
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
-material = SubResource("StandardMaterial3D_limb")
-top_radius = 0.12
-bottom_radius = 0.09
-height = 0.5
-
-[sub_resource type="SphereMesh" id="SphereMesh_cuy_arm_left"]
-material = ExtResource("3_cuy_orange")
-radial_segments = 20
-rings = 10
-
-[sub_resource type="SphereMesh" id="SphereMesh_hand"]
-material = SubResource("StandardMaterial3D_limb")
-radius = 0.16
-height = 0.32
-
-[sub_resource type="SphereMesh" id="SphereMesh_cuy_paw"]
-material = ExtResource("5_cuy_white")
-radial_segments = 20
-rings = 10
-
-[sub_resource type="SphereMesh" id="SphereMesh_cuy_arm_right"]
-material = ExtResource("4_cuy_brown")
-radial_segments = 20
-rings = 10
-
-[node name="Player" type="CharacterBody3D" unique_id=802381326]
+[node name="Player" type="CharacterBody3D" unique_id=20212726]
 script = ExtResource("1_player_script")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1088137632]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=527811442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
 shape = SubResource("CapsuleShape3D_player")
 
-[node name="Visual" type="Node3D" parent="." unique_id=1743245729]
+[node name="Visual" type="Node3D" parent="." unique_id=1701648717]
 
-[node name="Body" type="MeshInstance3D" parent="Visual" unique_id=145978342]
-visible = false
-mesh = SubResource("CapsuleMesh_player")
+[node name="CuyModel" type="Node3D" parent="Visual" unique_id=733490156]
 
-[node name="EyeLeft" type="MeshInstance3D" parent="Visual" unique_id=1984208492]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.35, -0.36)
-visible = false
-mesh = SubResource("SphereMesh_eye")
-
-[node name="EyeRight" type="MeshInstance3D" parent="Visual" unique_id=1589102983]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.35, -0.36)
-visible = false
-mesh = SubResource("SphereMesh_eye")
-
-[node name="Nose" type="MeshInstance3D" parent="Visual" unique_id=261561594]
-transform = Transform3D(1.15, 0, 0, 0, 0.8, 0, 0, 0, 0.85, 0, 0.2, -0.43)
-visible = false
-mesh = SubResource("SphereMesh_nose")
-
-[node name="CuyModel" parent="Visual" unique_id=1380282904 instance=ExtResource("2_cuy_visual")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
-
-[node name="LowerBody" parent="Visual/CuyModel/Body" index="0"]
-transform = Transform3D(0.76, 0, 0, 0, 1.12, 0, 0, 0, 0.7, 0, 0.59, 0.01)
-
-[node name="UpperBody" parent="Visual/CuyModel/Body" index="1"]
-transform = Transform3D(0.78, 0, 0, 0, 0.82, 0, 0, 0, 0.72, 0, 1, -0.035)
-
-[node name="Belly" parent="Visual/CuyModel/WhiteFront" index="0"]
-transform = Transform3D(0.56936604, -0.017983729, 0.0035990402, 0.0142485155, 0.719775, 0, -0.022786796, 0.00071973307, 0.089928016, -0.04, 0.5, -0.342)
-
-[node name="FaceBridge" parent="Visual/CuyModel/WhiteFront" index="1"]
-transform = Transform3D(0.3996751, 0.0111923935, 0.0026244642, -0.007999467, 0.559888, 0, -0.013994344, -0.00039189382, 0.07495407, -0.03, 0.86, -0.382)
-
-[node name="Forehead" parent="Visual/CuyModel/WhiteFront" index="2"]
-transform = Transform3D(0.34936154, 0.020333385, 0.0017498177, -0.019240296, 0.36944053, 0, -0.008735859, -0.0005084406, 0.069978125, -0.04, 1.155, -0.388)
-
-[node name="Face" parent="Visual/CuyModel/BrownRightPatch" index="0"]
-transform = Transform3D(0.29689002, 0.059664667, -0.005993602, -0.03591366, 0.49640432, 0, 0.023802, 0.0047833817, 0.07476013, 0.25, 1.055, -0.372)
-
-[node name="Side" parent="Visual/CuyModel/BrownRightPatch" index="1"]
-transform = Transform3D(0.29468858, -0.0903577, -0.008985008, 0.047795463, 0.5627195, 0, 0.029567484, -0.00906601, 0.089550376, 0.31, 0.66, -0.326)
-
-[node name="BrownBackPatch" parent="Visual/CuyModel" index="3"]
-transform = Transform3D(0.3915367, -0.1309579, 0.0039983336, 0.079467736, 0.64684397, 0, -0.019593166, 0.006553357, 0.07990002, 0.14, 0.57, 0.352)
-
-[node name="EarLeft" parent="Visual/CuyModel" index="4"]
-transform = Transform3D(0.14269723, 0.035058253, -0.0073665367, -0.040783614, 0.113463394, 0.013427219, 0.021776117, -0.01723299, 0.073419645, -0.335, 1.245, -0.03)
-
-[node name="EarRight" parent="Visual/CuyModel" index="5"]
-transform = Transform3D(0.14269723, -0.035058253, 0.0073665367, 0.040783614, 0.113463394, 0.013427219, -0.021776117, -0.01723299, 0.073419645, 0.335, 1.245, -0.03)
-
-[node name="EyeLeft" parent="Visual/CuyModel" index="6"]
-transform = Transform3D(1, 0, 0, 0, 1.08, 0, 0, 0, 0.66, -0.155, 1.045, -0.41)
-
-[node name="EyeRight" parent="Visual/CuyModel" index="7"]
-transform = Transform3D(1, 0, 0, 0, 1.08, 0, 0, 0, 0.66, 0.155, 1.045, -0.41)
-
-[node name="Nose" parent="Visual/CuyModel" index="8"]
-transform = Transform3D(1.05, 0, 0, 0, 0.62, 0, 0, 0, 0.45, 0, 0.89, -0.433)
-
-[node name="ArmLeft" parent="Visual/CuyModel" index="9"]
-transform = Transform3D(0.15187767, 0.07549597, 0, -0.04983821, 0.22558755, 0.019536037, 0.0070232954, -0.031790223, 0.13863024, -0.4, 0.6, -0.005)
+[node name="ChargeBar" type="Node3D" parent="Visual" unique_id=1535774266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96, 0)
 visible = false
 
-[node name="HandLeft" parent="Visual/CuyModel" index="10"]
-transform = Transform3D(0.09492355, 0.023592493, 0, -0.031148884, 0.07049611, 0.013954312, 0.00438956, -0.009934446, 0.099021606, -0.438, 0.495, -0.04)
-visible = false
-
-[node name="ArmRight" parent="Visual/CuyModel" index="11"]
-transform = Transform3D(0.15187767, -0.07549597, 0, 0.04983821, 0.22558755, 0.019536037, -0.0070232954, -0.031790223, 0.13863024, 0.4, 0.6, -0.005)
-visible = false
-
-[node name="HandRight" parent="Visual/CuyModel" index="12"]
-transform = Transform3D(0.09492355, -0.023592493, 0, 0.031148884, 0.07049611, 0.013954312, -0.00438956, -0.009934446, 0.099021606, 0.438, 0.495, -0.04)
-visible = false
-
-[node name="FootLeft" parent="Visual/CuyModel" index="13"]
-transform = Transform3D(0.14995313, 0.0019997917, 0, -0.0037428625, 0.079831086, -0.011393161, -0.00022484161, 0.004795621, 0.1896581, -0.16, 0.045, -0.075)
-
-[node name="FootRight" parent="Visual/CuyModel" index="14"]
-transform = Transform3D(0.14995313, -0.0019997917, 0, 0.0037428625, 0.079831086, -0.011393161, 0.00022484161, 0.004795621, 0.1896581, 0.16, 0.045, -0.075)
-
-[node name="ChargeBar" type="Node3D" parent="Visual" unique_id=1844114041]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.28, 0)
-visible = false
-
-[node name="Back" type="MeshInstance3D" parent="Visual/ChargeBar" unique_id=2136197589]
+[node name="Back" type="MeshInstance3D" parent="Visual/ChargeBar" unique_id=1564792775]
 mesh = SubResource("BoxMesh_charge_back")
 
-[node name="Fill" type="MeshInstance3D" parent="Visual/ChargeBar" unique_id=189366687]
+[node name="Fill" type="MeshInstance3D" parent="Visual/ChargeBar" unique_id=1228992462]
 transform = Transform3D(0.001, 0, 0, 0, 1, 0, 0, 0, 1, -0.4995, 0, -0.01)
 mesh = SubResource("BoxMesh_charge_fill")
 
-[node name="CameraPivot" type="Node3D" parent="." unique_id=1591478108]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=135375482]
 
-[node name="TackleHitbox" type="Area3D" parent="." unique_id=1964742367]
+[node name="TackleHitbox" type="Area3D" parent="." unique_id=327164956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, -0.8)
 collision_layer = 0
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TackleHitbox" unique_id=2038978786]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TackleHitbox" unique_id=1369035734]
 shape = SubResource("SphereShape3D_tackle")
 
-[node name="PunchHitbox" type="Area3D" parent="." unique_id=895306825]
+[node name="PunchHitbox" type="Area3D" parent="." unique_id=129153949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -0.85)
 collision_layer = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PunchHitbox" unique_id=1227948290]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PunchHitbox" unique_id=1671175753]
 shape = SubResource("BoxShape3D_punch")
 
-[node name="PunchEffect" type="MeshInstance3D" parent="." unique_id=1522758243]
+[node name="PunchEffect" type="MeshInstance3D" parent="." unique_id=1943052319]
 transform = Transform3D(1, 0, 0, 0, -3.6199901e-06, 1, 0, -1, -3.6199901e-06, 0, 0.55, -0.85)
 visible = false
 mesh = SubResource("TorusMesh_punch")
 
-[node name="GrabHitbox" type="Area3D" parent="." unique_id=1644423846]
+[node name="GrabHitbox" type="Area3D" parent="." unique_id=1993493711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.6)
 collision_layer = 0
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabHitbox" unique_id=1890227677]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GrabHitbox" unique_id=422914883]
 shape = SubResource("BoxShape3D_grab")
 
-[node name="LeftArm" type="Node3D" parent="." unique_id=862713234]
-transform = Transform3D(0.94923544, 0.31456655, 0, -0.31148884, 0.93994814, 0.13954312, 0.0438956, -0.13245927, 0.990216, -0.4, -0.04, -0.005)
+[node name="GrabPoint" type="Node3D" parent="." unique_id=547321994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.35)
 
-[node name="ArmMesh" type="MeshInstance3D" parent="LeftArm" unique_id=1864002065]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-visible = false
-mesh = SubResource("CylinderMesh_arm")
-
-[node name="CoatMesh" type="MeshInstance3D" parent="LeftArm" unique_id=1166774033]
-transform = Transform3D(0.14, 0, 0, 0, 0.19, 0, 0, 0, 0.12, 0.02, -0.1, -0.45)
-mesh = SubResource("SphereMesh_cuy_arm_left")
-
-[node name="LeftHand" type="Node3D" parent="LeftArm" unique_id=100916023]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, -0.18, -0.49)
-
-[node name="HandMesh" type="MeshInstance3D" parent="LeftArm/LeftHand" unique_id=1566057178]
-visible = false
-mesh = SubResource("SphereMesh_hand")
-
-[node name="PawMesh" type="MeshInstance3D" parent="LeftArm/LeftHand" unique_id=401014561]
-transform = Transform3D(0.095, 0, 0, 0, 0.12, 0, 0, 0, 0.075, 0, 0, 0)
-mesh = SubResource("SphereMesh_cuy_paw")
-
-[node name="RightArm" type="Node3D" parent="." unique_id=1086553641]
-transform = Transform3D(0.94923544, -0.31456655, 0, 0.31148884, 0.93994814, 0.13954312, -0.0438956, -0.13245927, 0.990216, 0.4, -0.04, -0.005)
-
-[node name="ArmMesh" type="MeshInstance3D" parent="RightArm" unique_id=1009844608]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-visible = false
-mesh = SubResource("CylinderMesh_arm")
-
-[node name="CoatMesh" type="MeshInstance3D" parent="RightArm" unique_id=2051333988]
-transform = Transform3D(0.14, 0, 0, 0, 0.19, 0, 0, 0, 0.12, -0.02, -0.1, -0.45)
-mesh = SubResource("SphereMesh_cuy_arm_right")
-
-[node name="RightHand" type="Node3D" parent="RightArm" unique_id=1545089764]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.18, -0.49)
-
-[node name="HandMesh" type="MeshInstance3D" parent="RightArm/RightHand" unique_id=308998006]
-visible = false
-mesh = SubResource("SphereMesh_hand")
-
-[node name="PawMesh" type="MeshInstance3D" parent="RightArm/RightHand" unique_id=1370087969]
-transform = Transform3D(0.095, 0, 0, 0, 0.12, 0, 0, 0, 0.075, 0, 0, 0)
-mesh = SubResource("SphereMesh_cuy_paw")
-
-[node name="GrabPoint" type="Node3D" parent="." unique_id=1099157424]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9)
-
-[editable path="Visual/CuyModel"]
+[node name="CarryPoint" type="Node3D" parent="." unique_id=1957394211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.15)

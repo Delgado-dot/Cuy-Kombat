@@ -22,18 +22,17 @@ func colocar_jugadores() -> void:
 	elif spawn_one == null:
 		push_error("SpawnManager: no se encontró SpawnJugador1.")
 	else:
-		_colocar_jugador(player_one, spawn_one)
+		_aplicar_transform(player_one, spawn_one)
 
 	if player_two == null:
 		push_error("SpawnManager: no se encontró Player2.")
 	elif spawn_two == null:
 		push_error("SpawnManager: no se encontró SpawnJugador2.")
 	else:
-		_colocar_jugador(player_two, spawn_two)
+		_aplicar_transform(player_two, spawn_two)
 
 
-func _colocar_jugador(player: Node3D, spawn_point: Marker3D) -> void:
-	var player_scale := player.scale
-	player.global_position = spawn_point.global_position
-	player.global_rotation = spawn_point.global_rotation
-	player.scale = player_scale
+# Coloca al jugador en la posición y orientación del SpawnPoint sin copiar su escala.
+func _aplicar_transform(player: Node3D, spawn: Node3D) -> void:
+	var rotacion := spawn.global_transform.basis.orthonormalized()
+	player.global_transform = Transform3D(rotacion, spawn.global_position)
