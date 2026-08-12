@@ -270,7 +270,7 @@ func _apply_player_movement(delta: float, move_direction: Vector3, can_jump: boo
 	velocity.z = _horizontal_velocity.z + _external_push.z
 
 	if is_on_floor():
-		if can_jump and Input.is_key_pressed(_jump_key()):
+		if can_jump and (Input.is_key_pressed(_jump_key()) or _joy_button_down(JoyButton.JOY_BUTTON_A)):
 			velocity.y = jump_velocity
 		elif velocity.y < 0.0:
 			velocity.y = 0.0
@@ -354,6 +354,18 @@ func _get_camera_relative_input() -> Vector3:
 	if Input.is_key_pressed(_forward_key()):
 		input_vector.y -= 1.0
 	if Input.is_key_pressed(_back_key()):
+		input_vector.y += 1.0
+
+	input_vector += _joy_stick_vector()
+
+	var device := _joypad_device()
+	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_LEFT):
+		input_vector.x -= 1.0
+	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_RIGHT):
+		input_vector.x += 1.0
+	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_UP):
+		input_vector.y -= 1.0
+	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_DOWN):
 		input_vector.y += 1.0
 
 	if input_vector.length_squared() == 0.0:
@@ -459,6 +471,22 @@ func _update_visual_motion(delta: float, move_direction: Vector3) -> void:
 func _update_impact_reaction(delta: float) -> void:
 	_impact_tilt = _impact_tilt.move_toward(Vector3.ZERO, impact_recovery_speed * delta)
 
+func _joypad_device() -> int:
+	return 0 if control_scheme == "wasd" else 1
+
+func _joy_stick_vector() -> Vector2:
+	var axis := Vector2(
+		Input.get_joy_axis(_joypad_device(), JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(_joypad_device(), JOY_AXIS_LEFT_Y)
+	)
+	var len := axis.length()
+	if len < 0.2:
+		return Vector2.ZERO
+	return axis / len * clampf((len - 0.2) / 0.8, 0.0, 1.0)
+
+func _joy_button_down(button: JoyButton) -> bool:
+	return Input.is_joy_button_pressed(_joypad_device(), button)
+
 func _forward_key() -> Key:
 	return KEY_UP if control_scheme == "arrows" else KEY_W
 
@@ -488,7 +516,7 @@ func _update_tackle_charge(delta: float) -> void:
 		_cancel_tackle_charge()
 		return
 
-	if Input.is_key_pressed(_tackle_key()):
+	if Input.is_key_pressed(_tackle_key()) or _joy_button_down(JoyButton.JOY_BUTTON_B):
 		_charge_time += delta
 		var ratio := clampf(_charge_time / tackle_charge_time, 0.0, 1.0)
 		_update_charge_bar(ratio, true)
@@ -539,8 +567,10 @@ func _update_punch_cooldown(delta: float) -> void:
 
 func _try_start_punch() -> void:
 	var key_down := Input.is_key_pressed(_punch_key())
-	var just_pressed := key_down and not _punch_key_was_down
-	_punch_key_was_down = key_down
+	var joy_down := _joy_button_down(JoyButton.JOY_BUTTON_X)
+	var down := key_down or joy_down
+	var just_pressed := down and not _punch_key_was_down
+	_punch_key_was_down = down
 
 	if not just_pressed:
 		return

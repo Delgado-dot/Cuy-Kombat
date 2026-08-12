@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="9_controls"]
 [ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="10_main_menu"]
 [ext_resource type="Script" uid="uid://df3d1bfef85kt" path="res://scripts/gameplay/objects_spawner.gd" id="11_objects_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="12_hud"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
 size = Vector3(80, 10, 80)
@@ -76,5 +77,9 @@ controls_screen_path = NodePath("../ControlsScreen")
 
 [node name="PauseMenu" parent="." unique_id=1684430219 instance=ExtResource("8_pause")]
 game_manager_path = NodePath("../GameManager")
+
+[node name="Hud" parent="." instance=ExtResource("12_hud")]
+game_manager_path = NodePath("../GameManager")
+player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2")])
 
 [node name="ControlsScreen" parent="." unique_id=1684430220 instance=ExtResource("9_controls")]

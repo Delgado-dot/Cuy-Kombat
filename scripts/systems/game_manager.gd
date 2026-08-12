@@ -60,8 +60,42 @@ func finalizar_partida(winner: Node) -> void:
 	match_finished.emit(winner)
 
 
+func finalizar_partida_por_tiempo() -> void:
+	if match_state != MatchState.PLAYING:
+		return
+
+	match_state = MatchState.FINISHED
+	_set_players_input(false)
+	match_finished.emit(_player_leading_by_health())
+
+
 func get_player_number(player: Node) -> int:
 	return _players.find(player) + 1
+
+
+func _player_leading_by_health() -> Node:
+	var best: Node = _players[0] if not _players.is_empty() else null
+	var best_health := -1.0
+
+	for player in _players:
+		var health := _get_player_health(player)
+		if health > best_health:
+			best_health = health
+			best = player
+
+	return best
+
+
+func _get_player_health(player: Node) -> float:
+	if player == null or not is_instance_valid(player):
+		return 0.0
+
+	var threshold := float(player.get("knockout_threshold"))
+	if threshold <= 0.0:
+		return 1.0
+
+	var hits := float(player.get("knockout_hits"))
+	return clampf(1.0 - hits / threshold, 0.0, 1.0)
 
 
 func _register_players() -> void:

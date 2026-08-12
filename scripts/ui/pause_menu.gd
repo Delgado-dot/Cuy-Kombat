@@ -31,7 +31,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not event.is_action_pressed("pause"):
 		return
-	if event.echo:
+	if event is InputEventKey and event.echo:
 		return
 	if not _match_active:
 		return
