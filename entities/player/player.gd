@@ -185,13 +185,10 @@ var _right_arm_rest_rot := Vector3.ZERO
 @onready var _grab_hitbox := get_node_or_null("GrabHitbox") as Area3D
 @onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
 @onready var _carry_point := get_node_or_null("CarryPoint") as Node3D
-@onready var _cuy_anim_player := get_node_or_null("Visual/CuyModel/AnimationPlayer") as AnimationPlayer
 @onready var _cuy_model := get_node_or_null("Visual/CuyModel") as Node3D
 
-var _current_cuy_anim := ""
 
 func _physics_process(delta: float) -> void:
-	_update_animation()
 	_update_tackle_cooldown(delta)
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
@@ -293,56 +290,7 @@ func _ready() -> void:
 	if _tackle_hitbox != null:
 		_tackle_hitbox.body_entered.connect(_on_tackle_hitbox_body_entered)
 
-	_setup_cuy_animations()
-
 	call_deferred("_connect_death_zone")
-
-func _setup_cuy_animations() -> void:
-	if _cuy_anim_player == null:
-		return
-
-	for _anim_name in ["Idle", "Run"]:
-		var _anim := _cuy_anim_player.get_animation(_anim_name)
-		if _anim != null:
-			_anim.loop_mode = Animation.LOOP_LINEAR
-
-	if _cuy_model != null:
-		_cuy_skeleton = _cuy_model.find_child("Skeleton3D", true, false) as Skeleton3D
-		if _cuy_skeleton != null:
-			_head_bone = _cuy_skeleton.find_bone("Cabesa")
-			_spine_bone = _cuy_skeleton.find_bone("Caolumna1")
-			if _head_bone >= 0:
-				var head_global_rest := _cuy_skeleton.get_bone_global_rest(_head_bone)
-				_head_rest_forward_local = (head_global_rest.basis.inverse() * Vector3(0.0, 0.0, -1.0)).normalized()
-				_head_rest_right_local = (head_global_rest.basis.inverse() * Vector3(1.0, 0.0, 0.0)).normalized()
-				_headbutt_dir_local = (head_global_rest.basis * Vector3(0.0, 0.0, 1.0)).normalized()
-
-	_current_cuy_anim = "Idle"
-	_cuy_anim_player.play("Idle")
-
-func _update_animation() -> void:
-	if _cuy_anim_player == null:
-		return
-
-	if _state == PlayerState.KNOCKED:
-		_current_cuy_anim = ""
-		_cuy_anim_player.pause()
-		return
-
-	var target := "Idle"
-
-	if _state == PlayerState.GRABBED:
-		target = "Idle"
-	elif _state == PlayerState.STUNNED:
-		target = "Idle"
-	elif not is_on_floor():
-		target = "Jump"
-	elif Vector3(velocity.x, 0.0, velocity.z).length() > 0.2:
-		target = "Run"
-
-	if _current_cuy_anim != target:
-		_current_cuy_anim = target
-		_cuy_anim_player.play(target)
 
 func _get_camera_relative_input() -> Vector3:
 	var input_vector := Vector2.ZERO
