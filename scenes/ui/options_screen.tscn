@@ -91,6 +91,51 @@ corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_raised"]
+bg_color = Color(0.12, 0.22, 0.35, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.65, 0.9, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_pressed"]
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.45, 0.7, 0.9, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 2
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_hover"]
+bg_color = Color(0.18, 0.3, 0.48, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Arial", "Noto Sans")
 font_weight = 900
@@ -255,24 +300,24 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBox_primary")
-theme_override_styles/hover = SubResource("StyleBox_primary_hover")
-theme_override_styles/pressed = SubResource("StyleBox_primary_pressed")
+theme_override_styles/normal = SubResource("StyleBox_relief_raised")
+theme_override_styles/hover = SubResource("StyleBox_relief_hover")
+theme_override_styles/pressed = SubResource("StyleBox_relief_pressed")
 text = "PANTALLA COMPLETA"
 
 [node name="WindowedButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/FullscreenSection/FullscreenButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBox_option_button")
-theme_override_styles/hover = SubResource("StyleBox_option_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_option_button_pressed")
+theme_override_styles/normal = SubResource("StyleBox_relief_raised")
+theme_override_styles/hover = SubResource("StyleBox_relief_hover")
+theme_override_styles/pressed = SubResource("StyleBox_relief_pressed")
 text = "VENTANA"
 
 [node name="VolumeSection" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer"]
