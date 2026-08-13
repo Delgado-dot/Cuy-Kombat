@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/winner_screen.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://entities/player/visuals/cuy_base.tscn" id="2_cuy_visual"]
 
 [sub_resource type="SystemFont" id="SystemFont_title"]
 font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
@@ -259,8 +258,6 @@ omni_range = 3.5
 [node name="WinnerCuyPivot" type="Node3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
 unique_name_in_owner = true
 rotation = Vector3(0, -0.12, 0)
-
-[node name="CuyVisual" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld/WinnerCuyPivot" instance=ExtResource("2_cuy_visual")]
 
 [node name="Camera3D" type="Camera3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
 position = Vector3(0, 0.76, -3)

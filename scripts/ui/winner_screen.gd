@@ -66,6 +66,7 @@ func show_winner(player_number: int) -> void:
 		return
 
 	_winner_shown = true
+	_apply_winner_character_model(player_number)
 
 	var champion := RoundManager.reached_goal(player_number)
 	var winner_label_text := "¡P%d CAMPEÓN!" if champion else "¡P%d GANA LA RONDA!"
@@ -93,6 +94,31 @@ func show_winner(player_number: int) -> void:
 		_next_round_button.text = "SIGUIENTE RONDA"
 		_next_round_button.tooltip_text = ""
 		_next_round_button.grab_focus()
+
+
+func _apply_winner_character_model(player_number: int) -> void:
+	var preset: Dictionary = MatchSettings.get_player_character(player_number)
+	if preset.is_empty() or not preset.has("scene_path"):
+		return
+
+	var scene_path := String(preset["scene_path"])
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+
+	var model_scene := load(scene_path) as PackedScene
+	if model_scene == null:
+		return
+
+	for child in _winner_cuy_pivot.get_children():
+		child.queue_free()
+
+	var model := model_scene.instantiate() as Node3D
+	if model != null:
+		var scale_vec := preset.get("scale", Vector3.ONE) as Vector3
+		var offset_vec := preset.get("offset", Vector3.ZERO) as Vector3
+		model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)
+		model.rotation.y = PI
+		_winner_cuy_pivot.add_child(model)
 
 
 func _play_winner_presentation() -> void:
