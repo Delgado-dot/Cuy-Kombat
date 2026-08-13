@@ -184,9 +184,7 @@ func _update_player_display(player_num: int) -> void:
 		if ResourceLoader.exists(scene_path):
 			var packed := load(scene_path) as PackedScene
 			if packed != null:
-				var model_instance := packed.instantiate() as Node3D
-				# Duplicate to ensure fully independent resources
-				var model := model_instance.duplicate() as Node3D
+				var model := packed.instantiate() as Node3D
 				var scale_vec: Vector3 = (char_info.get("scale", Vector3.ONE) as Vector3) * LOBBY_MODEL_SCALE_FACTOR
 				var offset_vec: Vector3 = char_info.get("offset", Vector3.ZERO) as Vector3
 				model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)

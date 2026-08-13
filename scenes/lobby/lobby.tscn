@@ -251,6 +251,7 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(270, 250)
 render_target_update_mode = 4
+own_world_3d = true
 
 [node name="P1Cam" type="Camera3D" parent="SelectionSection/PlayersRow/P1Card/Content/P1ViewportContainer/P1Viewport" unique_id=1813573314]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.45, 2.3)
@@ -359,6 +360,7 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(270, 250)
 render_target_update_mode = 4
+own_world_3d = true
 
 [node name="P2Cam" type="Camera3D" parent="SelectionSection/PlayersRow/P2Card/Content/P2ViewportContainer/P2Viewport" unique_id=372804280]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.45, 2.3)
