@@ -118,6 +118,18 @@ func get_slide_direction(player: Node) -> Vector3:
 		result += (mutation as Mutation).get_slide_direction(player)
 	return result
 
+func get_arena_tilt_angle() -> float:
+	var result := 0.0
+	for mutation in _active.values():
+		result = maxf(result, (mutation as Mutation).get_arena_tilt_angle())
+	return result
+
+func get_arena_tilt_speed() -> float:
+	var result := 0.0
+	for mutation in _active.values():
+		result = maxf(result, (mutation as Mutation).get_arena_tilt_speed())
+	return result
+
 ## Multiplica los multiplicadores de escala (tamaño) de las mutaciones
 ## activas. Devuelve 1.0 cuando ninguna mutación modifica el tamaño.
 func get_scale_multiplier(player: Node) -> float:

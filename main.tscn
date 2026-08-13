@@ -35,8 +35,8 @@ transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("6_spawn_manager")
 player_one_path = NodePath("../Player1")
 player_two_path = NodePath("../Player2")
-spawn_one_path = NodePath("../Arena/PuntosDeAparicion/SpawnJugador1")
-spawn_two_path = NodePath("../Arena/PuntosDeAparicion/SpawnJugador2")
+spawn_one_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador1")
+spawn_two_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador2")
 
 [node name="GameManager" type="Node" parent="." unique_id=428099557]
 script = ExtResource("5_game_manager")
