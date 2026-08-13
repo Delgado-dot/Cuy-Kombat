@@ -3,6 +3,35 @@
 [ext_resource type="Script" path="res://scripts/ui/options_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/imagenes/fondo-ajustes.png" id="2_bg"]
 
+[sub_resource type="Shader" id="FrostedGlassShader"]
+code = """
+shader_type canvas_item;
+
+uniform float blur_radius : hint_range(0, 20) = 8.0;
+uniform float frost_intensity : hint_range(0, 1) = 0.4;
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+	vec4 color = vec4(0.0);
+	
+	for (int x = -4; x <= 4; x++) {
+		for (int y = -4; y <= 4; y++) {
+			vec2 offset = vec2(float(x), float(y)) * blur_radius / SCREEN_PIXEL_SIZE;
+			color += texture(SCREEN_TEXTURE, uv + offset);
+		}
+	}
+	color /= 81.0;
+	
+	color.a *= frost_intensity;
+	color.rgb *= 0.95;
+	
+	COLOR = color;
+}
+"""
+
+[sub_resource type="ShaderMaterial" id="FrostedGlassMaterial"]
+shader = SubResource("FrostedGlassShader")
+
 [sub_resource type="StyleBoxFlat" id="StyleBox_options_panel"]
 bg_color = Color(0.035, 0.055, 0.105, 0)
 border_width_left = 3
@@ -247,7 +276,7 @@ layout_mode = 2
 
 [node name="Panel" type="PanelContainer" parent="OptionsScreen/Margin/Center"]
 custom_minimum_size = Vector2(580, 600)
-theme_override_styles/panel = SubResource("StyleBox_options_panel")
+theme_override_styles/panel = SubResource("FrostedGlassMaterial")
 
 [node name="Padding" type="MarginContainer" parent="OptionsScreen/Margin/Center/Panel"]
 layout_mode = 2
