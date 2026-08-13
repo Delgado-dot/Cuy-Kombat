@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dy8v4803u140o" path="res://scripts/ui/main_menu.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="2_controls"]
-[ext_resource type="PackedScene" path="res://scenes/ui/options_screen.tscn" id="3_options"]
+[ext_resource type="PackedScene" uid="uid://c4lvwh11m5q4d" path="res://scenes/ui/options_screen.tscn" id="3_options"]
 [ext_resource type="Texture2D" uid="uid://dib12afcvvkma" path="res://assets/imagenes/fondo-menu.png" id="4_bg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_open"]
@@ -15,6 +15,7 @@ corner_radius_bottom_left = 32
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Arial", "Noto Sans")
 font_weight = 900
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_primary"]
 content_margin_top = 10.0
@@ -333,5 +334,5 @@ horizontal_alignment = 1
 [node name="ControlsScreen" parent="." unique_id=446614443 instance=ExtResource("2_controls")]
 open_button_path = NodePath("../MainMenu/Margin/Center/Panel/Padding/Content/ControlsButton")
 
-[node name="OptionsScreen" parent="." instance=ExtResource("3_options")]
+[node name="OptionsScreen" parent="." unique_id=990578144 instance=ExtResource("3_options")]
 open_button_path = NodePath("../MainMenu/Margin/Center/Panel/Padding/Content/MainOptionsButton")

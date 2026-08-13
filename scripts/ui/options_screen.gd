@@ -8,8 +8,11 @@ extends CanvasLayer
 @onready var _windowed_button := %WindowedButton as Button
 @onready var _volume_slider := %VolumeSlider as HSlider
 @onready var _volume_label := %VolumeLabel as Label
+@onready var _title_label := %Title as Label
+@onready var _fullscreen_header := %FullscreenHeader as Label
 
 var _open_button: Button
+var _time_accumulator: float = 0.0
 
 
 func _ready() -> void:
@@ -27,6 +30,7 @@ func _ready() -> void:
 		_open_button.pressed.connect(open)
 
 	_sync_slider_to_volume()
+	_start_text_animations()
 
 
 func _input(event: InputEvent) -> void:
@@ -50,6 +54,38 @@ func open(_from_screen: Node = null) -> void:
 
 func close() -> void:
 	_options_root.visible = false
+
+
+func _process(delta: float) -> void:
+	if not _options_root.visible:
+		return
+	_time_accumulator += delta
+	_animate_title()
+	_animate_headers()
+
+
+func _start_text_animations() -> void:
+	_time_accumulator = 0.0
+
+
+func _animate_title() -> void:
+	if _title_label == null:
+		return
+	var wave_offset := sin(_time_accumulator * 3.0) * 3.0
+	_title_label.add_theme_constant_override("outline_size", int(abs(sin(_time_accumulator * 4.0)) * 2) + 2)
+	var color_shift := Color(1, 0.4, 0.7, 1).lerp(Color(1, 0.8, 0.3, 1), (sin(_time_accumulator * 2.0) + 1.0) * 0.5)
+	_title_label.add_theme_color_override("font_color", color_shift)
+
+
+func _animate_headers() -> void:
+	if _fullscreen_header == null or _volume_label == null:
+		return
+	var pulse := (sin(_time_accumulator * 2.5) + 1.0) * 0.5
+	var color_a := Color(0.96, 0.97, 1, 1)
+	var color_b := Color(0.55, 0.85, 1, 1)
+	var animated_color := color_a.lerp(color_b, pulse)
+	_fullscreen_header.add_theme_color_override("font_color", animated_color)
+	_volume_label.add_theme_color_override("font_color", animated_color)
 
 
 func _on_fullscreen_pressed() -> void:
