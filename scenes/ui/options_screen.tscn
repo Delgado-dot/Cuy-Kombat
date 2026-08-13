@@ -7,8 +7,8 @@
 code = """
 shader_type canvas_item;
 
-uniform float blur_radius : hint_range(0, 20) = 8.0;
-uniform float frost_intensity : hint_range(0, 1) = 0.4;
+uniform float blur_radius : hint_range(0, 20) = 12.0;
+uniform float frost_opacity : hint_range(0, 1) = 0.35;
 
 void fragment() {
 	vec2 uv = SCREEN_UV;
@@ -22,8 +22,9 @@ void fragment() {
 	}
 	color /= 81.0;
 	
-	color.a *= frost_intensity;
-	color.rgb *= 0.95;
+	// Keep original colors, just add slight frost tint and control opacity
+	color.a = frost_opacity;
+	color.rgb = mix(color.rgb, vec3(1.0), 0.05); // slight brightening
 	
 	COLOR = color;
 }
@@ -33,7 +34,7 @@ void fragment() {
 shader = SubResource("FrostedGlassShader")
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_options_panel"]
-bg_color = Color(0.035, 0.055, 0.105, 0)
+bg_color = Color(0, 0, 0, 0)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
