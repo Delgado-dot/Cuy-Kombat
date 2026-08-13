@@ -3,7 +3,7 @@ extends CanvasLayer
 const PLAYER_ONE_COLOR := Color(1.0, 0.38, 0.69, 1.0)
 const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
 const WINNER_MODEL_SCALE_FACTOR := 0.62
-const WINNER_MODEL_VERTICAL_OFFSET := 0.6
+const WINNER_MODEL_VERTICAL_OFFSET := 0.65
 
 @export var game_manager_path: NodePath
 @export var scenario_manager_path: NodePath
