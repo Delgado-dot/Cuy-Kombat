@@ -257,7 +257,7 @@ func _apply_round_selection(max_rounds: int, _emit_change: bool = true) -> void:
 func _on_play_pressed() -> void:
 	MatchSettings.set_max_rounds(_selected_max_rounds)
 	RoundManager.reset()
-	ScreenFlow.go_to_scenario_select()
+	ScreenFlow.go_to_mutation_select()
 
 
 func _on_back_pressed() -> void:

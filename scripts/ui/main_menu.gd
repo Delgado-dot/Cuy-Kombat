@@ -65,34 +65,39 @@ func _on_controls_visibility_changed() -> void:
 		_play_button.grab_focus()
 
 
-# Registra las acciones de navegación estándar de UI (ui_up/down/left/right y
-# focus_next/prev) solo si faltan, para permitir navegar el menú con teclado,
-# D-pad y joystick sin modificar el InputMap de project.godot.
+# Registra de forma idempotente los eventos de D-pad y joystick en las
+# acciones de navegación estándar de UI (ui_up/down/left/right y
+# focus_next/prev). Godot ya crea las acciones ui_* por defecto (solo con
+# teclado), así que solo se añaden los eventos de mando que falten.
 func _ensure_navigation_actions() -> void:
 	_ensure_navigation_action("ui_up", KEY_UP, JoyButton.JOY_BUTTON_DPAD_UP, JoyAxis.JOY_AXIS_LEFT_Y, -1.0)
 	_ensure_navigation_action("ui_down", KEY_DOWN, JoyButton.JOY_BUTTON_DPAD_DOWN, JoyAxis.JOY_AXIS_LEFT_Y, 1.0)
 	_ensure_navigation_action("ui_left", KEY_LEFT, JoyButton.JOY_BUTTON_DPAD_LEFT, JoyAxis.JOY_AXIS_LEFT_X, -1.0)
 	_ensure_navigation_action("ui_right", KEY_RIGHT, JoyButton.JOY_BUTTON_DPAD_RIGHT, JoyAxis.JOY_AXIS_LEFT_X, 1.0)
-
-	if not InputMap.has_action("ui_focus_next"):
-		InputMap.add_action("ui_focus_next")
-		InputMap.action_add_event("ui_focus_next", _navigation_key_event(KEY_TAB))
-		InputMap.action_add_event("ui_focus_next", _navigation_joy_button_event(JoyButton.JOY_BUTTON_RIGHT_SHOULDER))
-	if not InputMap.has_action("ui_focus_prev"):
-		InputMap.add_action("ui_focus_prev")
-		var shift_tab := _navigation_key_event(KEY_TAB)
-		shift_tab.shift_pressed = true
-		InputMap.action_add_event("ui_focus_prev", shift_tab)
-		InputMap.action_add_event("ui_focus_prev", _navigation_joy_button_event(JoyButton.JOY_BUTTON_LEFT_SHOULDER))
+	_ensure_focus_action("ui_focus_next", KEY_TAB, JoyButton.JOY_BUTTON_RIGHT_SHOULDER)
+	_ensure_focus_action("ui_focus_prev", KEY_TAB, JoyButton.JOY_BUTTON_LEFT_SHOULDER, true)
 
 
 func _ensure_navigation_action(action: StringName, key: Key, joy_button: JoyButton, axis: JoyAxis, axis_value: float) -> void:
-	if InputMap.has_action(action):
-		return
-	InputMap.add_action(action)
-	InputMap.action_add_event(action, _navigation_key_event(key))
-	InputMap.action_add_event(action, _navigation_joy_button_event(joy_button))
-	InputMap.action_add_event(action, _navigation_joy_motion_event(axis, axis_value))
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	_ensure_event(action, _navigation_key_event(key))
+	_ensure_event(action, _navigation_joy_button_event(joy_button))
+	_ensure_event(action, _navigation_joy_motion_event(axis, axis_value))
+
+
+func _ensure_focus_action(action: StringName, key: Key, joy_button: JoyButton, shift_pressed := false) -> void:
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	var key_event := _navigation_key_event(key)
+	key_event.shift_pressed = shift_pressed
+	_ensure_event(action, key_event)
+	_ensure_event(action, _navigation_joy_button_event(joy_button))
+
+
+func _ensure_event(action: StringName, event: InputEvent) -> void:
+	if not InputMap.action_has_event(action, event):
+		InputMap.action_add_event(action, event)
 
 
 func _navigation_key_event(keycode: Key) -> InputEventKey:

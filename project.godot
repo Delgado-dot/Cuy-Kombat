@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 ScreenFlow="*res://scripts/core/screen_flow.gd"
 MusicManager="*res://scripts/core/music_manager.gd"
+MutationManager="*res://scripts/systems/mutations/mutation_manager.gd"
 
 [display]
 
