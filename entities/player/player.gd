@@ -291,6 +291,31 @@ func _ready() -> void:
 		_tackle_hitbox.body_entered.connect(_on_tackle_hitbox_body_entered)
 
 	call_deferred("_connect_death_zone")
+	call_deferred("_apply_selected_character_model")
+
+
+func _apply_selected_character_model() -> void:
+	if _cuy_model == null:
+		return
+	var player_num := 1 if control_scheme == "wasd" else 2
+	var preset: Dictionary = MatchSettings.get_player_character(player_num)
+	if preset.is_empty() or not preset.has("scene_path"):
+		return
+	var scene_path := String(preset["scene_path"])
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+	var model_scene := load(scene_path) as PackedScene
+	if model_scene == null:
+		return
+	for child in _cuy_model.get_children():
+		child.queue_free()
+	var new_model := model_scene.instantiate() as Node3D
+	if new_model != null:
+		var scale_vec := preset.get("scale", Vector3.ONE) as Vector3
+		var offset_vec := preset.get("offset", Vector3.ZERO) as Vector3
+		new_model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)
+		new_model.rotation.y = PI
+		_cuy_model.add_child(new_model)
 
 func _get_camera_relative_input() -> Vector3:
 	var input_vector := Vector2.ZERO
