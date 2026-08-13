@@ -51,6 +51,7 @@ func _ready() -> void:
 	_select_scenario(SCENARIO_VOLCANICA, _volcano_card, false)
 	ScreenFlow.register_scenario_select(self)
 	_volcano_card.grab_focus()
+	MusicManager.play_menu_music()
 
 
 func _exit_tree() -> void:

@@ -70,6 +70,7 @@ avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
 
 [node name="WinnerScreen" parent="." unique_id=91899860 instance=ExtResource("7_winner")]
 game_manager_path = NodePath("../GameManager")
+scenario_manager_path = NodePath("../ScenarioManager")
 
 [node name="PauseMenu" parent="." unique_id=1684430219 instance=ExtResource("8_pause")]
 game_manager_path = NodePath("../GameManager")

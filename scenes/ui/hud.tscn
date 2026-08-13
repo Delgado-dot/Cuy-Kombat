@@ -136,7 +136,7 @@ layout_mode = 1
 offset_left = 24.0
 offset_top = 22.0
 offset_right = 394.0
-offset_bottom = 208.0
+offset_bottom = 236.0
 theme_override_styles/panel = SubResource("StyleBox_player_one")
 
 [node name="Padding" type="MarginContainer" parent="HudRoot/PlayerOnePanel"]
@@ -209,6 +209,15 @@ theme_override_colors/font_color = Color(0.68, 0.77, 0.9, 1)
 theme_override_font_sizes/font_size = 16
 text = "GOLPES 0/7"
 
+[node name="P1Stars" type="Label" parent="HudRoot/PlayerOnePanel/Padding/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = ""
+
 [node name="PlayerTwoPanel" type="PanelContainer" parent="HudRoot"]
 layout_mode = 1
 anchors_preset = 1
@@ -217,7 +226,7 @@ anchor_right = 1.0
 offset_left = -394.0
 offset_top = 22.0
 offset_right = -24.0
-offset_bottom = 208.0
+offset_bottom = 236.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBox_player_two")
 
@@ -294,4 +303,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.77, 0.9, 1)
 theme_override_font_sizes/font_size = 16
 text = "GOLPES 0/7"
+horizontal_alignment = 2
+
+[node name="P2Stars" type="Label" parent="HudRoot/PlayerTwoPanel/Padding/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = ""
 horizontal_alignment = 2

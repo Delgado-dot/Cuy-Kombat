@@ -14,12 +14,14 @@ const PLAYER_STATE_KNOCKED := 6
 @onready var _p1_icon := %P1Icon as Control
 @onready var _p1_leader := %P1Leader as Label
 @onready var _p1_pips := %P1Pips as HBoxContainer
+@onready var _p1_stars := %P1Stars as Label
 @onready var _p2_name := %P2Name as Label
 @onready var _p2_bar := %P2Bar as ProgressBar
 @onready var _p2_status := %P2Status as Label
 @onready var _p2_icon := %P2Icon as Control
 @onready var _p2_leader := %P2Leader as Label
 @onready var _p2_pips := %P2Pips as HBoxContainer
+@onready var _p2_stars := %P2Stars as Label
 
 var _game_manager: Node
 var _players: Array[Node] = []
@@ -48,6 +50,7 @@ func _ready() -> void:
 
 	_setup_player_ui(0, _p1_name, _p1_bar, _p1_status, _p1_icon, _p1_leader, _p1_pips)
 	_setup_player_ui(1, _p2_name, _p2_bar, _p2_status, _p2_icon, _p2_leader, _p2_pips)
+	_update_stars()
 
 
 func _connect_game_manager() -> void:
@@ -244,6 +247,18 @@ func _status_text(player: Node) -> String:
 	return "GOLPES %d/%d" % [int(hits), int(threshold)]
 
 
+func _update_stars() -> void:
+	_p1_stars.text = _stars_text(RoundManager.get_wins(1))
+	_p2_stars.text = _stars_text(RoundManager.get_wins(2))
+
+
+func _stars_text(count: int) -> String:
+	var text := ""
+	for i in count:
+		text += "★ "
+	return text.strip_edges()
+
+
 func _on_match_started() -> void:
 	_match_active = true
 	_pulse_time = 0.0
@@ -265,4 +280,6 @@ func _on_match_started() -> void:
 
 func _on_match_finished(_winner: Node) -> void:
 	_match_active = false
-	_root.visible = false
+	_update_stars()
+	_timer_label.text = "00:00"
+	_timer_label.scale = Vector2.ONE
