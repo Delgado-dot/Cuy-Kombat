@@ -17,6 +17,12 @@ signal exploded()
 ## Escena de VFX provisional instanciada al explotar. Solo visual. Si es null,
 ## la explosión física continúa funcionando igual.
 @export var explosion_vfx_scene: PackedScene
+## Cantidad de fragmentos del barril lanzados al explotar. La escena de
+## fragmentos se hereda de BreakableBox (debris_fragment_scene).
+@export var barrel_debris_count := 5
+
+## Sonido de explosión (punto de conexión; si es null no se reproduce nada).
+@export var explosion_sfx: AudioStream
 
 var _did_explode := false
 var _last_spawned_vfx: Node3D
@@ -28,9 +34,30 @@ func _ready() -> void:
 	_strip_embedded_model_physics()
 
 
+## Al romperse, el barril explota. NO usa el feedback de ruptura de la caja
+## (virutas de madera): usa su propio sistema de explosión. La limpieza física
+## (freeze, colisiones, grupo) es la misma.
 func _break() -> void:
-	super._break()
+	if is_broken():
+		return
+
+	_is_broken = true
+	_destroy_body()
+	print("[BARREL] EXPLODING")
 	_explode()
+	queue_free()
+
+
+## Un barril lanzado que golpea directamente a un jugador explota en el acto.
+## Reutiliza el flujo normal de ruptura (impact_detected → _break → _explode):
+## el jugador recibe el golpe del proyectil y luego el efecto de área de la
+## explosión. El lanzador ya quedó excluido del impacto del proyectil y también
+## se excluye del área de la explosión.
+func _on_projectile_hit_player(player: CharacterBody3D) -> void:
+	if _is_broken:
+		return
+	var intensity := maxf(_projectile_speed, linear_velocity.length())
+	_handle_impact(player, intensity, global_position)
 
 
 ## Al romperse, lanza a todos los jugadores dentro del radio, con fuerza que
@@ -44,9 +71,17 @@ func _explode() -> void:
 	var center := global_position
 	exploded.emit()
 	_spawn_explosion_vfx(center)
+	_spawn_barrel_debris(center)
+	ObjectVFX.play_sfx(self, explosion_sfx, center)
 
 	for player in _find_all_players():
 		if not is_instance_valid(player):
+			continue
+
+		# El lanzador del barril no recibe el área de la explosión de su propio
+		# objeto (también está excluido del impacto directo del proyectil).
+		if _last_thrower != null and is_instance_valid(_last_thrower) \
+				and player == _last_thrower:
 			continue
 
 		var distance := player.global_position.distance_to(center)
@@ -82,6 +117,27 @@ func _spawn_explosion_vfx(center: Vector3) -> void:
 	get_tree().current_scene.add_child(vfx)
 	vfx.global_position = center
 	_last_spawned_vfx = vfx
+
+
+## Restos físicos del barril expulsados radialmente por la explosión.
+## Puramente visual: los fragmentos no tienen lógica de combate ni knockback.
+func _spawn_barrel_debris(center: Vector3) -> void:
+	if debris_fragment_scene == null:
+		return
+
+	ObjectVFX.spawn_debris(
+		self,
+		debris_fragment_scene,
+		center,
+		barrel_debris_count,
+		4.5,
+		8.5,
+		5.0,
+		0.14,
+		Color(0.26, 0.22, 0.2, 1.0),
+		0.45,
+		0.6
+	)
 
 
 ## Recorre el árbol de la escena y devuelve todos los jugadores (CharacterBody3D

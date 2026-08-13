@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/gameplay/interactable_object.tscn" id="1_interactable"]
 [ext_resource type="Script" path="res://scripts/gameplay/barrel.gd" id="2_barrel"]
 [ext_resource type="PackedScene" path="res://assets/models/barril.glb" id="3_glb"]
 [ext_resource type="PackedScene" path="res://scenes/gameplay/barrel_explosion_vfx.tscn" id="4_vfx"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/grab_vfx.tscn" id="5_grab"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/throw_vfx.tscn" id="6_throw"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/flight_trail.tscn" id="7_trail"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/object_impact_vfx.tscn" id="8_impact"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/spark_burst.tscn" id="9_sparks"]
+[ext_resource type="PackedScene" path="res://scenes/gameplay/vfx/debris_fragment.tscn" id="10_debris"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_barrel"]
 radius = 0.5
@@ -16,6 +22,13 @@ max_contacts_reported = 8
 impact_knockback_force = 0.0
 script = ExtResource("2_barrel")
 explosion_vfx_scene = ExtResource("4_vfx")
+debris_fragment_scene = ExtResource("10_debris")
+grab_vfx_scene = ExtResource("5_grab")
+throw_vfx_scene = ExtResource("6_throw")
+flight_trail_scene = ExtResource("7_trail")
+impact_vfx_scene = ExtResource("8_impact")
+impact_debris_scene = ExtResource("9_sparks")
+show_cracks = false
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("CylinderShape3D_barrel")

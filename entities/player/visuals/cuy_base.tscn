@@ -1,0 +1,339 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_orange.tres" id="1_orange"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_brown.tres" id="2_brown"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_white.tres" id="3_white"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_black.tres" id="4_black"]
+[ext_resource type="Material" path="res://entities/player/visuals/cuy_pink.tres" id="5_pink"]
+[ext_resource type="ArrayMesh" path="res://entities/player/visuals/cuy_chibi_body.res" id="6_body"]
+
+[sub_resource type="StandardMaterial3D" id="Material_body"]
+resource_name = "Pelaje tricolor suave"
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+metallic = 0.0
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_eye"]
+resource_name = "Ojo brillante"
+albedo_color = Color(0.012, 0.009, 0.008, 1)
+metallic = 0.0
+roughness = 0.08
+
+[sub_resource type="StandardMaterial3D" id="Material_highlight"]
+resource_name = "Brillo de ojos"
+albedo_color = Color(1, 0.985, 0.94, 1)
+metallic = 0.0
+roughness = 0.12
+
+[sub_resource type="StandardMaterial3D" id="Material_mouth"]
+resource_name = "Boca"
+albedo_color = Color(0.3, 0.15, 0.12, 1)
+metallic = 0.0
+roughness = 0.78
+
+[sub_resource type="StandardMaterial3D" id="Material_inner_ear"]
+resource_name = "Sombra interior de oreja"
+albedo_color = Color(0.42, 0.18, 0.15, 1)
+metallic = 0.0
+roughness = 0.84
+
+[sub_resource type="SphereMesh" id="SphereMesh_detail"]
+radius = 0.5
+height = 1.0
+radial_segments = 28
+rings = 14
+
+[sub_resource type="SphereMesh" id="SphereMesh_legacy"]
+radius = 0.5
+height = 1.0
+radial_segments = 8
+rings = 4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mouth"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 1.0
+radial_segments = 10
+rings = 1
+
+[node name="CuyVisual" type="Node3D"]
+
+; Nodos heredados: se conservan ocultos para no romper los overrides de player.tscn.
+[node name="Body" type="Node3D" parent="."]
+visible = false
+
+[node name="LowerBody" type="MeshInstance3D" parent="Body"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="UpperBody" type="MeshInstance3D" parent="Body"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="WhiteFront" type="Node3D" parent="."]
+visible = false
+
+[node name="Belly" type="MeshInstance3D" parent="WhiteFront"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="FaceBridge" type="MeshInstance3D" parent="WhiteFront"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="Forehead" type="MeshInstance3D" parent="WhiteFront"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="BrownRightPatch" type="Node3D" parent="."]
+visible = false
+
+[node name="Face" type="MeshInstance3D" parent="BrownRightPatch"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="Side" type="MeshInstance3D" parent="BrownRightPatch"]
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="BrownBackPatch" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="EarLeft" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="EarRight" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="EyeLeft" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="EyeRight" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="Nose" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="ArmLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.39, 0.62, -0.46)
+rotation = Vector3(-0.08, 0, -0.14)
+scale = Vector3(0.14, 0.19, 0.12)
+material_override = ExtResource("1_orange")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="HandLeft" type="MeshInstance3D" parent="."]
+position = Vector3(-0.37, 0.535, -0.525)
+rotation = Vector3(-0.08, 0, -0.08)
+scale = Vector3(0.095, 0.12, 0.075)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ArmRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.39, 0.62, -0.46)
+rotation = Vector3(-0.08, 0, 0.14)
+scale = Vector3(0.14, 0.19, 0.12)
+material_override = ExtResource("2_brown")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="HandRight" type="MeshInstance3D" parent="."]
+position = Vector3(0.37, 0.535, -0.525)
+rotation = Vector3(-0.08, 0, 0.08)
+scale = Vector3(0.095, 0.12, 0.075)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="FootLeft" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+[node name="FootRight" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_legacy")
+
+; Nuevo cuerpo continuo de perfil pera/frijol y patrón tricolor integrado.
+[node name="ChibiBody" type="MeshInstance3D" parent="."]
+mesh = ExtResource("6_body")
+material_override = SubResource("Material_body")
+
+[node name="ChibiFace" type="Node3D" parent="."]
+
+[node name="MuzzleLeft" type="MeshInstance3D" parent="ChibiFace"]
+visible = false
+position = Vector3(-0.055, 0.895, -0.53)
+rotation = Vector3(0.05, -0.08, -0.03)
+scale = Vector3(0.15, 0.09, 0.032)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="MuzzleRight" type="MeshInstance3D" parent="ChibiFace"]
+visible = false
+position = Vector3(0.055, 0.895, -0.53)
+rotation = Vector3(0.05, 0.08, 0.03)
+scale = Vector3(0.15, 0.09, 0.032)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="MuzzlePad" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0, 0.905, -0.505)
+rotation = Vector3(0.04, 0, 0)
+scale = Vector3(0.16, 0.095, 0.012)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiEyeLeft" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(-0.18, 1.0, -0.535)
+scale = Vector3(0.105, 0.135, 0.06)
+material_override = SubResource("Material_eye")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="EyeLeftHighlight" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(-0.196, 1.025, -0.567)
+scale = Vector3(0.022, 0.026, 0.014)
+material_override = SubResource("Material_highlight")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="EyeLeftHighlightSmall" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(-0.165, 0.979, -0.568)
+scale = Vector3(0.01, 0.011, 0.007)
+material_override = SubResource("Material_highlight")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiEyeRight" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0.18, 1.0, -0.535)
+scale = Vector3(0.105, 0.135, 0.06)
+material_override = SubResource("Material_eye")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="EyeRightHighlight" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0.164, 1.025, -0.567)
+scale = Vector3(0.022, 0.026, 0.014)
+material_override = SubResource("Material_highlight")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="EyeRightHighlightSmall" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0.195, 0.979, -0.568)
+scale = Vector3(0.01, 0.011, 0.007)
+material_override = SubResource("Material_highlight")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiNose" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0, 0.92, -0.522)
+rotation = Vector3(0.1, 0, 0)
+scale = Vector3(0.08, 0.05, 0.03)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="MouthStem" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0, 0.895, -0.524)
+scale = Vector3(0.004, 0.016, 0.004)
+material_override = SubResource("Material_mouth")
+mesh = SubResource("CylinderMesh_mouth")
+
+[node name="MouthLeft" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(-0.006, 0.885, -0.523)
+rotation = Vector3(0, 0, -0.61)
+scale = Vector3(0.0035, 0.012, 0.0035)
+material_override = SubResource("Material_mouth")
+mesh = SubResource("CylinderMesh_mouth")
+
+[node name="MouthRight" type="MeshInstance3D" parent="ChibiFace"]
+position = Vector3(0.006, 0.885, -0.523)
+rotation = Vector3(0, 0, 0.61)
+scale = Vector3(0.0035, 0.012, 0.0035)
+material_override = SubResource("Material_mouth")
+mesh = SubResource("CylinderMesh_mouth")
+
+[node name="ChibiEars" type="Node3D" parent="."]
+
+[node name="ChibiEarLeft" type="MeshInstance3D" parent="ChibiEars"]
+position = Vector3(-0.34, 1.205, -0.14)
+rotation = Vector3(-0.2, -0.12, -0.52)
+scale = Vector3(0.18, 0.105, 0.075)
+material_override = ExtResource("1_orange")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiEarLeftInner" type="MeshInstance3D" parent="ChibiEars"]
+visible = false
+position = Vector3(-0.495, 1.198, -0.244)
+rotation = Vector3(-0.2, -0.12, -0.52)
+scale = Vector3(0.075, 0.043, 0.02)
+material_override = SubResource("Material_inner_ear")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiEarRight" type="MeshInstance3D" parent="ChibiEars"]
+position = Vector3(0.34, 1.205, -0.14)
+rotation = Vector3(-0.2, 0.12, 0.52)
+scale = Vector3(0.18, 0.105, 0.075)
+material_override = ExtResource("2_brown")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiEarRightInner" type="MeshInstance3D" parent="ChibiEars"]
+visible = false
+position = Vector3(0.495, 1.198, -0.244)
+rotation = Vector3(-0.2, 0.12, 0.52)
+scale = Vector3(0.075, 0.043, 0.02)
+material_override = SubResource("Material_inner_ear")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiFeet" type="Node3D" parent="."]
+
+[node name="ChibiFootLeft" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(-0.26, 0.055, -0.255)
+rotation = Vector3(0.04, 0, -0.025)
+scale = Vector3(0.19, 0.095, 0.145)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiFootRight" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(0.26, 0.055, -0.255)
+rotation = Vector3(0.04, 0, 0.025)
+scale = Vector3(0.19, 0.095, 0.145)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="LeftToeOuter" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(-0.307, 0.058, -0.335)
+rotation = Vector3(0.08, 0, -0.08)
+scale = Vector3(0.034, 0.027, 0.047)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="LeftToeCenter" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(-0.263, 0.059, -0.341)
+scale = Vector3(0.034, 0.028, 0.05)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="LeftToeInner" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(-0.222, 0.058, -0.335)
+rotation = Vector3(0.08, 0, 0.08)
+scale = Vector3(0.032, 0.026, 0.046)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="RightToeInner" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(0.222, 0.058, -0.335)
+rotation = Vector3(0.08, 0, -0.08)
+scale = Vector3(0.032, 0.026, 0.046)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="RightToeCenter" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(0.263, 0.059, -0.341)
+scale = Vector3(0.034, 0.028, 0.05)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="RightToeOuter" type="MeshInstance3D" parent="ChibiFeet"]
+position = Vector3(0.307, 0.058, -0.335)
+rotation = Vector3(0.08, 0, 0.08)
+scale = Vector3(0.034, 0.027, 0.047)
+material_override = ExtResource("5_pink")
+mesh = SubResource("SphereMesh_detail")
+
+[node name="ChibiTail" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.27, 0.53)
+rotation = Vector3(-0.08, 0, 0)
+scale = Vector3(0.15, 0.14, 0.15)
+material_override = ExtResource("3_white")
+mesh = SubResource("SphereMesh_detail")
