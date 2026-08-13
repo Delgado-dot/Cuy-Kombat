@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://optionsscreen"]
+[gd_scene format=3 uid="uid://c4lvwh11m5q4d"]
 
 [ext_resource type="Script" path="res://scripts/ui/options_screen.gd" id="1_script"]
 
@@ -93,6 +93,62 @@ corner_radius_bottom_left = 13
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Arial", "Noto Sans")
 font_weight = 900
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_bg"]
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_fill"]
+bg_color = Color(0.35, 0.78, 1, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.88, 1, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber"]
+bg_color = Color(1, 0.72, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.38, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber_hover"]
+bg_color = Color(1, 0.82, 0.18, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.96, 0.65, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [node name="OptionsScreen" type="CanvasLayer"]
 process_mode = 3
@@ -207,7 +263,7 @@ text = "VENTANA"
 
 [node name="VolumeSection" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 alignment = 2
 
 [node name="VolumeHeader" type="HBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
@@ -223,34 +279,21 @@ theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 22
 text = "VOLUMEN: 100%"
 horizontal_alignment = 1
+size_flags_vertical = 1
 
-[node name="VolumeButtons" type="HBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="VolumeDownButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection/VolumeButtons"]
+[node name="VolumeSlider" type="HSlider" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 44)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBox_option_button")
-theme_override_styles/hover = SubResource("StyleBox_option_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_option_button_pressed")
-text = "−"
-
-[node name="VolumeUpButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection/VolumeButtons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 44)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBox_option_button")
-theme_override_styles/hover = SubResource("StyleBox_option_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_option_button_pressed")
-text = "+"
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(0, 24)
+step = 1
+min_value = 0
+max_value = 100
+focus_mode = 2
+theme_override_styles/hslider_base = SubResource("StyleBox_slider_bg")
+theme_override_styles/hslider_progress = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber = SubResource("StyleBox_slider_grabber")
+theme_override_styles/grabber_hover = SubResource("StyleBox_slider_grabber_hover")
 
 [node name="OptionsBackButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content"]
 unique_name_in_owner = true

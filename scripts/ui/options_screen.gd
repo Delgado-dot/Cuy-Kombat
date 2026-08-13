@@ -6,8 +6,7 @@ extends CanvasLayer
 @onready var _back_button := %OptionsBackButton as Button
 @onready var _fullscreen_button := %FullscreenButton as Button
 @onready var _windowed_button := %WindowedButton as Button
-@onready var _volume_up_button := %VolumeUpButton as Button
-@onready var _volume_down_button := %VolumeDownButton as Button
+@onready var _volume_slider := %VolumeSlider as HSlider
 @onready var _volume_label := %VolumeLabel as Label
 
 var _open_button: Button
@@ -20,19 +19,16 @@ func _ready() -> void:
 	_back_button.pressed.connect(close)
 	_fullscreen_button.pressed.connect(_on_fullscreen_pressed)
 	_windowed_button.pressed.connect(_on_windowed_pressed)
-	_volume_up_button.pressed.connect(_on_volume_up_pressed)
-	_volume_down_button.pressed.connect(_on_volume_down_pressed)
+	_volume_slider.value_changed.connect(_on_volume_changed)
 
 	_open_button = get_node_or_null(open_button_path) as Button
 	if _open_button != null:
 		_open_button.pressed.connect(open)
 
-	_update_volume_label()
-	_update_fullscreen_button_state()
-	_update_windowed_button_state()
+	_sync_slider_to_volume()
 
 
-func _input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> None:
 	if not _options_root.visible:
 		return
 
@@ -45,7 +41,7 @@ func _input(event: InputEvent) -> void:
 
 func open(_from_screen: Node = null) -> void:
 	_options_root.visible = true
-	_update_volume_label()
+	_sync_slider_to_volume()
 	_update_fullscreen_button_state()
 	_update_windowed_button_state()
 	_back_button.grab_focus()
@@ -67,25 +63,27 @@ func _on_windowed_pressed() -> void:
 	_update_windowed_button_state()
 
 
-func _on_volume_up_pressed() -> void:
+func _on_volume_changed(value: float) -> void:
+	var linear_volume := value / 100.0
+	MusicManager.set_volume(linear_volume)
+	_update_volume_label(value)
+
+
+func _sync_slider_to_volume() -> void:
+	if _volume_slider == null:
+		return
 	var current_volume := MusicManager.get_volume()
-	MusicManager.set_volume(clampf(current_volume + 0.1, 0.0, 1.0))
-	_update_volume_label()
-	_volume_up_button.grab_focus()
+	var slider_value := int(current_volume * 100.0)
+	_volume_slider.value = slider_value
+	_update_volume_label(slider_value)
 
 
-func _on_volume_down_pressed() -> void:
-	var current_volume := MusicManager.get_volume()
-	MusicManager.set_volume(clampf(current_volume - 0.1, 0.0, 1.0))
-	_update_volume_label()
-	_volume_down_button.grab_focus()
-
-
-func _update_volume_label() -> void:
+func _update_volume_label(value: float = -1.0) -> void:
 	if _volume_label == null:
 		return
-	var volume_percent := int(MusicManager.get_volume() * 100)
-	_volume_label.text = "VOLUMEN: %d%%" % volume_percent
+	if value < 0:
+		value = _volume_slider.value
+	_volume_label.text = "VOLUMEN: %d%%" % int(value)
 
 
 func _update_fullscreen_button_state() -> void:
