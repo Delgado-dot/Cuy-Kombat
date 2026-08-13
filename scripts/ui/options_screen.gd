@@ -20,6 +20,7 @@ func _ready() -> void:
 	_fullscreen_button.pressed.connect(_on_fullscreen_pressed)
 	_windowed_button.pressed.connect(_on_windowed_pressed)
 	_volume_slider.value_changed.connect(_on_volume_changed)
+	_volume_slider.gui_input.connect(_on_volume_slider_input)
 
 	_open_button = get_node_or_null(open_button_path) as Button
 	if _open_button != null:
@@ -28,7 +29,7 @@ func _ready() -> void:
 	_sync_slider_to_volume()
 
 
-func _input(event: InputEvent) -> None:
+func _input(event: InputEvent) -> void:
 	if not _options_root.visible:
 		return
 
@@ -67,6 +68,18 @@ func _on_volume_changed(value: float) -> void:
 	var linear_volume := value / 100.0
 	MusicManager.set_volume(linear_volume)
 	_update_volume_label(value)
+
+
+func _on_volume_slider_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_set_volume_from_slider_position(event.position.x)
+	elif event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		_set_volume_from_slider_position(event.position.x)
+
+
+func _set_volume_from_slider_position(local_x: float) -> void:
+	var slider_width := maxf(_volume_slider.size.x, 1.0)
+	_volume_slider.value = clampf(local_x / slider_width * 100.0, 0.0, 100.0)
 
 
 func _sync_slider_to_volume() -> void:

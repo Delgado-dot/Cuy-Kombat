@@ -95,60 +95,60 @@ font_names = PackedStringArray("Arial", "Noto Sans")
 font_weight = 900
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_slider_bg"]
-bg_color = Color(0.045, 0.075, 0.14, 0.98)
+bg_color = Color(0.015, 0.025, 0.055, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.58, 0.84, 1)
+border_color = Color(0.75, 0.9, 1, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_slider_fill"]
-bg_color = Color(0.35, 0.78, 1, 0.9)
+bg_color = Color(1, 0.72, 0.08, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.45, 0.88, 1, 0.9)
+border_color = Color(1, 0.95, 0.45, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber"]
-bg_color = Color(1, 0.72, 0.08, 1)
+bg_color = Color(0.35, 0.9, 1, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.9, 0.38, 1)
+border_color = Color(0.85, 1, 1, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber_hover"]
-bg_color = Color(1, 0.82, 0.18, 1)
+bg_color = Color(0.65, 1, 1, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 0.96, 0.65, 1)
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
+expand_margin_left = 9.0
+expand_margin_top = 9.0
+expand_margin_right = 9.0
+expand_margin_bottom = 9.0
 
 [node name="OptionsScreen" type="CanvasLayer"]
 process_mode = 3
@@ -284,8 +284,8 @@ size_flags_vertical = 1
 [node name="VolumeSlider" type="HSlider" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-custom_minimum_size = Vector2(0, 24)
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(520, 38)
 step = 1
 min_value = 0
 max_value = 100
