@@ -1,0 +1,634 @@
+[gd_scene format=3 uid="uid://bkigcvghs6d6"]
+
+[ext_resource type="Script" uid="uid://cise4f76c0qik" path="res://scripts/ui/lobby.gd" id="1_script"]
+
+[sub_resource type="SystemFont" id="SystemFont_title"]
+font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_weight = 999
+font_stretch = 112
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_lobby_panel"]
+content_margin_left = 24.0
+content_margin_top = 18.0
+content_margin_right = 24.0
+content_margin_bottom = 18.0
+bg_color = Color(0.025, 0.045, 0.09, 0.82)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.58, 0.84, 0.55)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_p1"]
+bg_color = Color(0.07, 0.045, 0.1, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.38, 0.69, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_placeholder"]
+bg_color = Color(0, 0, 0, 0.3)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.28)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_p2"]
+bg_color = Color(0.04, 0.07, 0.13, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.36, 0.78, 1, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_p3"]
+bg_color = Color(0.035, 0.09, 0.08, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.36, 0.9, 0.72, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slot_p4"]
+bg_color = Color(0.1, 0.06, 0.035, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.6, 0.2, 0.85)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial Black", "Arial", "Noto Sans")
+font_weight = 900
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_round_normal"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_round_selected"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.67, 0.025, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.33, 0.14, 0.005, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.12, 0.055, 0, 0.72)
+shadow_size = 9
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_round_hover"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.41, 0.76, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_round_focus"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.18, 0.3, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.86, 0.25, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 11
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_rounds"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.67, 0.025, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.33, 0.14, 0.005, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.12, 0.055, 0, 0.72)
+shadow_size = 10
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary_pressed"]
+content_margin_top = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.86, 0.49, 0.015, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.48, 0.23, 0.01, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary_hover"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.82, 0.12, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.95, 0.58, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.13, 0.065, 0, 0.78)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary_focus"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.86, 0.12, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0.86, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.35, 0.2, 0, 0.85)
+shadow_size = 14
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dark"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.62)
+shadow_size = 7
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dark_pressed"]
+content_margin_top = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.025, 0.05, 0.1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.24, 0.5, 0.72, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dark_hover"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.41, 0.76, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 9
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dark_focus"]
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.18, 0.3, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.86, 0.25, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 11
+shadow_offset = Vector2(0, 5)
+
+[node name="Lobby" type="CanvasLayer" unique_id=1075189124]
+process_mode = 3
+layer = 20
+script = ExtResource("1_script")
+
+[node name="UI" type="Control" parent="." unique_id=1282972722]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="UI" unique_id=1936704998]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 92.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 60
+text = "LOBBY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="UI" unique_id=163088920]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 94.0
+offset_bottom = 122.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.75, 0.82, 0.96, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 19
+text = "CONFIGURACIÓN DE PARTIDA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Center" type="CenterContainer" parent="UI" unique_id=250933655]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 140.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="UI/Center" unique_id=818616827]
+custom_minimum_size = Vector2(1080, 540)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_lobby_panel")
+
+[node name="Padding" type="MarginContainer" parent="UI/Center/Panel" unique_id=1102876104]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="VBoxContainer" parent="UI/Center/Panel/Padding" unique_id=1397660553]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="PlayersPanel" type="GridContainer" parent="UI/Center/Panel/Padding/Content" unique_id=1745274709]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="Player1Slot" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel" unique_id=1103299151]
+custom_minimum_size = Vector2(330, 116)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_slot_p1")
+
+[node name="Padding" type="MarginContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player1Slot" unique_id=1621567835]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player1Slot/Padding" unique_id=1163318205]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Tag" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player1Slot/Padding/VBox" unique_id=27753320]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.38, 0.69, 1)
+theme_override_font_sizes/font_size = 21
+text = "JUGADOR 1"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player1Slot/Padding/VBox" unique_id=88399683]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_placeholder")
+
+[node name="PlaceholderLabel" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player1Slot/Padding/VBox/Placeholder" unique_id=58234770]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.5)
+theme_override_font_sizes/font_size = 15
+text = "PRÓXIMAMENTE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player2Slot" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel" unique_id=23001369]
+custom_minimum_size = Vector2(330, 116)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_slot_p2")
+
+[node name="Padding" type="MarginContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player2Slot" unique_id=2001895736]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player2Slot/Padding" unique_id=1500657731]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Tag" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player2Slot/Padding/VBox" unique_id=1832045618]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.78, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "JUGADOR 2"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player2Slot/Padding/VBox" unique_id=1811817442]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_placeholder")
+
+[node name="PlaceholderLabel" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player2Slot/Padding/VBox/Placeholder" unique_id=1870714828]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.5)
+theme_override_font_sizes/font_size = 15
+text = "PRÓXIMAMENTE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player3Slot" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel" unique_id=1893397939]
+custom_minimum_size = Vector2(330, 116)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_slot_p3")
+
+[node name="Padding" type="MarginContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player3Slot" unique_id=191132999]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player3Slot/Padding" unique_id=930287365]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Tag" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player3Slot/Padding/VBox" unique_id=415600595]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36, 0.9, 0.72, 1)
+theme_override_font_sizes/font_size = 21
+text = "JUGADOR 3"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player3Slot/Padding/VBox" unique_id=475632455]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_placeholder")
+
+[node name="PlaceholderLabel" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player3Slot/Padding/VBox/Placeholder" unique_id=860631773]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.5)
+theme_override_font_sizes/font_size = 15
+text = "PRÓXIMAMENTE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player4Slot" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel" unique_id=92048240]
+custom_minimum_size = Vector2(330, 116)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_slot_p4")
+
+[node name="Padding" type="MarginContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player4Slot" unique_id=726481181]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player4Slot/Padding" unique_id=963254293]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Tag" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player4Slot/Padding/VBox" unique_id=1650904777]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.2, 1)
+theme_override_font_sizes/font_size = 21
+text = "JUGADOR 4"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="PanelContainer" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player4Slot/Padding/VBox" unique_id=1818442250]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBox_placeholder")
+
+[node name="PlaceholderLabel" type="Label" parent="UI/Center/Panel/Padding/Content/PlayersPanel/Player4Slot/Padding/VBox/Placeholder" unique_id=1937585653]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.5)
+theme_override_font_sizes/font_size = 15
+text = "PRÓXIMAMENTE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundsPanel" type="VBoxContainer" parent="UI/Center/Panel/Padding/Content" unique_id=290382405]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RoundsTitle" type="Label" parent="UI/Center/Panel/Padding/Content/RoundsPanel" unique_id=148360494]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.95, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 19
+text = "CANTIDAD DE RONDAS"
+horizontal_alignment = 1
+
+[node name="RoundsRow" type="HBoxContainer" parent="UI/Center/Panel/Padding/Content/RoundsPanel" unique_id=1682318445]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Round3Button" type="Button" parent="UI/Center/Panel/Padding/Content/RoundsPanel/RoundsRow" unique_id=1073310989]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_round_normal")
+theme_override_styles/pressed = SubResource("StyleBox_round_selected")
+theme_override_styles/hover = SubResource("StyleBox_round_hover")
+theme_override_styles/focus = SubResource("StyleBox_round_focus")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rounds")
+text = "3 RONDAS"
+
+[node name="Round5Button" type="Button" parent="UI/Center/Panel/Padding/Content/RoundsPanel/RoundsRow" unique_id=915989810]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_round_normal")
+theme_override_styles/pressed = SubResource("StyleBox_round_selected")
+theme_override_styles/hover = SubResource("StyleBox_round_hover")
+theme_override_styles/focus = SubResource("StyleBox_round_focus")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rounds")
+text = "5 RONDAS"
+
+[node name="Round7Button" type="Button" parent="UI/Center/Panel/Padding/Content/RoundsPanel/RoundsRow" unique_id=775850552]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_round_normal")
+theme_override_styles/pressed = SubResource("StyleBox_round_selected")
+theme_override_styles/hover = SubResource("StyleBox_round_hover")
+theme_override_styles/focus = SubResource("StyleBox_round_focus")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rounds")
+text = "7 RONDAS"
+
+[node name="RoundsSummaryLabel" type="Label" parent="UI/Center/Panel/Padding/Content/RoundsPanel" unique_id=27767324]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "RONDAS DE LA PARTIDA: 3"
+horizontal_alignment = 1
+
+[node name="ButtonsRow" type="HBoxContainer" parent="UI/Center/Panel/Padding/Content" unique_id=1324045748]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="UI/Center/Panel/Padding/Content/ButtonsRow" unique_id=1580757733]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_outline_color = Color(1, 0.86, 0.25, 0.5)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBox_primary")
+theme_override_styles/pressed = SubResource("StyleBox_primary_pressed")
+theme_override_styles/hover = SubResource("StyleBox_primary_hover")
+theme_override_styles/focus = SubResource("StyleBox_primary_focus")
+text = "JUGAR"
+
+[node name="BackButton" type="Button" parent="UI/Center/Panel/Padding/Content/ButtonsRow" unique_id=547139186]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.65)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBox_dark")
+theme_override_styles/pressed = SubResource("StyleBox_dark_pressed")
+theme_override_styles/hover = SubResource("StyleBox_dark_hover")
+theme_override_styles/focus = SubResource("StyleBox_dark_focus")
+text = "VOLVER"

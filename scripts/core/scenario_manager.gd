@@ -118,3 +118,22 @@ func _reconnect_players_to_central_hole() -> void:
 		var player := get_node_or_null(player_path) as Node
 		if player != null and player.has_method("_connect_death_zone"):
 			player.call("_connect_death_zone")
+
+
+func start_next_round() -> void:
+	if _switching:
+		return
+	var next_arena := _pick_next_arena(ScreenFlow.selected_scenario)
+	ScreenFlow.selected_scenario = next_arena
+	get_tree().reload_current_scene()
+
+
+func _pick_next_arena(current: StringName) -> StringName:
+	var candidates: Array[StringName] = []
+	for arena_id in ARENA_SCENES:
+		if arena_id != current:
+			candidates.append(arena_id)
+	if candidates.is_empty():
+		return current
+	candidates.shuffle()
+	return candidates[0]

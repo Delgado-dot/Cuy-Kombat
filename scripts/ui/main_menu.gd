@@ -40,7 +40,7 @@ func _connect_buttons() -> void:
 
 
 func _on_play_pressed() -> void:
-	ScreenFlow.go_to_scenario_select()
+	ScreenFlow.go_to_lobby()
 
 
 func _on_controls_pressed() -> void:

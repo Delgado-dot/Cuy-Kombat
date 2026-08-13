@@ -4,6 +4,7 @@ const PLAYER_ONE_COLOR := Color(1.0, 0.38, 0.69, 1.0)
 const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
 
 @export var game_manager_path: NodePath
+@export var scenario_manager_path: NodePath
 
 @onready var _winner_label := %WinnerLabel as Label
 @onready var _confetti := %Confetti as GPUParticles2D
@@ -14,6 +15,7 @@ const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
 @onready var _winner_cuy_pivot := %WinnerCuyPivot as Node3D
 
 var _game_manager: Node
+var _scenario_manager: Node
 var _winner_shown := false
 var _presentation_tween: Tween
 
@@ -21,12 +23,12 @@ var _presentation_tween: Tween
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
-	_next_round_button.disabled = true
-	_next_round_button.tooltip_text = "Disponible cuando exista un reinicio seguro de ronda."
+	_next_round_button.pressed.connect(_start_next_round)
 	_main_menu_button.pressed.connect(_return_to_main_menu)
 	_update_confetti_area()
 
 	_game_manager = get_node_or_null(game_manager_path)
+	_scenario_manager = get_node_or_null(scenario_manager_path)
 	_connect_game_manager()
 
 
@@ -42,7 +44,9 @@ func _connect_game_manager() -> void:
 
 
 func _on_match_finished(winner: Node) -> void:
-	show_winner(get_player_number(winner))
+	var player_number := get_player_number(winner)
+	RoundManager.register_win(player_number)
+	show_winner(player_number)
 
 
 func get_player_number(node: Node) -> int:
@@ -62,7 +66,10 @@ func show_winner(player_number: int) -> void:
 		return
 
 	_winner_shown = true
-	_winner_label.text = "¡P%d GANA!" % player_number
+
+	var champion := RoundManager.reached_goal(player_number)
+	var winner_label_text := "¡P%d CAMPEÓN!" if champion else "¡P%d GANA LA RONDA!"
+	_winner_label.text = winner_label_text % player_number
 	var winner_color := PLAYER_ONE_COLOR if player_number == 1 else PLAYER_TWO_COLOR
 	_winner_label.add_theme_color_override(
 		"font_color",
@@ -75,7 +82,17 @@ func show_winner(player_number: int) -> void:
 	_update_confetti_area()
 	_confetti.restart()
 	_confetti.emitting = true
-	_main_menu_button.grab_focus()
+
+	if champion:
+		_next_round_button.disabled = true
+		_next_round_button.text = "CAMPEÓN"
+		_next_round_button.tooltip_text = "El match ha terminado."
+		_main_menu_button.grab_focus()
+	else:
+		_next_round_button.disabled = false
+		_next_round_button.text = "SIGUIENTE RONDA"
+		_next_round_button.tooltip_text = ""
+		_next_round_button.grab_focus()
 
 
 func _play_winner_presentation() -> void:
@@ -111,3 +128,10 @@ func _update_confetti_area() -> void:
 func _return_to_main_menu() -> void:
 	get_tree().paused = false
 	ScreenFlow.go_to_main_menu()
+
+
+func _start_next_round() -> void:
+	if _scenario_manager == null or not _scenario_manager.has_method("start_next_round"):
+		push_error("WinnerScreen: no se encontró ScenarioManager para la siguiente ronda.")
+		return
+	_scenario_manager.call("start_next_round")

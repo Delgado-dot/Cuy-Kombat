@@ -1,6 +1,7 @@
 extends Node
 
 const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
+const LOBBY_SCENE := "res://scenes/lobby/lobby.tscn"
 const SCENARIO_SELECT_SCENE := "res://scenes/ui/scenario_select_ui.tscn"
 const GAMEPLAY_SCENE := "res://main.tscn"
 
@@ -18,6 +19,11 @@ func go_to_main_menu() -> void:
 func go_to_scenario_select() -> void:
 	_unregister_scenario_select()
 	get_tree().change_scene_to_file(SCENARIO_SELECT_SCENE)
+
+
+func go_to_lobby() -> void:
+	_unregister_scenario_select()
+	get_tree().change_scene_to_file(LOBBY_SCENE)
 
 
 func start_match(scenario_id: StringName) -> void:
