@@ -26,6 +26,14 @@ func get_stat_multiplier(_player: Node, _stat: StringName) -> float:
 func get_slide_direction(_player: Node) -> Vector3:
 	return Vector3.ZERO
 
+## Inclinacion maxima y velocidad angular solicitadas para la raiz jugable.
+## Cero mantiene la arena plana y detiene su actualizacion.
+func get_arena_tilt_angle() -> float:
+	return 0.0
+
+func get_arena_tilt_speed() -> float:
+	return 0.0
+
 ## Multiplicador de escala (tamaño) que esta mutación aplica al jugador y a
 ## sus hitboxes (cuy gigante). Devuelve 1.0 cuando no modifica el tamaño.
 func get_scale_multiplier(_player: Node) -> float:
