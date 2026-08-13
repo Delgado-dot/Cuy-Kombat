@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const CHARACTERS := MatchSettings.CHARACTER_PRESETS
-const LOBBY_MODEL_SCALE_FACTOR := Vector3(0.80, 0.80, 0.80)
+const LOBBY_MODEL_SCALE_FACTOR := Vector3(0.5, 0.5, 0.5)
 
 # Control tracking para 2 jugadores activos (preparado dinámicamente para 4)
 var _player_count := 2

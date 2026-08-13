@@ -48,11 +48,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.649475, 1, 0)
 input_enabled = false
 player_color = Color(0.1, 0.35, 1, 1)
 
+[node name="PlayerIndicator" type="Label3D" parent="Player1"]
+position = Vector3(0, 1.2, 0)
+billboard = 1
+fixed_size = true
+no_depth_test = true
+pixel_size = 0.002
+font_size = 18
+line_spacing = -4.0
+outline_size = 2
+modulate = Color(0.35, 0.78, 1, 1)
+outline_modulate = Color(0.01, 0.03, 0.08, 1)
+text = "P1\n▼"
+horizontal_alignment = 1
+
 [node name="Player2" parent="." unique_id=489051253 instance=ExtResource("3_player2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.13401, 1, 0)
 input_enabled = false
 player_color = Color(1, 0.12, 0.08, 1)
 control_scheme = "arrows"
+
+[node name="PlayerIndicator" type="Label3D" parent="Player2"]
+position = Vector3(0, 1.2, 0)
+billboard = 1
+fixed_size = true
+no_depth_test = true
+pixel_size = 0.002
+font_size = 18
+line_spacing = -4.0
+outline_size = 2
+modulate = Color(1, 0.42, 0.34, 1)
+outline_modulate = Color(0.1, 0.01, 0.01, 1)
+text = "P2\n▼"
+horizontal_alignment = 1
 
 [node name="DeathZone" type="Area3D" parent="." unique_id=1638866711]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)

@@ -3,6 +3,7 @@ extends Node
 
 signal match_started
 signal match_finished(winner: Node)
+signal match_intro_updated(text: String)
 
 enum MatchState {
 	WAITING,
@@ -16,6 +17,7 @@ enum MatchState {
 var match_state := MatchState.WAITING
 var _players: Array[Node] = []
 var _eliminated_players: Array[Node] = []
+var _intro_running := false
 
 @onready var _death_zone := get_node_or_null(death_zone_path) as Area3D
 
@@ -31,12 +33,26 @@ func _ready() -> void:
 
 
 func iniciar_partida() -> void:
-	if match_state != MatchState.WAITING:
+	if match_state != MatchState.WAITING or _intro_running:
 		return
+
+	_intro_running = true
+	_set_players_input(false)
+	_play_match_intro()
+
+
+func _play_match_intro() -> void:
+	for text in ["3", "2", "1"]:
+		match_intro_updated.emit(text)
+		await get_tree().create_timer(1.0).timeout
+
+	match_intro_updated.emit("¡PELEA!")
+	await get_tree().create_timer(0.8).timeout
 
 	match_state = MatchState.PLAYING
 	_set_players_input(true)
 	match_started.emit()
+	_intro_running = false
 
 
 func jugador_eliminado(player: Node) -> void:

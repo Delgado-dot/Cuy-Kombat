@@ -12,7 +12,7 @@ signal back_requested
 
 @export var scroll_step := 140.0
 
-@onready var _mutation_list := %MutationList as VBoxContainer
+@onready var _mutation_list := %MutationList as GridContainer
 @onready var _status_label := %MutationStatusLabel as Label
 @onready var _random_button := %MutationRandomButton as Button
 @onready var _back_button := %MutationBackButton as Button
@@ -88,6 +88,9 @@ func _build_rows() -> void:
 
 func _create_row(id: StringName, meta: Dictionary) -> Control:
 	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(240, 104)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel", _create_row_style())
 
 	var content := MarginContainer.new()
