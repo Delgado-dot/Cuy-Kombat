@@ -8,6 +8,7 @@ const PLAYER_STATE_KNOCKED := 6
 
 @onready var _root := %HudRoot as Control
 @onready var _timer_label := %TimerLabel as Label
+@onready var _intro_label := %IntroLabel as Label
 @onready var _p1_name := %P1Name as Label
 @onready var _p1_bar := %P1Bar as ProgressBar
 @onready var _p1_status := %P1Status as Label
@@ -33,6 +34,7 @@ var _ko_flash: Array[float] = [0.0, 0.0]
 var _time_left := 0.0
 var _pulse_time := 0.0
 var _match_active := false
+var _intro_tween: Tween
 
 
 func _ready() -> void:
@@ -57,10 +59,12 @@ func _connect_game_manager() -> void:
 	if _game_manager == null:
 		push_error("Hud: no se encontró GameManager.")
 		return
-	if not _game_manager.has_signal("match_started") or not _game_manager.has_signal("match_finished"):
+	if not _game_manager.has_signal("match_started") or not _game_manager.has_signal("match_finished") or not _game_manager.has_signal("match_intro_updated"):
 		push_error("Hud: GameManager no expone las señales esperadas.")
 		return
 
+	if not _game_manager.match_intro_updated.is_connected(_on_match_intro_updated):
+		_game_manager.match_intro_updated.connect(_on_match_intro_updated)
 	if not _game_manager.match_started.is_connected(_on_match_started):
 		_game_manager.match_started.connect(_on_match_started)
 	if not _game_manager.match_finished.is_connected(_on_match_finished):
@@ -75,7 +79,7 @@ func _setup_player_ui(index: int, name_label: Label, bar: ProgressBar, status_la
 	var color: Color = player.get("player_color")
 
 	_bar_colors[index] = color
-	name_label.text = "CUY %d" % (index + 1)
+	name_label.text = "P%d · CUY %d" % [index + 1, index + 1]
 	name_label.add_theme_color_override("font_color", color.lightened(0.4))
 	name_label.add_theme_color_override("font_outline_color", Color(0.01, 0.008, 0.015, 1))
 	icon.set("tint", color)
@@ -253,14 +257,17 @@ func _update_stars() -> void:
 
 
 func _stars_text(count: int) -> String:
-	var text := ""
+	var text := "VICTORIAS: %d" % count
 	for i in count:
-		text += "★ "
-	return text.strip_edges()
+		text += " ★"
+	return text
 
 
 func _on_match_started() -> void:
 	_match_active = true
+	if _intro_tween != null and _intro_tween.is_valid():
+		_intro_tween.kill()
+	_intro_label.visible = false
 	_pulse_time = 0.0
 	_time_left = match_time
 	_display_health = [1.0, 1.0]
@@ -276,6 +283,35 @@ func _on_match_started() -> void:
 
 	_update_leader()
 	_root.visible = true
+
+
+func _on_match_intro_updated(text: String) -> void:
+	_match_active = false
+	if _intro_tween != null and _intro_tween.is_valid():
+		_intro_tween.kill()
+
+	var is_fight := text == "¡PELEA!"
+	_intro_label.text = text
+	_intro_label.add_theme_color_override(
+		"font_color",
+		Color(1, 0.32, 0.18, 1) if is_fight else Color(1, 0.84, 0.35, 1)
+	)
+	_intro_label.pivot_offset = _intro_label.size * 0.5
+	_intro_label.scale = Vector2.ONE * (0.5 if is_fight else 0.7)
+	_intro_label.modulate = Color(1, 1, 1, 0)
+	_intro_label.visible = true
+	_root.visible = true
+
+	_intro_tween = create_tween().set_parallel()
+	_intro_tween.tween_property(_intro_label, "modulate:a", 1.0, 0.16)
+	_intro_tween.tween_property(
+		_intro_label,
+		"scale",
+		Vector2.ONE * (1.18 if is_fight else 1.0),
+		0.24 if is_fight else 0.18
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if is_fight:
+		_intro_tween.chain().tween_property(_intro_label, "scale", Vector2.ONE, 0.18)
 
 
 func _on_match_finished(_winner: Node) -> void:

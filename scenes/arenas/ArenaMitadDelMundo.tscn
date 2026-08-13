@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://ingj0dkvs0ep"]
 
+[ext_resource type="Script" path="res://scripts/systems/mutations/arena_gameplay_root.gd" id="1_tilt"]
+
 [sub_resource type="StandardMaterial3D" id="MatBasePiedra"]
 albedo_color = Color(0.245, 0.235, 0.215, 1)
 roughness = 0.96
@@ -287,6 +289,10 @@ fog_depth_end = 150.0
 
 [node name="ArenaMitadDelMundo" type="Node3D" unique_id=1511745362]
 editor_description = "Arena diurna inspirada en la Mitad del Mundo de Ecuador. Mantiene las mismas unidades jugables, SpawnPoints y contrato de eliminacion que ArenaBase."
+
+[node name="ArenaGameplayRoot" type="Node3D" parent="."]
+script = ExtResource("1_tilt")
+gameplay_node_paths = Array[NodePath]([NodePath("../Gameplay"), NodePath("../GameplayCollision"), NodePath("../ZonaEliminacion"), NodePath("../PuntosDeAparicion"), NodePath("../Decoracion/PlataformaFlotante")])
 
 [node name="Gameplay" type="Node3D" parent="." unique_id=219267474]
 

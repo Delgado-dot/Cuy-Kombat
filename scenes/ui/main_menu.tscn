@@ -1,12 +1,8 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene format=3 uid="uid://dapyie46tq3f5"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dy8v4803u140o" path="res://scripts/ui/main_menu.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="2_controls"]
 [ext_resource type="Texture2D" uid="uid://dib12afcvvkma" path="res://assets/imagenes/fondo-menu.png" id="3_bg"]
-
-[sub_resource type="SystemFont" id="SystemFont_button"]
-font_names = PackedStringArray("Arial", "Noto Sans")
-font_weight = 900
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_open"]
 bg_color = Color(0.025, 0.045, 0.09, 0)
@@ -15,10 +11,15 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial", "Noto Sans")
+font_weight = 900
+
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_primary"]
 content_margin_top = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 0.67, 0.025, 1)
+skew = Vector2(-0.035, 0)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -28,42 +29,19 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-shadow_color = Color(0.12, 0.055, 0, 0.72)
-shadow_size = 10
-shadow_offset = Vector2(0, 6)
-anti_aliasing = true
-skew = Vector2(-0.035, 0)
 expand_margin_left = 4.0
 expand_margin_top = 3.0
 expand_margin_right = 4.0
 expand_margin_bottom = 5.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_main_primary_hover"]
-content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(1, 0.82, 0.12, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(1, 0.95, 0.58, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-shadow_color = Color(0.13, 0.065, 0, 0.78)
+shadow_color = Color(0.12, 0.055, 0, 0.72)
 shadow_size = 10
-shadow_offset = Vector2(0, 5)
-skew = Vector2(-0.035, 0)
-expand_margin_left = 5.0
-expand_margin_top = 4.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
+shadow_offset = Vector2(0, 6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_primary_pressed"]
 content_margin_top = 12.0
 content_margin_bottom = 8.0
 bg_color = Color(0.86, 0.49, 0.015, 1)
+skew = Vector2(-0.035, 0)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -73,79 +51,38 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-skew = Vector2(-0.035, 0)
 expand_margin_left = 3.0
 expand_margin_top = 2.0
 expand_margin_right = 3.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark"]
-content_margin_top = 9.0
-content_margin_bottom = 9.0
-bg_color = Color(0.045, 0.075, 0.14, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.3, 0.58, 0.84, 1)
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
-shadow_color = Color(0, 0, 0, 0.62)
-shadow_size = 7
-shadow_offset = Vector2(0, 4)
-skew = Vector2(-0.025, 0)
-expand_margin_left = 3.0
-expand_margin_top = 2.0
-expand_margin_right = 3.0
-expand_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_hover"]
-content_margin_top = 9.0
-content_margin_bottom = 9.0
-bg_color = Color(0.08, 0.15, 0.25, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.41, 0.76, 1, 1)
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
-shadow_color = Color(0, 0, 0, 0.7)
-shadow_size = 9
-shadow_offset = Vector2(0, 4)
-skew = Vector2(-0.025, 0)
-expand_margin_left = 4.0
-expand_margin_top = 3.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_pressed"]
-content_margin_top = 11.0
-content_margin_bottom = 7.0
-bg_color = Color(0.025, 0.05, 0.1, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.24, 0.5, 0.72, 1)
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
-skew = Vector2(-0.025, 0)
-expand_margin_left = 2.0
-expand_margin_top = 1.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_primary_hover"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.82, 0.12, 1)
+skew = Vector2(-0.035, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.95, 0.58, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_left = 5.0
+expand_margin_top = 4.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color(0.13, 0.065, 0, 0.78)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_primary_focus"]
 content_margin_top = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 0.86, 0.12, 1)
+skew = Vector2(-0.035, 0)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -155,19 +92,82 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-shadow_color = Color(0.35, 0.2, 0, 0.85)
-shadow_size = 14
-shadow_offset = Vector2(0, 6)
-skew = Vector2(-0.035, 0)
 expand_margin_left = 5.0
 expand_margin_top = 4.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
+shadow_color = Color(0.35, 0.2, 0, 0.85)
+shadow_size = 14
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark"]
+content_margin_top = 9.0
+content_margin_bottom = 9.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+skew = Vector2(-0.025, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+expand_margin_left = 3.0
+expand_margin_top = 2.0
+expand_margin_right = 3.0
+expand_margin_bottom = 4.0
+shadow_color = Color(0, 0, 0, 0.62)
+shadow_size = 7
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_pressed"]
+content_margin_top = 11.0
+content_margin_bottom = 7.0
+bg_color = Color(0.025, 0.05, 0.1, 1)
+skew = Vector2(-0.025, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.24, 0.5, 0.72, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+expand_margin_left = 2.0
+expand_margin_top = 1.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_hover"]
+content_margin_top = 9.0
+content_margin_bottom = 9.0
+bg_color = Color(0.08, 0.15, 0.25, 1)
+skew = Vector2(-0.025, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.41, 0.76, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+expand_margin_left = 4.0
+expand_margin_top = 3.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 9
+shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_dark_focus"]
 content_margin_top = 9.0
 content_margin_bottom = 9.0
 bg_color = Color(0.1, 0.18, 0.3, 1)
+skew = Vector2(-0.025, 0)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -177,30 +177,30 @@ corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
-shadow_color = Color(0, 0, 0, 0.72)
-shadow_size = 11
-shadow_offset = Vector2(0, 5)
-skew = Vector2(-0.025, 0)
 expand_margin_left = 4.0
 expand_margin_top = 3.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 11
+shadow_offset = Vector2(0, 5)
 
-[node name="MainMenu" type="CanvasLayer"]
+[node name="MainMenu" type="CanvasLayer" unique_id=1135397375]
 process_mode = 3
 layer = 20
 script = ExtResource("1_script")
 controls_screen_path = NodePath("ControlsScreen")
 
-[node name="MainMenu" type="Control" parent="."]
+[node name="MainMenu" type="Control" parent="." unique_id=1135104043]
 unique_name_in_owner = true
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FondoMenu" type="TextureRect" parent="MainMenu"]
+[node name="FondoMenu" type="TextureRect" parent="MainMenu" unique_id=785142482]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -211,57 +211,57 @@ texture = ExtResource("3_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Margin" type="MarginContainer" parent="MainMenu"]
+[node name="Margin" type="MarginContainer" parent="MainMenu" unique_id=1936964161]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = 280.0
+offset_top = 16.0
 offset_right = -32.0
-offset_bottom = -60.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Center" type="CenterContainer" parent="MainMenu/Margin"]
+[node name="Center" type="CenterContainer" parent="MainMenu/Margin" unique_id=1525822683]
 layout_mode = 2
 
-[node name="Panel" type="PanelContainer" parent="MainMenu/Margin/Center"]
-custom_minimum_size = Vector2(700, 625)
+[node name="Panel" type="PanelContainer" parent="MainMenu/Margin/Center" unique_id=2132605768]
+custom_minimum_size = Vector2(520, 480)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_main_open")
 
-[node name="Padding" type="MarginContainer" parent="MainMenu/Margin/Center/Panel"]
+[node name="Padding" type="MarginContainer" parent="MainMenu/Margin/Center/Panel" unique_id=1999125425]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 20
 
-[node name="Content" type="VBoxContainer" parent="MainMenu/Margin/Center/Panel/Padding"]
+[node name="Content" type="VBoxContainer" parent="MainMenu/Margin/Center/Panel/Padding" unique_id=550185925]
 layout_mode = 2
 theme_override_constants/separation = 13
 alignment = 2
 
-[node name="PlayButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="PlayButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=74954248]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 62)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.08, 0.065, 0.02, 1)
 theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.065, 0.02, 1)
 theme_override_colors/font_outline_color = Color(1, 0.86, 0.25, 0.5)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBox_main_primary")
-theme_override_styles/hover = SubResource("StyleBox_main_primary_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_primary_pressed")
+theme_override_styles/hover = SubResource("StyleBox_main_primary_hover")
 theme_override_styles/focus = SubResource("StyleBox_main_primary_focus")
 text = "JUGAR"
 
-[node name="ControlsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="ControlsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=465099896]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
@@ -272,12 +272,12 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
-theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
+theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "CONTROLES"
 
-[node name="MainOptionsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="MainOptionsButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=159443538]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
@@ -288,12 +288,12 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
-theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
+theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "OPCIONES"
 
-[node name="QuitButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="QuitButton" type="Button" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=1137043329]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(380, 52)
 layout_mode = 2
@@ -304,12 +304,12 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBox_main_dark")
-theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/pressed = SubResource("StyleBox_main_dark_pressed")
+theme_override_styles/hover = SubResource("StyleBox_main_dark_hover")
 theme_override_styles/focus = SubResource("StyleBox_main_dark_focus")
 text = "SALIR"
 
-[node name="OptionsMessage" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="OptionsMessage" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=184389317]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -318,7 +318,7 @@ theme_override_font_sizes/font_size = 17
 text = "OPCIONES PRÓXIMAMENTE"
 horizontal_alignment = 1
 
-[node name="Hint" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content"]
+[node name="Hint" type="Label" parent="MainMenu/Margin/Center/Panel/Padding/Content" unique_id=1021380306]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.95, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
@@ -328,5 +328,5 @@ theme_override_font_sizes/font_size = 17
 text = "ENTER o A para jugar"
 horizontal_alignment = 1
 
-[node name="ControlsScreen" parent="." instance=ExtResource("2_controls")]
+[node name="ControlsScreen" parent="." unique_id=1026234018 instance=ExtResource("2_controls")]
 open_button_path = NodePath("../MainMenu/Margin/Center/Panel/Padding/Content/ControlsButton")

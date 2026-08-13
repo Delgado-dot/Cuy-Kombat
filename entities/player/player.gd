@@ -25,8 +25,8 @@ enum PlayerState {
 @export var tackle_force := 15.0
 @export var tackle_duration := 0.22
 @export var tackle_cooldown := 2.5
-@export var tackle_knockback := 20.0
-@export var tackle_knockback_up := 8.0
+@export var tackle_knockback := 17.0
+@export var tackle_knockback_up := 6.8
 @export var tackle_tilt := 0.35
 @export var knockback_force := 18.0
 @export var knockback_up_force := 7.0

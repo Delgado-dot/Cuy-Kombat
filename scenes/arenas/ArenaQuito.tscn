@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://ibqi8bdwjfly"]
 
+[ext_resource type="Script" path="res://scripts/systems/mutations/arena_gameplay_root.gd" id="1_tilt"]
+
 [sub_resource type="StandardMaterial3D" id="MatBasePiedra"]
 albedo_color = Color(0.105, 0.075, 0.065, 1)
 roughness = 0.96
@@ -412,6 +414,10 @@ fog_depth_end = 145.0
 
 [node name="ArenaQuito" type="Node3D" unique_id=1854846992]
 editor_description = "Arena nocturna jugable inspirada en la Plaza de San Francisco y el Centro Historico de Quito."
+
+[node name="ArenaGameplayRoot" type="Node3D" parent="."]
+script = ExtResource("1_tilt")
+gameplay_node_paths = Array[NodePath]([NodePath("../Gameplay"), NodePath("../GameplayCollision"), NodePath("../ZonaEliminacion"), NodePath("../PuntosDeAparicion"), NodePath("../Decoracion/PlataformaFlotante")])
 
 [node name="Gameplay" type="Node3D" parent="." unique_id=686003664]
 

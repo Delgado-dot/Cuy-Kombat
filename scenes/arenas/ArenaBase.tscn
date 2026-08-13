@@ -1,4 +1,6 @@
-[gd_scene load_steps=67 format=3]
+[gd_scene load_steps=68 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/mutations/arena_gameplay_root.gd" id="1_tilt"]
 
 [sub_resource type="StandardMaterial3D" id="MaterialRosaBase"]
 albedo_color = Color(0.075, 0.025, 0.035, 1)
@@ -409,6 +411,10 @@ adjustment_contrast = 1.13
 adjustment_saturation = 1.08
 
 [node name="ArenaBase" type="Node3D"]
+
+[node name="ArenaGameplayRoot" type="Node3D" parent="."]
+script = ExtResource("1_tilt")
+gameplay_node_paths = Array[NodePath]([NodePath("../EscenarioPelea/ArenaFlotante"), NodePath("../EscenarioPelea/ZonaDeCaida"), NodePath("../Colisiones"), NodePath("../PuntosDeAparicion")])
 
 [node name="EscenarioPelea" type="Node3D" parent="."]
 
