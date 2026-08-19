@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/controls_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/textures/ui/backgrounds/controls_church.png" id="2_controls_background"]
@@ -86,6 +86,84 @@ corner_radius_bottom_left = 14
 shadow_color = Color(0.18, 0.01, 0.03, 0.8)
 shadow_size = 6
 shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_key_p3"]
+bg_color = Color(0.12, 0.72, 0.3, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.65, 1, 0.75, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.01, 0.1, 0.03, 0.8)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_key_p4"]
+bg_color = Color(0.92, 0.72, 0.06, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(1, 0.95, 0.55, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.18, 0.12, 0.005, 0.8)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_player_three"]
+bg_color = Color(0.05, 0.18, 0.08, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.85, 0.42, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_player_four"]
+bg_color = Color(0.18, 0.15, 0.03, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.82, 0.15, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_three"]
+bg_color = Color(0.04, 0.14, 0.06, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.9, 0.5, 0.92)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_four"]
+bg_color = Color(0.15, 0.12, 0.02, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.88, 0.2, 0.92)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button"]
 bg_color = Color(0.095, 0.13, 0.21, 1)
@@ -246,7 +324,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.77, 0.9, 1)
 theme_override_font_sizes/font_size = 17
-text = "JUGADOR 1  •  JUGADOR 2"
+text = "JUGADOR 1  •  JUGADOR 2  •  JUGADOR 3  •  JUGADOR 4"
 horizontal_alignment = 1
 
 [node name="Players" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
@@ -609,6 +687,368 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerTwo/Padding/Content/Bindings/Throw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "LANZAR"
+vertical_alignment = 1
+
+[node name="PlayerThree" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players"]
+visible = false
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_player_three")
+
+[node name="Padding" type="MarginContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 28
+text = "JUGADOR 3"
+horizontal_alignment = 1
+
+[node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Move" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Move"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Move/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "I  J  K  L"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOVER"
+vertical_alignment = 1
+
+[node name="Jump" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Jump"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Jump/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "U"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Jump"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SALTAR"
+vertical_alignment = 1
+
+[node name="Punch" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Punch"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Punch/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Punch"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "PUÑO"
+vertical_alignment = 1
+
+[node name="Tackle" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Tackle"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Tackle/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "O"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Tackle"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "EMBESTIDA"
+vertical_alignment = 1
+
+[node name="Grab" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Grab"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Grab/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "N"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Grab"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "AGARRAR"
+vertical_alignment = 1
+
+[node name="Throw" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Throw"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Throw/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "M"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerThree/Padding/Content/Bindings/Throw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "LANZAR"
+vertical_alignment = 1
+
+[node name="PlayerFour" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players"]
+visible = false
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_player_four")
+
+[node name="Padding" type="MarginContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "JUGADOR 4"
+horizontal_alignment = 1
+
+[node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Move" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Move"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Move/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 16
+text = "NUM 8  4  5  6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOVER"
+vertical_alignment = 1
+
+[node name="Jump" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Jump"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Jump/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "NUM 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Jump"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SALTAR"
+vertical_alignment = 1
+
+[node name="Punch" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Punch"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Punch/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "NUM ENTER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Punch"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "PUÑO"
+vertical_alignment = 1
+
+[node name="Tackle" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Tackle"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Tackle/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "NUM ."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Tackle"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "EMBESTIDA"
+vertical_alignment = 1
+
+[node name="Grab" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Grab"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Grab/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "NUM 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Grab"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "AGARRAR"
+vertical_alignment = 1
+
+[node name="Throw" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Throw"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Throw/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "NUM 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Bindings/Throw"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
@@ -1000,6 +1440,368 @@ theme_override_font_sizes/font_size = 20
 text = "LANZAR"
 vertical_alignment = 1
 
+[node name="MandoThree" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos"]
+visible = false
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_gamepad_three")
+
+[node name="Padding" type="MarginContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 28
+text = "JUGADOR 3"
+horizontal_alignment = 1
+
+[node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Move" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Move"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Move/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 16
+text = "Joystick / D-Pad"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOVER"
+vertical_alignment = 1
+
+[node name="Jump" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Jump"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Jump/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Jump"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SALTAR"
+vertical_alignment = 1
+
+[node name="Punch" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Punch"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Punch/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Punch"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "PUÑO"
+vertical_alignment = 1
+
+[node name="Tackle" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Tackle"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Tackle/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Tackle"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "EMBESTIDA"
+vertical_alignment = 1
+
+[node name="Grab" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Grab"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Grab/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "Y"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Grab"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "AGARRAR"
+vertical_alignment = 1
+
+[node name="Throw" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Throw"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p3")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Throw/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
+theme_override_font_sizes/font_size = 19
+text = "R3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Bindings/Throw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "LANZAR"
+vertical_alignment = 1
+
+[node name="MandoFour" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos"]
+visible = false
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBox_gamepad_four")
+
+[node name="Padding" type="MarginContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "JUGADOR 4"
+horizontal_alignment = 1
+
+[node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Move" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Move"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Move/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 16
+text = "Joystick / D-Pad"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOVER"
+vertical_alignment = 1
+
+[node name="Jump" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Jump"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Jump/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Jump"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SALTAR"
+vertical_alignment = 1
+
+[node name="Punch" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Punch"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Punch/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Punch"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "PUÑO"
+vertical_alignment = 1
+
+[node name="Tackle" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Tackle"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Tackle/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Tackle"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "EMBESTIDA"
+vertical_alignment = 1
+
+[node name="Grab" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Grab"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Grab/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "Y"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Grab"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "AGARRAR"
+vertical_alignment = 1
+
+[node name="Throw" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Key" type="PanelContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Throw"]
+custom_minimum_size = Vector2(175, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_key_p4")
+
+[node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Throw/Key"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
+theme_override_font_sizes/font_size = 19
+text = "R3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Bindings/Throw"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "LANZAR"
+vertical_alignment = 1
+
 [node name="ButtonRow" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
 layout_mode = 2
 alignment = 1
@@ -1030,3 +1832,16 @@ theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "CONTROLES CON MANDO  →"
+
+[node name="PairNavButton" type="Button" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.94, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBox_button")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+text = "JUGADORES 3 Y 4  →"

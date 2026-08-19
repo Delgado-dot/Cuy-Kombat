@@ -6,11 +6,15 @@ extends CanvasLayer
 @onready var _controls_root := %ControlsScreen as Control
 @onready var _back_button := %ControlsBackButton as Button
 @onready var _gamepad_nav_button := %GamepadNavButton as Button
+@onready var _pair_nav_button := %PairNavButton as Button
 @onready var _scroll_container := %ControlsScreen/Margin/Center as ScrollContainer
 
 var _open_button: Button
 var _title_tween: Tween
 var _button_tween: Tween
+
+var _keyboard_pair := 0
+var _gamepad_pair := 0
 
 
 func _ready() -> void:
@@ -22,6 +26,7 @@ func _ready() -> void:
 	_back_button.mouse_entered.connect(_animate_back_button_hover.bind(true))
 	_back_button.mouse_exited.connect(_animate_back_button_hover.bind(false))
 	_gamepad_nav_button.pressed.connect(_toggle_controls_page)
+	_pair_nav_button.pressed.connect(_toggle_pair)
 
 	_open_button = get_node_or_null(open_button_path) as Button if not open_button_path.is_empty() else null
 	if _open_button != null:
@@ -44,18 +49,21 @@ func _input(event: InputEvent) -> void:
 			_scroll_by(event.axis_value)
 	elif event is InputEventJoypadButton and event.pressed:
 		match event.button_index:
-			JoyButton.JOY_BUTTON_DPAD_LEFT:
+			JoyButton.JOY_BUTTON_DPAD_LEFT, JoyButton.JOY_BUTTON_LEFT_SHOULDER:
 				get_viewport().set_input_as_handled()
 				_navigate_controls_page(-1)
-			JoyButton.JOY_BUTTON_DPAD_RIGHT:
+			JoyButton.JOY_BUTTON_DPAD_RIGHT, JoyButton.JOY_BUTTON_RIGHT_SHOULDER:
 				get_viewport().set_input_as_handled()
 				_navigate_controls_page(1)
-			JoyButton.JOY_BUTTON_DPAD_UP, JoyButton.JOY_BUTTON_LEFT_SHOULDER:
+			JoyButton.JOY_BUTTON_DPAD_UP:
 				get_viewport().set_input_as_handled()
 				_scroll_by(-1.0)
-			JoyButton.JOY_BUTTON_DPAD_DOWN, JoyButton.JOY_BUTTON_RIGHT_SHOULDER:
+			JoyButton.JOY_BUTTON_DPAD_DOWN:
 				get_viewport().set_input_as_handled()
 				_scroll_by(1.0)
+			JoyButton.JOY_BUTTON_A:
+				get_viewport().set_input_as_handled()
+				_toggle_pair()
 	elif event is InputEventKey and event.pressed and not event.echo:
 		match event.keycode:
 			KEY_LEFT:
@@ -85,11 +93,28 @@ func _scroll_by(direction: float) -> void:
 
 func open(_from_screen: Node = null) -> void:
 	_controls_root.visible = true
+	_keyboard_pair = 0
+	_gamepad_pair = 0
+	_update_subtitle_for_player_count()
 	_show_keyboard_page()
 	if _scroll_container != null:
 		_scroll_container.scroll_vertical = 0
 		_back_button.grab_focus()
 	call_deferred("_play_open_animation")
+
+
+func _update_subtitle_for_player_count() -> void:
+	var player_count := MatchSettings.get_player_count()
+	var subtitle := _controls_root.get_node_or_null("Margin/Center/Panel/Padding/Content/Subtitle") as Label
+	if subtitle == null:
+		return
+	match player_count:
+		2:
+			subtitle.text = "JUGADOR 1  •  JUGADOR 2"
+		3:
+			subtitle.text = "JUGADOR 1  •  JUGADOR 2  •  JUGADOR 3"
+		4:
+			subtitle.text = "JUGADOR 1  •  JUGADOR 2  •  JUGADOR 3  •  JUGADOR 4"
 
 
 func close() -> void:
@@ -117,6 +142,7 @@ func _show_keyboard_page() -> void:
 	_set_gamepad_content_visible(false)
 	_gamepad_nav_button.text = "CONTROLES CON MANDO  →"
 	_gamepad_nav_button.grab_focus()
+	_update_keyboard_pair()
 	_reset_scroll()
 
 
@@ -125,6 +151,7 @@ func _show_gamepad_page() -> void:
 	_set_gamepad_content_visible(true)
 	_gamepad_nav_button.text = "←  CONTROLES DE TECLADO"
 	_gamepad_nav_button.grab_focus()
+	_update_gamepad_pair()
 	_reset_scroll()
 
 
@@ -139,6 +166,64 @@ func _set_gamepad_content_visible(is_visible: bool) -> void:
 		node.visible = is_visible
 		if node is Label and is_visible:
 			(node as Label).visible_ratio = 1.0
+
+
+func _toggle_pair() -> void:
+	if _get_content_node("Mandos").visible:
+		_gamepad_pair = 1 - _gamepad_pair
+		_update_gamepad_pair()
+	else:
+		_keyboard_pair = 1 - _keyboard_pair
+		_update_keyboard_pair()
+	_reset_scroll()
+
+
+func _update_keyboard_pair() -> void:
+	var players := _get_content_node("Players")
+	for child in players.get_children():
+		if child is Control:
+			child.visible = false
+
+	if _keyboard_pair == 0:
+		var p1 := players.get_node_or_null("PlayerOne") as Control
+		var p2 := players.get_node_or_null("PlayerTwo") as Control
+		if p1 != null:
+			p1.visible = true
+		if p2 != null:
+			p2.visible = true
+		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
+	else:
+		var p3 := players.get_node_or_null("PlayerThree") as Control
+		var p4 := players.get_node_or_null("PlayerFour") as Control
+		if p3 != null:
+			p3.visible = true
+		if p4 != null:
+			p4.visible = true
+		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
+
+
+func _update_gamepad_pair() -> void:
+	var mandos := _get_content_node("Mandos")
+	for child in mandos.get_children():
+		if child is Control:
+			child.visible = false
+
+	if _gamepad_pair == 0:
+		var m1 := mandos.get_node_or_null("MandoOne") as Control
+		var m2 := mandos.get_node_or_null("MandoTwo") as Control
+		if m1 != null:
+			m1.visible = true
+		if m2 != null:
+			m2.visible = true
+		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
+	else:
+		var m3 := mandos.get_node_or_null("MandoThree") as Control
+		var m4 := mandos.get_node_or_null("MandoFour") as Control
+		if m3 != null:
+			m3.visible = true
+		if m4 != null:
+			m4.visible = true
+		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
 
 
 func _get_content_node(node_name: String) -> Control:
@@ -264,6 +349,7 @@ func _apply_arcade_text_style() -> void:
 	if fight_font != null:
 		_back_button.add_theme_font_override("font", fight_font)
 		_gamepad_nav_button.add_theme_font_override("font", fight_font)
+		_pair_nav_button.add_theme_font_override("font", fight_font)
 	_back_button.add_theme_color_override("font_color", Color(1, 0.88, 0.48, 1))
 	_back_button.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.7, 1))
 	_back_button.add_theme_color_override("font_pressed_color", Color(1, 0.78, 0.32, 1))
@@ -273,3 +359,5 @@ func _apply_arcade_text_style() -> void:
 	_back_button.add_theme_constant_override("shadow_offset_y", 3)
 	_gamepad_nav_button.add_theme_color_override("font_outline_color", Color(0.01, 0.02, 0.06, 1))
 	_gamepad_nav_button.add_theme_constant_override("outline_size", 2)
+	_pair_nav_button.add_theme_color_override("font_outline_color", Color(0.01, 0.02, 0.06, 1))
+	_pair_nav_button.add_theme_constant_override("outline_size", 2)

@@ -220,7 +220,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = 16.0
+offset_top = 310.0
 offset_right = -32.0
 offset_bottom = -16.0
 grow_horizontal = 2
@@ -230,7 +230,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Panel" type="PanelContainer" parent="MainMenu/Margin/Center" unique_id=2132605768]
-custom_minimum_size = Vector2(520, 480)
+custom_minimum_size = Vector2(520, 350)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_main_open")
 

@@ -2,6 +2,8 @@ extends CanvasLayer
 
 const PLAYER_ONE_COLOR := Color(1.0, 0.38, 0.69, 1.0)
 const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
+const PLAYER_THREE_COLOR := Color(0.18, 0.82, 0.22, 1.0)
+const PLAYER_FOUR_COLOR := Color(0.95, 0.72, 0.15, 1.0)
 const WINNER_MODEL_SCALE_FACTOR := 0.62
 const WINNER_MODEL_VERTICAL_OFFSET := 0.65
 
@@ -79,6 +81,10 @@ func get_player_number(node: Node) -> int:
 		return 1
 	if node.is_in_group("player_2"):
 		return 2
+	if node.is_in_group("player_3"):
+		return 3
+	if node.is_in_group("player_4"):
+		return 4
 	if _game_manager != null and _game_manager.has_method("get_player_number"):
 		return _game_manager.get_player_number(node)
 	return 1
@@ -94,7 +100,14 @@ func show_winner(player_number: int) -> void:
 	var champion := RoundManager.reached_goal(player_number)
 	var winner_label_text := "¡P%d CAMPEÓN!" if champion else "¡P%d GANA LA RONDA!"
 	_winner_label.text = winner_label_text % player_number
-	var winner_color := PLAYER_ONE_COLOR if player_number == 1 else PLAYER_TWO_COLOR
+	var winner_color := PLAYER_ONE_COLOR
+	match player_number:
+		2:
+			winner_color = PLAYER_TWO_COLOR
+		3:
+			winner_color = PLAYER_THREE_COLOR
+		4:
+			winner_color = PLAYER_FOUR_COLOR
 	_winner_label.add_theme_color_override(
 		"font_color",
 		winner_color
@@ -174,7 +187,7 @@ func _prepare_winner_celebration(model: Node3D) -> void:
 	if _winner_animation_player == null:
 		return
 
-	for animation_name in [&"victory", &"Victory", &"dance", &"Dance"]:
+	for animation_name in [&"win", &"Win", &"victory", &"Victory", &"dance", &"Dance"]:
 		if _winner_animation_player.has_animation(animation_name):
 			_winner_celebration_name = animation_name
 			_winner_animation_player.play(_winner_celebration_name)
