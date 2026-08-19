@@ -45,6 +45,9 @@ var _p4_axis_neutral := true
 @onready var _rounds_summary_label := %RoundsSummaryLabel as Label
 @onready var _play_button := %PlayButton as Button
 @onready var _back_button := %BackButton as Button
+@onready var _count_2_button := %Count2Button as Button
+@onready var _count_3_button := %Count3Button as Button
+@onready var _count_4_button := %Count4Button as Button
 
 var _selected_max_rounds := MatchSettings.DEFAULT_MAX_ROUNDS
 
@@ -65,6 +68,7 @@ func _ready() -> void:
 	MatchSettings.set_player_count(_player_count)
 
 	_setup_connections()
+	_update_player_count_buttons()
 	_show_player_cards()
 	for i in range(1, _player_count + 1):
 		_update_player_display(i)
@@ -81,6 +85,59 @@ func _detect_player_count() -> int:
 	if connected.size() >= 2:
 		count = 4
 	return count
+
+
+func _on_player_count_pressed(count: int) -> void:
+	if count == _player_count:
+		return
+	_player_count = count
+	MatchSettings.set_player_count(_player_count)
+	for i in range(4):
+		_player_ready[i] = false
+		_selected_character_idx[i] = i % CHARACTERS.size()
+		_update_player_display(i + 1)
+	_update_player_count_buttons()
+	_show_player_cards()
+	_rounds_selector.visible = false
+	_selection_section.visible = true
+
+
+func _update_player_count_buttons() -> void:
+	_count_2_button.button_pressed = (_player_count == 2)
+	_count_3_button.button_pressed = (_player_count == 3)
+	_count_4_button.button_pressed = (_player_count == 4)
+	_apply_count_button_style(_count_2_button, _player_count == 2)
+	_apply_count_button_style(_count_3_button, _player_count == 3)
+	_apply_count_button_style(_count_4_button, _player_count == 4)
+
+
+func _apply_count_button_style(btn: Button, selected: bool) -> void:
+	var style := StyleBoxFlat.new()
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	style.content_margin_left = 20.0
+	style.content_margin_right = 20.0
+	style.corner_radius_top_left = 20
+	style.corner_radius_top_right = 20
+	style.corner_radius_bottom_right = 20
+	style.corner_radius_bottom_left = 20
+	if selected:
+		style.bg_color = Color(1, 0.75, 0.05, 1)
+		style.border_width_left = 4
+		style.border_width_top = 4
+		style.border_width_right = 4
+		style.border_width_bottom = 4
+		style.border_color = Color(0.33, 0.14, 0.005, 1)
+		style.shadow_color = Color(0.12, 0.055, 0, 0.72)
+		style.shadow_size = 8
+	else:
+		style.bg_color = Color(0.045, 0.075, 0.14, 0.98)
+		style.border_width_left = 3
+		style.border_width_top = 3
+		style.border_width_right = 3
+		style.border_width_bottom = 3
+		style.border_color = Color(0.3, 0.58, 0.84, 1)
+	btn.add_theme_stylebox_override("normal", style)
 
 
 func _process(delta: float) -> void:
@@ -284,6 +341,9 @@ func _setup_connections() -> void:
 
 	_play_button.pressed.connect(_on_play_pressed)
 	_back_button.pressed.connect(_on_back_pressed)
+	_count_2_button.pressed.connect(_on_player_count_pressed.bind(2))
+	_count_3_button.pressed.connect(_on_player_count_pressed.bind(3))
+	_count_4_button.pressed.connect(_on_player_count_pressed.bind(4))
 
 
 func _cycle_character(player_num: int, dir: int) -> void:

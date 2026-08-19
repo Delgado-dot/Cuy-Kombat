@@ -133,6 +133,42 @@ corner_radius_bottom_left = 18
 shadow_color = Color(0.12, 0.055, 0, 0.72)
 shadow_size = 9
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_count_normal"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_count_selected"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(1, 0.75, 0.05, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.33, 0.14, 0.005, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.12, 0.055, 0, 0.72)
+shadow_size = 8
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_player_count"]
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_rounds"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_dark"]
@@ -212,6 +248,60 @@ theme_override_font_sizes/font_size = 18
 text = "SELECCIONEN SUS CUYES DE COMBATE"
 horizontal_alignment = 1
 
+[node name="PlayerCountRow" type="HBoxContainer" parent="SelectionSection"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 112.0
+offset_bottom = 162.0
+offset_left = -300.0
+offset_right = 300.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Count2Button" type="Button" parent="SelectionSection/PlayerCountRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_count_selected")
+theme_override_styles/hover = SubResource("StyleBox_count_selected")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_player_count")
+text = "2 JUGADORES"
+
+[node name="Count3Button" type="Button" parent="SelectionSection/PlayerCountRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_count_normal")
+theme_override_styles/hover = SubResource("StyleBox_count_normal")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_player_count")
+text = "3 JUGADORES"
+
+[node name="Count4Button" type="Button" parent="SelectionSection/PlayerCountRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.5, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBox_count_normal")
+theme_override_styles/hover = SubResource("StyleBox_count_normal")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_player_count")
+text = "4 JUGADORES"
+
 [node name="PlayersRow" type="HBoxContainer" parent="SelectionSection" unique_id=1365813084]
 layout_mode = 1
 anchors_preset = 8
@@ -220,9 +310,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -880.0
-offset_top = -255.0
+offset_top = -230.0
 offset_right = 880.0
-offset_bottom = 265.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
