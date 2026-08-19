@@ -1,52 +1,113 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_script"]
 [ext_resource type="Script" path="res://scripts/ui/cuy_icon.gd" id="2_cuyicon"]
+[ext_resource type="Script" path="res://scripts/ui/arcade_hud_panel.gd" id="3_arcade_panel"]
 
 [sub_resource type="SystemFont" id="SystemFont_hud"]
-font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Segoe UI Symbol", "Noto Sans Symbols 2", "Arial", "Noto Sans")
 font_weight = 1000
 font_stretch = 108
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_bar_bg"]
-bg_color = Color(0.01, 0.015, 0.03, 0.85)
+[sub_resource type="StyleBoxEmpty" id="StyleBox_panel_empty"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_bar_back"]
+bg_color = Color(0.008, 0.012, 0.03, 0.98)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.2, 0.3, 0.45, 0.6)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.18, 0.25, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_bar_fill_p1"]
-bg_color = Color(0.1, 0.35, 1, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.05, 0.42, 1, 1)
+border_width_top = 2
+border_color = Color(0.45, 0.86, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_bar_fill_p2"]
-bg_color = Color(1, 0.12, 0.08, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.95, 0.08, 0.12, 1)
+border_width_top = 2
+border_color = Color(1, 0.5, 0.45, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_bar_fill_p3"]
-bg_color = Color(0.18, 0.82, 0.22, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.12, 0.78, 0.2, 1)
+border_width_top = 2
+border_color = Color(0.5, 1, 0.55, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_bar_fill_p4"]
 bg_color = Color(0.95, 0.72, 0.15, 1)
-corner_radius_top_left = 4
+border_width_top = 2
+border_color = Color(1, 0.9, 0.4, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_icon_p1"]
+bg_color = Color(0.025, 0.11, 0.24, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18, 0.68, 1, 1)
+corner_radius_top_left = 12
 corner_radius_top_right = 4
-corner_radius_bottom_right = 4
+corner_radius_bottom_right = 12
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_icon_p2"]
+bg_color = Color(0.24, 0.035, 0.055, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.25, 0.28, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 12
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_icon_p3"]
+bg_color = Color(0.025, 0.19, 0.07, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22, 0.9, 0.3, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 4
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_icon_p4"]
+bg_color = Color(0.2, 0.13, 0.025, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.78, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 12
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 12
 
 [node name="Hud" type="CanvasLayer"]
 process_mode = 3
@@ -62,6 +123,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_fonts/font = SubResource("SystemFont_hud")
 
 [node name="IntroLabel" type="Label" parent="HudRoot"]
 unique_name_in_owner = true
@@ -72,10 +134,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -60.0
-offset_right = 200.0
-offset_bottom = 60.0
+offset_left = -240.0
+offset_top = -70.0
+offset_right = 240.0
+offset_bottom = 70.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -85,339 +147,462 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/outline_size = 14
 theme_override_constants/shadow_offset_x = 5
 theme_override_constants/shadow_offset_y = 8
-theme_override_fonts/font = SubResource("SystemFont_hud")
 theme_override_font_sizes/font_size = 96
 text = "¡PELEA!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimerLabel" type="Label" parent="HudRoot"]
+[node name="PlayerOnePanel" type="PanelContainer" parent="HudRoot"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -80.0
-offset_top = 12.0
-offset_right = 80.0
-offset_bottom = 58.0
-grow_horizontal = 2
+anchor_right = 0.34
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -8.0
+offset_bottom = 196.0
 mouse_filter = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
-theme_override_constants/outline_size = 6
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 4
-theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 38
-text = "02:00"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_styles/panel = SubResource("StyleBox_panel_empty")
+script = ExtResource("3_arcade_panel")
+panel_color = Color(0.018, 0.055, 0.13, 0.94)
+border_color = Color(0.08, 0.48, 1, 1)
+accent_color = Color(0.42, 0.85, 1, 1)
+corner_cut = 18.0
 
-[node name="PlayerOnePanel" type="VBoxContainer" parent="HudRoot"]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 18.0
-offset_top = 14.0
-offset_right = 310.0
-offset_bottom = 130.0
-mouse_filter = 2
-
-[node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerOnePanel"]
+[node name="Padding" type="MarginContainer" parent="HudRoot/PlayerOnePanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 11
 
-[node name="P1Icon" type="Control" parent="HudRoot/PlayerOnePanel/NameRow"]
+[node name="Content" type="VBoxContainer" parent="HudRoot/PlayerOnePanel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="HudRoot/PlayerOnePanel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IconFrame" type="PanelContainer" parent="HudRoot/PlayerOnePanel/Padding/Content/Header"]
+custom_minimum_size = Vector2(54, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_icon_p1")
+
+[node name="P1Icon" type="Control" parent="HudRoot/PlayerOnePanel/Padding/Content/Header/IconFrame"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(46, 46)
 layout_mode = 2
-size_flags_vertical = 4
+mouse_filter = 2
 script = ExtResource("2_cuyicon")
 
-[node name="P1Name" type="Label" parent="HudRoot/PlayerOnePanel/NameRow"]
+[node name="P1Names" type="VBoxContainer" parent="HudRoot/PlayerOnePanel/Padding/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = -3
+
+[node name="P1Name" type="Label" parent="HudRoot/PlayerOnePanel/Padding/Content/Header/P1Names"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 18
-text = "P1 · CUY"
+theme_override_colors/font_color = Color(0.38, 0.82, 1, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.006, 0.02, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 29
+text = "CUY 1"
 
-[node name="P1Leader" type="Label" parent="HudRoot/PlayerOnePanel/NameRow"]
+[node name="P1Leader" type="Label" parent="HudRoot/PlayerOnePanel/Padding/Content/Header/P1Names"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.06, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 13
-text = "★"
+text = "VENTAJA"
 
-[node name="P1Bar" type="ProgressBar" parent="HudRoot/PlayerOnePanel"]
+[node name="P1Bar" type="ProgressBar" parent="HudRoot/PlayerOnePanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBox_bar_bg")
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBox_bar_back")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p1")
 value = 100.0
 show_percentage = false
 
-[node name="P1Pips" type="HBoxContainer" parent="HudRoot/PlayerOnePanel"]
+[node name="P1Status" type="Label" parent="HudRoot/PlayerOnePanel/Padding/Content"]
 unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.006, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "GOLPES 0/5"
+
+[node name="P1Stars" type="HBoxContainer" parent="HudRoot/PlayerOnePanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TimerPanel" type="PanelContainer" parent="HudRoot"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.0
+offset_top = 15.0
+offset_right = 94.0
+offset_bottom = 111.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_empty")
+script = ExtResource("3_arcade_panel")
+panel_color = Color(0.025, 0.025, 0.045, 0.95)
+border_color = Color(0.96, 0.62, 0.08, 1)
+accent_color = Color(1, 0.86, 0.32, 1)
+corner_cut = 15.0
+
+[node name="Padding" type="MarginContainer" parent="HudRoot/TimerPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="TimerBox" type="VBoxContainer" parent="HudRoot/TimerPanel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="TimerCaption" type="Label" parent="HudRoot/TimerPanel/Padding/TimerBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.22, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.012, 0.002, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "TIEMPO"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="HudRoot/TimerPanel/Padding/TimerBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.66, 0.12, 0.72)
+
+[node name="TimerLabel" type="Label" parent="HudRoot/TimerPanel/Padding/TimerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.006, 0.002, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 7
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 43
+text = "02:00"
+horizontal_alignment = 1
+
+[node name="PlayerTwoPanel" type="PanelContainer" parent="HudRoot"]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.66
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = 196.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_empty")
+script = ExtResource("3_arcade_panel")
+panel_color = Color(0.14, 0.018, 0.035, 0.94)
+border_color = Color(1, 0.12, 0.18, 1)
+accent_color = Color(1, 0.46, 0.42, 1)
+corner_cut = 18.0
+
+[node name="Padding" type="MarginContainer" parent="HudRoot/PlayerTwoPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 11
+
+[node name="Content" type="VBoxContainer" parent="HudRoot/PlayerTwoPanel/Padding"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="P1Status" type="Label" parent="HudRoot/PlayerOnePanel"]
-unique_name_in_owner = true
+[node name="Header" type="HBoxContainer" parent="HudRoot/PlayerTwoPanel/Padding/Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 1)
-theme_override_font_sizes/font_size = 13
-text = "GOLPES 0/7"
+theme_override_constants/separation = 10
 
-[node name="P1Stars" type="Label" parent="HudRoot/PlayerOnePanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
-text = ""
-
-[node name="PlayerTwoPanel" type="VBoxContainer" parent="HudRoot"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -310.0
-offset_top = 14.0
-offset_right = -18.0
-offset_bottom = 130.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerTwoPanel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="P2Name" type="Label" parent="HudRoot/PlayerTwoPanel/NameRow"]
-unique_name_in_owner = true
+[node name="P2Names" type="VBoxContainer" parent="HudRoot/PlayerTwoPanel/Padding/Content/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.6, 0.55, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 18
-text = "CUY · P2"
+theme_override_constants/separation = -3
+
+[node name="P2Name" type="Label" parent="HudRoot/PlayerTwoPanel/Padding/Content/Header/P2Names"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.42, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.002, 0.006, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 29
+text = "CUY 2"
 horizontal_alignment = 2
 
-[node name="P2Leader" type="Label" parent="HudRoot/PlayerTwoPanel/NameRow"]
+[node name="P2Leader" type="Label" parent="HudRoot/PlayerTwoPanel/Padding/Content/Header/P2Names"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.06, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 13
-text = "★"
+text = "VENTAJA"
+horizontal_alignment = 2
 
-[node name="P2Icon" type="Control" parent="HudRoot/PlayerTwoPanel/NameRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+[node name="IconFrame" type="PanelContainer" parent="HudRoot/PlayerTwoPanel/Padding/Content/Header"]
+custom_minimum_size = Vector2(54, 50)
 layout_mode = 2
-size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBox_icon_p2")
+
+[node name="P2Icon" type="Control" parent="HudRoot/PlayerTwoPanel/Padding/Content/Header/IconFrame"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_filter = 2
 script = ExtResource("2_cuyicon")
 
-[node name="P2Bar" type="ProgressBar" parent="HudRoot/PlayerTwoPanel"]
+[node name="P2Bar" type="ProgressBar" parent="HudRoot/PlayerTwoPanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBox_bar_bg")
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBox_bar_back")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p2")
 value = 100.0
 show_percentage = false
 
-[node name="P2Pips" type="HBoxContainer" parent="HudRoot/PlayerTwoPanel"]
+[node name="P2Status" type="Label" parent="HudRoot/PlayerTwoPanel/Padding/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="P2Status" type="Label" parent="HudRoot/PlayerTwoPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 1)
-theme_override_font_sizes/font_size = 13
-text = "GOLPES 0/7"
-horizontal_alignment = 2
-
-[node name="P2Stars" type="Label" parent="HudRoot/PlayerTwoPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.93, 0.93, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.002, 0.006, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 16
-text = ""
+text = "GOLPES 0/5"
 horizontal_alignment = 2
 
-[node name="PlayerThreePanel" type="VBoxContainer" parent="HudRoot"]
+[node name="P2Stars" type="HBoxContainer" parent="HudRoot/PlayerTwoPanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 2
+
+[node name="PlayerThreePanel" type="PanelContainer" parent="HudRoot"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
-offset_left = 18.0
-offset_top = 140.0
-offset_right = 310.0
-offset_bottom = 256.0
+anchor_right = 0.34
+offset_left = 20.0
+offset_top = 210.0
+offset_right = -8.0
+offset_bottom = 388.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_empty")
+script = ExtResource("3_arcade_panel")
+panel_color = Color(0.018, 0.12, 0.045, 0.94)
+border_color = Color(0.12, 0.75, 0.22, 1)
+accent_color = Color(0.45, 1, 0.5, 1)
+corner_cut = 18.0
 
-[node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerThreePanel"]
+[node name="Padding" type="MarginContainer" parent="HudRoot/PlayerThreePanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 11
 
-[node name="P3Icon" type="Control" parent="HudRoot/PlayerThreePanel/NameRow"]
+[node name="Content" type="VBoxContainer" parent="HudRoot/PlayerThreePanel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="HudRoot/PlayerThreePanel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IconFrame" type="PanelContainer" parent="HudRoot/PlayerThreePanel/Padding/Content/Header"]
+custom_minimum_size = Vector2(54, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_icon_p3")
+
+[node name="P3Icon" type="Control" parent="HudRoot/PlayerThreePanel/Padding/Content/Header/IconFrame"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(46, 46)
 layout_mode = 2
-size_flags_vertical = 4
+mouse_filter = 2
 script = ExtResource("2_cuyicon")
 
-[node name="P3Name" type="Label" parent="HudRoot/PlayerThreePanel/NameRow"]
+[node name="P3Names" type="VBoxContainer" parent="HudRoot/PlayerThreePanel/Padding/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = -3
+
+[node name="P3Name" type="Label" parent="HudRoot/PlayerThreePanel/Padding/Content/Header/P3Names"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.18, 0.82, 0.22, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 18
-text = "P3 · CUY"
+theme_override_colors/font_color = Color(0.35, 0.95, 0.42, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.02, 0.006, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 29
+text = "CUY 3"
 
-[node name="P3Leader" type="Label" parent="HudRoot/PlayerThreePanel/NameRow"]
+[node name="P3Leader" type="Label" parent="HudRoot/PlayerThreePanel/Padding/Content/Header/P3Names"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.06, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 13
-text = "★"
+text = "VENTAJA"
 
-[node name="P3Bar" type="ProgressBar" parent="HudRoot/PlayerThreePanel"]
+[node name="P3Bar" type="ProgressBar" parent="HudRoot/PlayerThreePanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBox_bar_bg")
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBox_bar_back")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p3")
 value = 100.0
 show_percentage = false
 
-[node name="P3Pips" type="HBoxContainer" parent="HudRoot/PlayerThreePanel"]
+[node name="P3Status" type="Label" parent="HudRoot/PlayerThreePanel/Padding/Content"]
 unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 1, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0.002, 0.02, 0.006, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "GOLPES 0/5"
+
+[node name="P3Stars" type="HBoxContainer" parent="HudRoot/PlayerThreePanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="PlayerFourPanel" type="PanelContainer" parent="HudRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_left = 0.66
+anchor_right = 1.0
+offset_left = 8.0
+offset_top = 210.0
+offset_right = -20.0
+offset_bottom = 388.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_panel_empty")
+script = ExtResource("3_arcade_panel")
+panel_color = Color(0.16, 0.1, 0.018, 0.94)
+border_color = Color(0.95, 0.7, 0.12, 1)
+accent_color = Color(1, 0.9, 0.38, 1)
+corner_cut = 18.0
+
+[node name="Padding" type="MarginContainer" parent="HudRoot/PlayerFourPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 11
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 11
+
+[node name="Content" type="VBoxContainer" parent="HudRoot/PlayerFourPanel/Padding"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="P3Status" type="Label" parent="HudRoot/PlayerThreePanel"]
-unique_name_in_owner = true
+[node name="Header" type="HBoxContainer" parent="HudRoot/PlayerFourPanel/Padding/Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 1)
-theme_override_font_sizes/font_size = 13
-text = "GOLPES 0/7"
+theme_override_constants/separation = 10
 
-[node name="P3Stars" type="Label" parent="HudRoot/PlayerThreePanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
-text = ""
-
-[node name="PlayerFourPanel" type="VBoxContainer" parent="HudRoot"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -310.0
-offset_top = 140.0
-offset_right = -18.0
-offset_bottom = 256.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerFourPanel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="P4Name" type="Label" parent="HudRoot/PlayerFourPanel/NameRow"]
-unique_name_in_owner = true
+[node name="P4Names" type="VBoxContainer" parent="HudRoot/PlayerFourPanel/Padding/Content/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.95, 0.78, 0.3, 1)
-theme_override_colors/font_outline_color = Color(0.01, 0.008, 0.015, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 18
-text = "CUY · P4"
+theme_override_constants/separation = -3
+
+[node name="P4Name" type="Label" parent="HudRoot/PlayerFourPanel/Padding/Content/Header/P4Names"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.32, 1)
+theme_override_colors/font_outline_color = Color(0.025, 0.014, 0.002, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 29
+text = "CUY 4"
 horizontal_alignment = 2
 
-[node name="P4Leader" type="Label" parent="HudRoot/PlayerFourPanel/NameRow"]
+[node name="P4Leader" type="Label" parent="HudRoot/PlayerFourPanel/Padding/Content/Header/P4Names"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.06, 0, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 13
-text = "★"
+text = "VENTAJA"
+horizontal_alignment = 2
 
-[node name="P4Icon" type="Control" parent="HudRoot/PlayerFourPanel/NameRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+[node name="IconFrame" type="PanelContainer" parent="HudRoot/PlayerFourPanel/Padding/Content/Header"]
+custom_minimum_size = Vector2(54, 50)
 layout_mode = 2
-size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBox_icon_p4")
+
+[node name="P4Icon" type="Control" parent="HudRoot/PlayerFourPanel/Padding/Content/Header/IconFrame"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 46)
+layout_mode = 2
+mouse_filter = 2
 script = ExtResource("2_cuyicon")
 
-[node name="P4Bar" type="ProgressBar" parent="HudRoot/PlayerFourPanel"]
+[node name="P4Bar" type="ProgressBar" parent="HudRoot/PlayerFourPanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBox_bar_bg")
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBox_bar_back")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p4")
 value = 100.0
 show_percentage = false
 
-[node name="P4Pips" type="HBoxContainer" parent="HudRoot/PlayerFourPanel"]
+[node name="P4Status" type="Label" parent="HudRoot/PlayerFourPanel/Padding/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 4
-alignment = 1
-
-[node name="P4Status" type="Label" parent="HudRoot/PlayerFourPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 1)
-theme_override_font_sizes/font_size = 13
-text = "GOLPES 0/7"
-horizontal_alignment = 2
-
-[node name="P4Stars" type="Label" parent="HudRoot/PlayerFourPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
-theme_override_constants/outline_size = 3
+theme_override_colors/font_color = Color(1, 0.97, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0.025, 0.014, 0.002, 1)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 16
-text = ""
+text = "GOLPES 0/5"
 horizontal_alignment = 2
+
+[node name="P4Stars" type="HBoxContainer" parent="HudRoot/PlayerFourPanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 2

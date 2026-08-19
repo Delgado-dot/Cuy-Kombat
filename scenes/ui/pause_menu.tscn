@@ -1,106 +1,156 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_script"]
 
+[sub_resource type="SystemFont" id="SystemFont_title"]
+font_names = PackedStringArray("Cooper Black", "Arial Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_weight = 1000
+font_stretch = 112
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_weight = 900
+font_stretch = 106
+subpixel_positioning = 0
+
 [sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
-bg_color = Color(0.035, 0.055, 0.105, 0.97)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.27, 0.42, 0.68, 0.72)
-corner_radius_top_left = 28
-corner_radius_top_right = 28
-corner_radius_bottom_right = 28
-corner_radius_bottom_left = 28
-shadow_color = Color(0, 0, 0, 0.55)
-shadow_size = 16
+bg_color = Color(0.025, 0.04, 0.085, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.08, 0.2, 0.42, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.72)
+shadow_size = 22
+shadow_offset = Vector2(0, 9)
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_primary"]
-bg_color = Color(1, 0.72, 0.08, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBox_options_panel"]
+bg_color = Color(0.018, 0.035, 0.08, 0.86)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.9, 0.38, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
-shadow_color = Color(0, 0, 0, 0.38)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_primary_hover"]
-bg_color = Color(1, 0.82, 0.18, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.96, 0.65, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_primary_pressed"]
-bg_color = Color(0.88, 0.56, 0.035, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.76, 0.16, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+border_color = Color(0.28, 0.7, 1, 0.9)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_color = Color(0, 0, 0, 0.62)
+shadow_size = 18
+shadow_offset = Vector2(0, 8)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button"]
-bg_color = Color(0.095, 0.13, 0.21, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.3, 0.4, 0.57, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.045, 0.105, 0.22, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.3, 0.58, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.38)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button_hover"]
-bg_color = Color(0.14, 0.22, 0.35, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.47, 0.76, 1, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.65, 0.06, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.92, 0.34, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(1, 0.38, 0.02, 0.42)
+shadow_size = 9
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button_pressed"]
-bg_color = Color(0.065, 0.095, 0.16, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.3, 0.67, 0.94, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+content_margin_top = 11.0
+content_margin_bottom = 9.0
+bg_color = Color(0.9, 0.38, 0.025, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.76, 0.13, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_disabled"]
-bg_color = Color(0.07, 0.08, 0.105, 0.9)
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider"]
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.01, 0.025, 0.065, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.2, 0.22, 0.27, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+border_color = Color(0.12, 0.3, 0.56, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_fill"]
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 0.55, 0.04, 1)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(1, 0.82, 0.18, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_toggle"]
+content_margin_left = 22.0
+content_margin_top = 9.0
+content_margin_right = 22.0
+content_margin_bottom = 9.0
+bg_color = Color(0.045, 0.105, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22, 0.48, 0.78, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_toggle_active"]
+content_margin_left = 22.0
+content_margin_top = 9.0
+content_margin_right = 22.0
+content_margin_bottom = 9.0
+bg_color = Color(0.08, 0.3, 0.52, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.72, 0.14, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0.2, 0.7, 1, 0.28)
+shadow_size = 6
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -115,6 +165,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Backdrop" type="ColorRect" parent="PauseMenu"]
 layout_mode = 1
@@ -123,97 +174,361 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.01, 0.02, 0.05, 0.76)
+mouse_filter = 1
+color = Color(0.005, 0.012, 0.035, 0.66)
 
 [node name="Center" type="CenterContainer" parent="PauseMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = -20.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="PauseMenu/Center"]
-custom_minimum_size = Vector2(520, 520)
+[node name="PausePanel" type="PanelContainer" parent="PauseMenu/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 550)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_panel")
 
-[node name="Padding" type="MarginContainer" parent="PauseMenu/Center/Panel"]
+[node name="Padding" type="MarginContainer" parent="PauseMenu/Center/PausePanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 52
-theme_override_constants/margin_top = 36
-theme_override_constants/margin_right = 52
-theme_override_constants/margin_bottom = 36
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 32
 
-[node name="Content" type="VBoxContainer" parent="PauseMenu/Center/Panel/Padding"]
+[node name="Content" type="VBoxContainer" parent="PauseMenu/Center/PausePanel/Padding"]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Title" type="Label" parent="PauseMenu/Center/Panel/Padding/Content"]
+[node name="Title" type="Label" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.4, 0.7, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 3
-theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1, 0.22, 0.64, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.008, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 6
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 64
 text = "PAUSA"
 horizontal_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(390, 60)
+[node name="Subtitle" type="Label" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
-theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBox_primary")
-theme_override_styles/hover = SubResource("StyleBox_primary_hover")
-theme_override_styles/pressed = SubResource("StyleBox_primary_pressed")
-theme_override_styles/focus = SubResource("StyleBox_primary_hover")
+theme_override_colors/font_color = Color(0.58, 0.78, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.02, 0.05, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 16
+text = "CUY KOMBAT"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/Center/PausePanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 62)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_focus_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.035, 0.004, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.012, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBox_button")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/focus = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "REANUDAR"
 
-[node name="RestartButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
+[node name="RestartButton" type="Button" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(390, 56)
+custom_minimum_size = Vector2(400, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.93, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_focus_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.035, 0.004, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.012, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 theme_override_styles/focus = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "REINICIAR RONDA"
 
-[node name="PauseOptionsButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
+[node name="PauseOptionsButton" type="Button" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(390, 56)
+custom_minimum_size = Vector2(400, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.93, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_focus_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.035, 0.004, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.012, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 theme_override_styles/focus = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "OPCIONES"
-disabled = true
 
-[node name="PauseMainMenuButton" type="Button" parent="PauseMenu/Center/Panel/Padding/Content"]
+[node name="PauseMainMenuButton" type="Button" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(390, 56)
+custom_minimum_size = Vector2(400, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.93, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_focus_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.035, 0.004, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.012, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
-theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 theme_override_styles/focus = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "MENÚ PRINCIPAL"
 
-[node name="Hint" type="Label" parent="PauseMenu/Center/Panel/Padding/Content"]
+[node name="Hint" type="Label" parent="PauseMenu/Center/PausePanel/Padding/Content"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.57, 0.65, 0.77, 1)
-theme_override_font_sizes/font_size = 16
-text = "ESC también reanuda"
+theme_override_colors/font_color = Color(0.57, 0.68, 0.83, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.02, 0.05, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 15
+text = "ESC para volver a la partida"
+horizontal_alignment = 1
+
+[node name="PauseOptionsPanel" type="PanelContainer" parent="PauseMenu/Center"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(620, 650)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_options_panel")
+
+[node name="Padding" type="MarginContainer" parent="PauseMenu/Center/PauseOptionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 54
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 54
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Title" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.22, 0.64, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.008, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 5
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 52
+text = "OPCIONES"
+horizontal_alignment = 1
+
+[node name="AudioCaption" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.02, 0.002, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 19
+text = "AUDIO"
+
+[node name="MasterSection" type="VBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MasterSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.015, 0.04, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "VOLUMEN GENERAL"
+
+[node name="Row" type="HBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MasterSection"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MasterVolumeSlider" type="HSlider" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MasterSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="MasterVolumeValue" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MasterSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.24, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MusicSection" type="VBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MusicSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.015, 0.04, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "MÚSICA"
+
+[node name="Row" type="HBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MusicSection"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MusicVolumeSlider" type="HSlider" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MusicSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="MusicVolumeValue" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/MusicSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.24, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SfxSection" type="VBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/SfxSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.015, 0.04, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "EFECTOS"
+
+[node name="Row" type="HBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/SfxSection"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="SfxVolumeSlider" type="HSlider" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/SfxSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="SfxVolumeValue" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/SfxSection/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.24, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 17
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="FullscreenRow" type="HBoxContainer" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/FullscreenRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.015, 0.04, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 18
+text = "PANTALLA COMPLETA"
+vertical_alignment = 1
+
+[node name="FullscreenToggle" type="CheckButton" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content/FullscreenRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.95, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.78, 0.18, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.78, 0.18, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBox_toggle")
+theme_override_styles/hover = SubResource("StyleBox_toggle")
+theme_override_styles/pressed = SubResource("StyleBox_toggle_active")
+theme_override_styles/hover_pressed = SubResource("StyleBox_toggle_active")
+text = "OFF"
+
+[node name="PauseOptionsBackButton" type="Button" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 58)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_hover_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_focus_color = Color(0.09, 0.045, 0.005, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.035, 0.004, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.012, 0.035, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBox_button_hover")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/focus = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+text = "VOLVER"
+
+[node name="Hint" type="Label" parent="PauseMenu/Center/PauseOptionsPanel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.57, 0.68, 0.83, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.02, 0.05, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 14
+text = "ESC vuelve al menú de pausa"
 horizontal_alignment = 1

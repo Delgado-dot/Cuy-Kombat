@@ -54,6 +54,8 @@ static func play_sfx(node: Node, stream: AudioStream, position: Vector3, volume_
 
 	var player := AudioStreamPlayer3D.new()
 	player.stream = stream
+	if AudioServer.get_bus_index(&"SFX") >= 0:
+		player.bus = &"SFX"
 	player.volume_db = volume_db
 	player.max_distance = 60.0
 	player.unit_size = 8.0
