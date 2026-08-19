@@ -306,6 +306,7 @@ text = "3"
 horizontal_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="Panel/Content"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -335,10 +336,31 @@ theme_override_styles/disabled = SubResource("StyleBox_next_disabled")
 text = "SIGUIENTE RONDA"
 disabled = true
 
+[node name="LobbyButton" type="Button" parent="Panel/Content/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 68)
+layout_mode = 2
+focus_neighbor_left = NodePath("../MainMenuButton")
+focus_neighbor_right = NodePath("../MainMenuButton")
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.78, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.68)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBox_menu_normal")
+theme_override_styles/hover = SubResource("StyleBox_menu_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menu_pressed")
+theme_override_styles/focus = SubResource("StyleBox_menu_hover")
+text = "VOLVER AL LOBBY"
+
 [node name="MainMenuButton" type="Button" parent="Panel/Content/Buttons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 68)
 layout_mode = 2
+focus_neighbor_left = NodePath("../LobbyButton")
+focus_neighbor_right = NodePath("../LobbyButton")
 theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.78, 0.9, 1, 1)

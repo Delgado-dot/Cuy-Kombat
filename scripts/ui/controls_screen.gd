@@ -96,10 +96,35 @@ func _toggle_controls_page() -> void:
 
 func _navigate_controls_page(direction: int) -> void:
 	var showing_gamepad := _get_content_node("Mandos").visible
-	if direction > 0 and not showing_gamepad:
-		_show_gamepad_page()
-	elif direction < 0 and showing_gamepad:
-		_show_keyboard_page()
+	if direction > 0:
+		if not showing_gamepad:
+			if _keyboard_pair == 0:
+				_keyboard_pair = 1
+				_update_keyboard_pair()
+			else:
+				_gamepad_pair = 0
+				_show_gamepad_page()
+		elif _gamepad_pair == 0:
+			_gamepad_pair = 1
+			_update_gamepad_pair()
+		else:
+			_keyboard_pair = 0
+			_show_keyboard_page()
+	else:
+		if showing_gamepad:
+			if _gamepad_pair == 1:
+				_gamepad_pair = 0
+				_update_gamepad_pair()
+			else:
+				_keyboard_pair = 1
+				_show_keyboard_page()
+		elif _keyboard_pair == 1:
+			_keyboard_pair = 0
+			_update_keyboard_pair()
+		else:
+			_gamepad_pair = 1
+			_show_gamepad_page()
+	_reset_scroll()
 
 
 func _toggle_pair() -> void:
@@ -153,20 +178,31 @@ func _update_keyboard_pair() -> void:
 
 func _update_gamepad_pair() -> void:
 	var mandos := _get_content_node("Mandos")
-	var m1 := mandos.get_node_or_null("MandoOne") as Control
-	var m2 := mandos.get_node_or_null("MandoTwo") as Control
-	var m3 := mandos.get_node_or_null("MandoThree") as Control
-	var m4 := mandos.get_node_or_null("MandoFour") as Control
-	if m1 != null:
-		m1.visible = _gamepad_pair == 0
-	if m2 != null:
-		m2.visible = _gamepad_pair == 0
-	if m3 != null:
-		m3.visible = _gamepad_pair == 1
-	if m4 != null:
-		m4.visible = _gamepad_pair == 1
+	var subtitle := _get_content_node("MandosSubtitle") as Label
+	for child in mandos.get_children():
+		if child is Control:
+			child.visible = false
 
-	_pair_nav_button.text = "JUGADOR 3 y 4  →" if _gamepad_pair == 0 else "←  JUGADOR 1 y 2"
+	if _gamepad_pair == 0:
+		var m1 := mandos.get_node_or_null("MandoOne") as Control
+		var m2 := mandos.get_node_or_null("MandoTwo") as Control
+		if m1 != null:
+			m1.visible = true
+		if m2 != null:
+			m2.visible = true
+		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
+		if subtitle != null:
+			subtitle.text = "P1 = MANDO 1   •   P2 = MANDO 2"
+	else:
+		var m3 := mandos.get_node_or_null("MandoThree") as Control
+		var m4 := mandos.get_node_or_null("MandoFour") as Control
+		if m3 != null:
+			m3.visible = true
+		if m4 != null:
+			m4.visible = true
+		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
+		if subtitle != null:
+			subtitle.text = "P3 = MANDO 3   •   P4 = MANDO 4"
 
 
 func _set_keyboard_content_visible(is_visible: bool) -> void:
@@ -314,3 +350,97 @@ func _apply_arcade_text_style() -> void:
 	_gamepad_nav_button.add_theme_constant_override("outline_size", 2)
 	_pair_nav_button.add_theme_color_override("font_outline_color", Color(0.01, 0.02, 0.06, 1))
 	_pair_nav_button.add_theme_constant_override("outline_size", 2)
+	_apply_keyboard_visual_style()
+
+
+func _apply_keyboard_visual_style() -> void:
+	var title := _get_content_node("Title") as Label
+	if title != null:
+		title.add_theme_color_override("font_color", Color(1, 0.72, 0.08, 1))
+		title.add_theme_color_override("font_outline_color", Color(0.02, 0.01, 0.01, 1))
+		title.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
+		title.add_theme_constant_override("outline_size", 9)
+		title.add_theme_constant_override("shadow_offset_y", 7)
+
+	var keyboard_subtitle := _get_content_node("KeyboardSubtitle") as Label
+	if keyboard_subtitle != null:
+		keyboard_subtitle.add_theme_color_override("font_color", Color(0.96, 0.97, 1, 1))
+		keyboard_subtitle.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 1))
+		keyboard_subtitle.add_theme_constant_override("outline_size", 5)
+
+	_replace_move_key_with_cluster(
+		"Margin/Center/Panel/Padding/Content/Players/PlayerOne/Padding/Content/Bindings/Move/Key",
+		["W", "A", "S", "D"]
+	)
+	_replace_move_key_with_cluster(
+		"Margin/Center/Panel/Padding/Content/Players/PlayerTwo/Padding/Content/Bindings/Move/Key",
+		["←", "↑", "↓", "→"]
+	)
+	_apply_bottom_button_styles()
+
+
+func _replace_move_key_with_cluster(key_path: String, key_labels: Array[String]) -> void:
+	var original_key := _controls_root.get_node_or_null(NodePath(key_path)) as PanelContainer
+	if original_key == null:
+		return
+
+	var key_style := original_key.get_theme_stylebox("panel")
+	var parent := original_key.get_parent()
+	var child_index := original_key.get_index()
+	var key_cluster := HBoxContainer.new()
+	key_cluster.name = "KeyCluster"
+	key_cluster.custom_minimum_size = Vector2(190, 44)
+	key_cluster.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	key_cluster.add_theme_constant_override("separation", 6)
+
+	for key_label_text in key_labels:
+		var key_panel := PanelContainer.new()
+		key_panel.custom_minimum_size = Vector2(43, 44)
+		key_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		key_panel.add_theme_stylebox_override("panel", key_style)
+		var key_label := Label.new()
+		key_label.text = key_label_text
+		key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		key_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		key_label.add_theme_font_override("font", _controls_root.get_theme_font("font"))
+		key_label.add_theme_font_size_override("font_size", 24)
+		key_label.add_theme_color_override("font_color", Color(0.98, 0.98, 1, 1))
+		key_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		key_label.add_theme_constant_override("outline_size", 3)
+		key_panel.add_child(key_label)
+		key_cluster.add_child(key_panel)
+
+	parent.remove_child(original_key)
+	parent.add_child(key_cluster)
+	parent.move_child(key_cluster, child_index)
+	original_key.queue_free()
+
+
+func _apply_bottom_button_styles() -> void:
+	_apply_button_style(_back_button, Color(1, 0.64, 0.04, 0.96), Color(1, 0.9, 0.35, 1), Color(0.08, 0.05, 0.01, 1))
+	_apply_button_style(_gamepad_nav_button, Color(0.04, 0.32, 0.7, 0.94), Color(0.3, 0.78, 1, 1), Color(1, 1, 1, 1))
+	_apply_button_style(_pair_nav_button, Color(0.32, 0.12, 0.56, 0.94), Color(0.75, 0.48, 1, 1), Color(1, 1, 1, 1))
+
+
+func _apply_button_style(button: Button, background: Color, border: Color, text_color: Color) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = background
+	normal.border_width_left = 3
+	normal.border_width_top = 3
+	normal.border_width_right = 3
+	normal.border_width_bottom = 5
+	normal.border_color = border
+	normal.corner_radius_top_left = 18
+	normal.corner_radius_top_right = 18
+	normal.corner_radius_bottom_left = 18
+	normal.corner_radius_bottom_right = 18
+	normal.shadow_color = Color(0, 0, 0, 0.65)
+	normal.shadow_size = 7
+	normal.shadow_offset = Vector2(0, 4)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", normal)
+	button.add_theme_color_override("font_color", text_color)
+	button.add_theme_color_override("font_hover_color", text_color.lightened(0.12))
+	button.add_theme_color_override("font_pressed_color", text_color.darkened(0.15))
+	button.add_theme_color_override("font_outline_color", Color(0.01, 0.01, 0.02, 1))
+	button.add_theme_constant_override("outline_size", 4)

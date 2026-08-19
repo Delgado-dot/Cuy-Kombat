@@ -13,6 +13,7 @@ const WINNER_MODEL_VERTICAL_OFFSET := 0.65
 
 @onready var _winner_label := %WinnerLabel as Label
 @onready var _confetti := %Confetti as GPUParticles2D
+@onready var _lobby_button := %LobbyButton as Button
 @onready var _next_round_button := %NextRoundButton as Button
 @onready var _main_menu_button := %MainMenuButton as Button
 @onready var _transition_title := %TransitionTitle as Label
@@ -38,6 +39,7 @@ var _winner_celebration_time := 0.0
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
+	_lobby_button.pressed.connect(_return_to_lobby)
 	_next_round_button.pressed.connect(_start_next_round)
 	_main_menu_button.pressed.connect(_return_to_main_menu)
 	_next_round_timer.timeout.connect(_start_next_round)
@@ -125,7 +127,12 @@ func show_winner(player_number: int) -> void:
 	if champion:
 		_transition_title.text = "PARTIDA FINALIZADA"
 		_countdown_label.text = ""
+		_next_round_button.visible = false
+		_lobby_button.visible = true
+		_lobby_button.call_deferred("grab_focus")
 	else:
+		_next_round_button.visible = true
+		_lobby_button.visible = false
 		_start_round_countdown()
 
 
@@ -273,6 +280,12 @@ func _return_to_main_menu() -> void:
 	ScreenFlow.go_to_main_menu()
 
 
+func _return_to_lobby() -> void:
+	_restore_winner_bone_poses()
+	get_tree().paused = false
+	ScreenFlow.go_to_lobby()
+
+
 func _start_next_round() -> void:
 	if _next_round_started:
 		return
@@ -282,5 +295,7 @@ func _start_next_round() -> void:
 	_next_round_started = true
 	_round_transition_started = false
 	_next_round_timer.stop()
+	_lobby_button.visible = false
+	_next_round_button.visible = true
 	_restore_winner_bone_poses()
 	_scenario_manager.call("start_next_round")
