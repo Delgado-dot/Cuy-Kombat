@@ -25,8 +25,8 @@ enum PlayerState {
 @export var tackle_force := 15.0
 @export var tackle_duration := 0.22
 @export var tackle_cooldown := 2.5
-@export var tackle_knockback := 20.0
-@export var tackle_knockback_up := 8.0
+@export var tackle_knockback := 17.0
+@export var tackle_knockback_up := 6.8
 @export var tackle_tilt := 0.35
 @export var knockback_force := 18.0
 @export var knockback_up_force := 7.0
@@ -131,6 +131,18 @@ var _recovering := false
 var _recovery_time := 0.0
 var _knocked_fall_start_angle := 0.0
 var _cuy_model_local_transform := Transform3D.IDENTITY
+var _collision_bases_captured := false
+var _body_shape_radius_base := 0.0
+var _body_shape_height_base := 0.0
+var _tackle_shape_radius_base := 0.0
+var _punch_shape_size_base := Vector3.ZERO
+var _grab_shape_size_base := Vector3.ZERO
+var _body_shape_transform_base := Transform3D.IDENTITY
+var _tackle_transform_base := Transform3D.IDENTITY
+var _punch_transform_base := Transform3D.IDENTITY
+var _grab_transform_base := Transform3D.IDENTITY
+var _grab_point_transform_base := Transform3D.IDENTITY
+var _carry_point_transform_base := Transform3D.IDENTITY
 var _punch_effect_time := 0.0
 var _punch_effect_material: StandardMaterial3D
 var _body_material: StandardMaterial3D
@@ -186,6 +198,9 @@ var _right_arm_rest_rot := Vector3.ZERO
 @onready var _grab_point := get_node_or_null("GrabPoint") as Node3D
 @onready var _carry_point := get_node_or_null("CarryPoint") as Node3D
 @onready var _cuy_model := get_node_or_null("Visual/CuyModel") as Node3D
+@onready var _tackle_shape := get_node_or_null("TackleHitbox/CollisionShape3D") as CollisionShape3D
+@onready var _punch_shape := get_node_or_null("PunchHitbox/CollisionShape3D") as CollisionShape3D
+@onready var _grab_shape := get_node_or_null("GrabHitbox/CollisionShape3D") as CollisionShape3D
 
 
 func _physics_process(delta: float) -> void:
@@ -257,22 +272,46 @@ func _physics_process(delta: float) -> void:
 	_push_colliding_players()
 	_update_visual_motion(delta, move_direction)
 
+## Valores efectivos modificados por las mutaciones activas.
+## Los sistemas no preguntan "¿está activa X?" sino que consultan los
+## multiplicadores agregados del MutationManager. Sin mutaciones activas,
+## estos valores devuelven exactamente los exportados.
+func _effective_move_speed() -> float:
+	return move_speed * MutationManager.get_stat_multiplier(self, &"move_speed")
+
+func _effective_acceleration() -> float:
+	return acceleration * MutationManager.get_stat_multiplier(self, &"acceleration")
+
+func _effective_deceleration() -> float:
+	return deceleration * MutationManager.get_stat_multiplier(self, &"deceleration")
+
+func _effective_jump_velocity() -> float:
+	return jump_velocity * MutationManager.get_stat_multiplier(self, &"jump_velocity")
+
+func _effective_gravity() -> float:
+	return gravity * MutationManager.get_stat_multiplier(self, &"gravity")
+
+func _effective_body_push_friction() -> float:
+	return body_push_friction * MutationManager.get_stat_multiplier(self, &"body_push_friction")
+
 func _apply_player_movement(delta: float, move_direction: Vector3, can_jump: bool) -> void:
-	var target_velocity := move_direction * move_speed
-	var blend_speed := acceleration if move_direction.length_squared() > 0.0 else deceleration
+	var moving := move_direction.length_squared() > 0.0
+	var target_velocity := move_direction * _effective_move_speed()
+	var blend_speed := _effective_acceleration() if moving else _effective_deceleration()
 
 	_horizontal_velocity = _horizontal_velocity.move_toward(target_velocity, blend_speed * delta)
-	_external_push = _external_push.move_toward(Vector3.ZERO, body_push_friction * delta)
-	velocity.x = _horizontal_velocity.x + _external_push.x
-	velocity.z = _horizontal_velocity.z + _external_push.z
+	_external_push = _external_push.move_toward(Vector3.ZERO, _effective_body_push_friction() * delta)
+	var slide := MutationManager.get_slide_direction(self)
+	velocity.x = _horizontal_velocity.x + _external_push.x + slide.x
+	velocity.z = _horizontal_velocity.z + _external_push.z + slide.z
 
 	if is_on_floor():
 		if can_jump and (Input.is_key_pressed(_jump_key()) or _joy_button_down(JoyButton.JOY_BUTTON_A)):
-			velocity.y = jump_velocity
+			velocity.y = _effective_jump_velocity()
 		elif velocity.y < 0.0:
 			velocity.y = 0.0
 	else:
-		velocity.y -= gravity * delta
+		velocity.y -= _effective_gravity() * delta
 
 func _ready() -> void:
 	_was_on_floor = is_on_floor()
@@ -290,7 +329,37 @@ func _ready() -> void:
 	if _tackle_hitbox != null:
 		_tackle_hitbox.body_entered.connect(_on_tackle_hitbox_body_entered)
 
+	_capture_collision_bases()
+	_apply_mutation_physics_scale()
+	if not MutationManager.mutations_changed.is_connected(_apply_mutation_physics_scale):
+		MutationManager.mutations_changed.connect(_apply_mutation_physics_scale)
+
 	call_deferred("_connect_death_zone")
+	call_deferred("_apply_selected_character_model")
+
+
+func _apply_selected_character_model() -> void:
+	if _cuy_model == null:
+		return
+	var player_num := 1 if control_scheme == "wasd" else 2
+	var preset: Dictionary = MatchSettings.get_player_character(player_num)
+	if preset.is_empty() or not preset.has("scene_path"):
+		return
+	var scene_path := String(preset["scene_path"])
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+	var model_scene := load(scene_path) as PackedScene
+	if model_scene == null:
+		return
+	for child in _cuy_model.get_children():
+		child.queue_free()
+	var new_model := model_scene.instantiate() as Node3D
+	if new_model != null:
+		var scale_vec := preset.get("scale", Vector3.ONE) as Vector3
+		var offset_vec := preset.get("offset", Vector3.ZERO) as Vector3
+		new_model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)
+		new_model.rotation.y = PI
+		_cuy_model.add_child(new_model)
 
 func _get_camera_relative_input() -> Vector3:
 	var input_vector := Vector2.ZERO
@@ -378,6 +447,87 @@ func _face_move_direction(move_direction: Vector3, delta: float) -> void:
 	var target_yaw := atan2(-move_direction.x, -move_direction.z)
 	rotation.y = lerp_angle(rotation.y, target_yaw, clampf(rotation_speed * delta, 0.0, 1.0))
 
+## Multiplicador base de la escala visual del jugador (1.0 sin mutaciones).
+## Se multiplica por el squash/stretch actual en _update_visual_motion().
+func _visual_scale_multiplier() -> float:
+	return MutationManager.get_scale_multiplier(self)
+
+## Captura los parámetros base de colisiones y puntos de agarre una sola vez
+## por jugador. Las formas se duplican para no mutar el recurso compartido de
+## la escena (P1/P2 independientes y valores base restaurables).
+func _capture_collision_bases() -> void:
+	if _collision_bases_captured:
+		return
+	_collision_bases_captured = true
+
+	if _collision_shape != null and _collision_shape.shape is CapsuleShape3D:
+		var capsule := _collision_shape.shape as CapsuleShape3D
+		_collision_shape.shape = capsule.duplicate()
+		_body_shape_radius_base = capsule.radius
+		_body_shape_height_base = capsule.height
+	_body_shape_transform_base = _collision_shape.transform if _collision_shape != null else Transform3D.IDENTITY
+
+	_tackle_transform_base = _tackle_hitbox.transform if _tackle_hitbox != null else Transform3D.IDENTITY
+	_punch_transform_base = _punch_hitbox.transform if _punch_hitbox != null else Transform3D.IDENTITY
+	_grab_transform_base = _grab_hitbox.transform if _grab_hitbox != null else Transform3D.IDENTITY
+
+	if _tackle_shape != null and _tackle_shape.shape is SphereShape3D:
+		var tackle_sphere := _tackle_shape.shape as SphereShape3D
+		_tackle_shape.shape = tackle_sphere.duplicate()
+		_tackle_shape_radius_base = tackle_sphere.radius
+
+	if _punch_shape != null and _punch_shape.shape is BoxShape3D:
+		var punch_box := _punch_shape.shape as BoxShape3D
+		_punch_shape.shape = punch_box.duplicate()
+		_punch_shape_size_base = punch_box.size
+
+	if _grab_shape != null and _grab_shape.shape is BoxShape3D:
+		var grab_box := _grab_shape.shape as BoxShape3D
+		_grab_shape.shape = grab_box.duplicate()
+		_grab_shape_size_base = grab_box.size
+
+	if _grab_point != null:
+		_grab_point_transform_base = _grab_point.transform
+	if _carry_point != null:
+		_carry_point_transform_base = _carry_point.transform
+
+## Escala física según el multiplicador actual de mutaciones (giant_cuy):
+## forma del cuerpo, hitboxes de ataque y puntos de agarre = base × mult.
+## Siempre parte de los valores base: activar dos veces no acumula y clear()
+## devuelve exactamente el tamaño original. Se reaplica con mutations_changed.
+func _apply_mutation_physics_scale() -> void:
+	var mult := _visual_scale_multiplier()
+
+	if _collision_shape != null and _collision_shape.shape is CapsuleShape3D:
+		var capsule := _collision_shape.shape as CapsuleShape3D
+		capsule.radius = _body_shape_radius_base * mult
+		capsule.height = _body_shape_height_base * mult
+		_collision_shape.transform = _scaled_transform(_body_shape_transform_base, mult)
+
+	if _tackle_hitbox != null and _tackle_shape != null and _tackle_shape.shape is SphereShape3D:
+		var tackle_sphere := _tackle_shape.shape as SphereShape3D
+		tackle_sphere.radius = _tackle_shape_radius_base * mult
+		_tackle_hitbox.transform = _scaled_transform(_tackle_transform_base, mult)
+
+	if _punch_hitbox != null and _punch_shape != null and _punch_shape.shape is BoxShape3D:
+		var punch_box := _punch_shape.shape as BoxShape3D
+		punch_box.size = _punch_shape_size_base * mult
+		_punch_hitbox.transform = _scaled_transform(_punch_transform_base, mult)
+
+	if _grab_hitbox != null and _grab_shape != null and _grab_shape.shape is BoxShape3D:
+		var grab_box := _grab_shape.shape as BoxShape3D
+		grab_box.size = _grab_shape_size_base * mult
+		_grab_hitbox.transform = _scaled_transform(_grab_transform_base, mult)
+
+	if _grab_point != null:
+		_grab_point.transform = _scaled_transform(_grab_point_transform_base, mult)
+	if _carry_point != null:
+		_carry_point.transform = _scaled_transform(_carry_point_transform_base, mult)
+
+## Aplica un escalado uniforme a la transformada local sin tocar su base.
+func _scaled_transform(base: Transform3D, mult: float) -> Transform3D:
+	return Transform3D(base.basis, base.origin * mult)
+
 func _update_visual_motion(delta: float, move_direction: Vector3) -> void:
 	_update_head_visual(delta)
 
@@ -406,10 +556,11 @@ func _update_visual_motion(delta: float, move_direction: Vector3) -> void:
 
 	target_rotation += _impact_tilt + _stun_rotation_offset
 
-	var target_scale := Vector3.ONE
-	target_scale.x = 1.0 - stretch_amount * speed_ratio * 0.35 + _landing_squash
-	target_scale.y = 1.0 + stretch_amount * speed_ratio - _landing_squash
-	target_scale.z = 1.0 - stretch_amount * speed_ratio * 0.35 + _landing_squash
+	var base_scale := _visual_scale_multiplier()
+	var target_scale := Vector3(base_scale, base_scale, base_scale)
+	target_scale.x = base_scale * (1.0 - stretch_amount * speed_ratio * 0.35 + _landing_squash)
+	target_scale.y = base_scale * (1.0 + stretch_amount * speed_ratio - _landing_squash)
+	target_scale.z = base_scale * (1.0 - stretch_amount * speed_ratio * 0.35 + _landing_squash)
 
 	_visual.rotation = _visual.rotation.lerp(target_rotation, clampf(visual_smoothing * delta, 0.0, 1.0))
 	_visual.scale = _visual.scale.lerp(target_scale, clampf(visual_smoothing * delta, 0.0, 1.0))
@@ -1119,7 +1270,7 @@ func _start_knocked() -> void:
 	_knockout_pending = false
 	_recovering = false
 	_recovery_time = 0.0
-	_knocked_time_left = knocked_duration
+	_knocked_time_left = knocked_duration * MutationManager.get_stat_multiplier(self, &"knocked_duration")
 	_knocked_timer_paused = false
 	_charge_time = 0.0
 	_horizontal_velocity = Vector3(velocity.x, 0.0, velocity.z)
@@ -1249,7 +1400,7 @@ func _reset_knocked_visual() -> void:
 
 	if _visual != null:
 		_visual.rotation = Vector3.ZERO
-		_visual.scale = Vector3.ONE
+		_visual.scale = Vector3.ONE * _visual_scale_multiplier()
 
 func _ease_out_cubic(t: float) -> float:
 	return 1.0 - pow(1.0 - t, 3.0)
@@ -1305,8 +1456,9 @@ func apply_knockback(direction: Vector3, force: float, up_force: float, stun := 
 	_last_knockback_dir = knockback_direction
 	_horizontal_velocity = Vector3.ZERO
 	_external_push = Vector3.ZERO
-	velocity = knockback_direction * force
-	velocity.y = up_force + force * 0.15
+	var knockback_multiplier := MutationManager.get_stat_multiplier(self, &"knockback")
+	velocity = knockback_direction * (force * knockback_multiplier)
+	velocity.y = (up_force + force * 0.15) * knockback_multiplier
 
 	if immediate_knockdown:
 		_start_knocked()
