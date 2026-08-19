@@ -203,12 +203,6 @@ offset_right = 210.0
 offset_bottom = 180.0
 mouse_filter = 2
 
-[node name="WinnerGlow" type="Polygon2D" parent="Panel/Content/WinnerFocus"]
-unique_name_in_owner = true
-position = Vector2(210, 150)
-polygon = PackedVector2Array(-180, 0, -144, -50, -102, -82, -52, -102, 0, -110, 52, -102, 102, -82, 144, -50, 180, 0, 144, 50, 102, 82, 52, 102, 0, 110, -52, 102, -102, 82, -144, 50)
-color = Color(1, 0.38, 0.69, 0.14)
-
 [node name="GroundShadow" type="Polygon2D" parent="Panel/Content/WinnerFocus"]
 position = Vector2(210, 266)
 polygon = PackedVector2Array(-92, 0, -78, -12, -48, -21, 0, -25, 48, -21, 78, -12, 92, 0, 78, 12, 48, 21, 0, 25, -48, 21, -78, 12)
@@ -259,9 +253,10 @@ omni_range = 3.5
 unique_name_in_owner = true
 rotation = Vector3(0, -0.12, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
-position = Vector3(0, 0.76, -3)
-rotation = Vector3(0, 3.14159, 0)
+[node name="WinnerCamera" type="Camera3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+unique_name_in_owner = true
+position = Vector3(0, 1.25, -5.3)
+rotation = Vector3(-0.06, 3.14159, 0)
 current = true
 fov = 31.0
 near = 0.05
@@ -321,20 +316,6 @@ offset_bottom = -42.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 24
-
-[node name="NextRoundButton" type="Button" parent="Panel/Content/Buttons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 68)
-layout_mode = 2
-tooltip_text = "Disponible cuando exista un reinicio seguro de ronda."
-theme_override_colors/font_disabled_color = Color(0.16, 0.09, 0.005, 0.95)
-theme_override_colors/font_outline_color = Color(1, 0.88, 0.28, 0.55)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 25
-theme_override_styles/disabled = SubResource("StyleBox_next_disabled")
-text = "SIGUIENTE RONDA"
-disabled = true
 
 [node name="LobbyButton" type="Button" parent="Panel/Content/Buttons"]
 unique_name_in_owner = true

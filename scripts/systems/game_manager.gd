@@ -124,9 +124,8 @@ func _register_players() -> void:
 	_eliminated_players.clear()
 
 	var active_count := MatchSettings.get_player_count()
-	var count := mini(player_paths.size(), active_count)
 
-	for i in range(count):
+	for i in range(min(player_paths.size(), active_count)):
 		var player_path := player_paths[i]
 		var player := get_node_or_null(player_path)
 
@@ -137,16 +136,8 @@ func _register_players() -> void:
 			push_error("GameManager: %s no tiene la señal eliminated." % player.name)
 			continue
 
-		player.visible = true
-		player.set("input_enabled", false)
 		_players.append(player)
 		player.eliminated.connect(jugador_eliminado)
-
-	for i in range(count, player_paths.size()):
-		var extra := get_node_or_null(player_paths[i])
-		if extra != null:
-			extra.visible = false
-			extra.set("input_enabled", false)
 
 
 func _set_players_input(enabled: bool) -> void:

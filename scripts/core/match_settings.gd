@@ -6,10 +6,10 @@ const DEFAULT_MAX_ROUNDS := 3
 
 const CHARACTER_PRESETS: Array[Dictionary] = [
 	{
-		"id": &"conejo_andino",
-		"name": "CONEJO ANDINO",
-		"scene_path": "res://assets/CUY/personajes_blender/conejo_andino/conejo_andino.glb",
-		"scale": Vector3(0.65, 0.65, 0.65),
+		"id": &"cuy_baquita",
+		"name": "CUY BAQUITA",
+		"scene_path": "res://assets/models/CuyBaquita3d.glb",
+		"scale": Vector3(0.42, 0.42, 0.42),
 		"offset": Vector3(0, -0.62, 0)
 	},
 	{
@@ -41,18 +41,18 @@ const CHARACTER_PRESETS: Array[Dictionary] = [
 		"offset": Vector3(0, -0.62, 0)
 	},
 	{
-		"id": &"conejo_volcanico",
-		"name": "CONEJO VOLCÁNICO",
-		"scene_path": "res://assets/CUY/personajes_blender/conejo_volcanico/conejo_volcanico.glb",
-		"scale": Vector3(0.65, 0.65, 0.65),
+		"id": &"cuy_remastered",
+		"name": "CUY REMASTERED",
+		"scene_path": "res://assets/models/CuyRemastered.glb",
+		"scale": Vector3(0.42, 0.42, 0.42),
 		"offset": Vector3(0, -0.62, 0)
 	}
 ]
 
 static var max_rounds: int = DEFAULT_MAX_ROUNDS
+static var player_characters: Array[int] = [0, 1]
+static var player_joypad_devices: Array[int] = [-1, -1]
 static var player_count: int = 2
-static var player_characters: Array[int] = [0, 1, 2, 3]
-static var player_joypad_devices: Array[int] = [-1, -1, -1, -1]
 
 
 static func set_max_rounds(value: int) -> bool:
@@ -68,6 +68,14 @@ static func get_max_rounds() -> int:
 
 static func set_player_count(count: int) -> void:
 	player_count = clampi(count, 2, 4)
+	player_characters.resize(player_count)
+	player_joypad_devices.resize(player_count)
+	for i in range(player_characters.size()):
+		if player_characters[i] == 0 and i > 1:
+			player_characters[i] = i % CHARACTER_PRESETS.size()
+	for i in range(player_joypad_devices.size()):
+		if player_joypad_devices[i] == -1:
+			player_joypad_devices[i] = i
 
 
 static func get_player_count() -> int:
@@ -76,6 +84,8 @@ static func get_player_count() -> int:
 
 static func set_player_character(player_number: int, char_idx: int) -> void:
 	var idx_in_arr := player_number - 1
+	while player_characters.size() < player_number:
+		player_characters.append(0)
 	if idx_in_arr >= 0 and idx_in_arr < player_characters.size():
 		player_characters[idx_in_arr] = posmod(char_idx, CHARACTER_PRESETS.size())
 
@@ -88,28 +98,27 @@ static func get_player_character(player_number: int) -> Dictionary:
 	return CHARACTER_PRESETS[char_idx]
 
 
-static func set_player_joypad_device(player_number: int, device: int) -> void:
-	var idx := player_number - 1
-	if idx >= 0 and idx < player_joypad_devices.size():
-		player_joypad_devices[idx] = device
-
-
 static func get_player_joypad_device(player_number: int) -> int:
-	var idx := player_number - 1
-	if idx >= 0 and idx < player_joypad_devices.size():
-		return player_joypad_devices[idx]
+	var idx_in_arr := player_number - 1
+	if idx_in_arr >= 0 and idx_in_arr < player_joypad_devices.size():
+		return player_joypad_devices[idx_in_arr]
 	return -1
 
 
 static func detect_and_assign_joypads() -> void:
-	var joypads := Input.get_connected_joypads()
-	player_joypad_devices = [-1, -1, -1, -1]
-	for i in range(min(joypads.size(), 4)):
-		player_joypad_devices[i] = joypads[i]
+	var connected := Input.get_connected_joypads()
+	var next_device := 0
+	for i in range(player_count):
+		if i < connected.size():
+			player_joypad_devices[i] = connected[i]
+			next_device = i + 1
+		else:
+			player_joypad_devices[i] = -1
 
 
 static func reset() -> void:
 	max_rounds = DEFAULT_MAX_ROUNDS
 	player_count = 2
-	player_joypad_devices = [-1, -1, -1, -1]
+	player_characters = [0, 1]
+	player_joypad_devices = [-1, -1]
 

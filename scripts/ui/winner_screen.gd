@@ -2,8 +2,8 @@ extends CanvasLayer
 
 const PLAYER_ONE_COLOR := Color(1.0, 0.38, 0.69, 1.0)
 const PLAYER_TWO_COLOR := Color(0.36, 0.78, 1.0, 1.0)
-const PLAYER_THREE_COLOR := Color(0.35, 1.0, 0.5, 1.0)
-const PLAYER_FOUR_COLOR := Color(1.0, 0.85, 0.25, 1.0)
+const PLAYER_THREE_COLOR := Color(0.18, 0.82, 0.22, 1.0)
+const PLAYER_FOUR_COLOR := Color(0.95, 0.72, 0.15, 1.0)
 const WINNER_MODEL_SCALE_FACTOR := 0.62
 const WINNER_MODEL_VERTICAL_OFFSET := 0.65
 
@@ -13,15 +13,15 @@ const WINNER_MODEL_VERTICAL_OFFSET := 0.65
 
 @onready var _winner_label := %WinnerLabel as Label
 @onready var _confetti := %Confetti as GPUParticles2D
+@onready var _buttons := %Buttons as HBoxContainer
 @onready var _lobby_button := %LobbyButton as Button
-@onready var _next_round_button := %NextRoundButton as Button
 @onready var _main_menu_button := %MainMenuButton as Button
 @onready var _transition_title := %TransitionTitle as Label
 @onready var _countdown_label := %CountdownLabel as Label
 @onready var _next_round_timer := %NextRoundTimer as Timer
-@onready var _winner_glow := %WinnerGlow as Polygon2D
 @onready var _winner_light := %WinnerLight as OmniLight3D
 @onready var _winner_cuy_pivot := %WinnerCuyPivot as Node3D
+@onready var _winner_camera := %WinnerCamera as Camera3D
 
 var _game_manager: Node
 var _scenario_manager: Node
@@ -40,7 +40,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	_lobby_button.pressed.connect(_return_to_lobby)
-	_next_round_button.pressed.connect(_start_next_round)
 	_main_menu_button.pressed.connect(_return_to_main_menu)
 	_next_round_timer.timeout.connect(_start_next_round)
 	_update_confetti_area()
@@ -104,8 +103,6 @@ func show_winner(player_number: int) -> void:
 	_winner_label.text = winner_label_text % player_number
 	var winner_color := PLAYER_ONE_COLOR
 	match player_number:
-		1:
-			winner_color = PLAYER_ONE_COLOR
 		2:
 			winner_color = PLAYER_TWO_COLOR
 		3:
@@ -116,7 +113,6 @@ func show_winner(player_number: int) -> void:
 		"font_color",
 		winner_color
 	)
-	_winner_glow.color = Color(winner_color.r, winner_color.g, winner_color.b, 0.16)
 	_winner_light.light_color = winner_color.lightened(0.18)
 	visible = true
 	_play_winner_presentation()
@@ -127,12 +123,10 @@ func show_winner(player_number: int) -> void:
 	if champion:
 		_transition_title.text = "PARTIDA FINALIZADA"
 		_countdown_label.text = ""
-		_next_round_button.visible = false
-		_lobby_button.visible = true
+		_buttons.visible = true
 		_lobby_button.call_deferred("grab_focus")
 	else:
-		_next_round_button.visible = true
-		_lobby_button.visible = false
+		_buttons.visible = false
 		_start_round_countdown()
 
 
@@ -168,7 +162,45 @@ func _apply_winner_character_model(player_number: int) -> void:
 		model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)
 		model.rotation.y = PI
 		_winner_cuy_pivot.add_child(model)
+		_frame_winner_camera()
+		_attach_poncho_stripes_to_chest(model)
 		_prepare_winner_celebration(model)
+
+
+func _frame_winner_camera() -> void:
+	_winner_camera.look_at_from_position(
+		Vector3(0, 1.25, -5.3),
+		Vector3(0, 0.95, 0),
+		Vector3.UP
+	)
+
+
+func _attach_poncho_stripes_to_chest(model: Node3D) -> void:
+	var skeletons := model.find_children("*", "Skeleton3D", true, false)
+	if skeletons.is_empty():
+		return
+	var skeleton := skeletons[0] as Skeleton3D
+	if skeleton == null:
+		return
+
+	var chest_bone_name := StringName()
+	for bone_index in range(skeleton.get_bone_count()):
+		var bone_name := skeleton.get_bone_name(bone_index)
+		if bone_name.to_lower() == "chest" or "pecho" in bone_name.to_lower():
+			chest_bone_name = bone_name
+			break
+	if chest_bone_name == StringName():
+		return
+
+	for stripe_node in model.find_children("Poncho_Stripe*", "Node3D", true, false):
+		var stripe := stripe_node as Node3D
+		if stripe == null:
+			continue
+		var attachment := BoneAttachment3D.new()
+		attachment.name = "%s_ChestAttachment" % stripe.name
+		attachment.bone_name = chest_bone_name
+		skeleton.add_child(attachment)
+		stripe.reparent(attachment, true)
 
 
 func _prepare_winner_celebration(model: Node3D) -> void:
@@ -196,7 +228,7 @@ func _prepare_winner_celebration(model: Node3D) -> void:
 	if _winner_animation_player == null:
 		return
 
-	for animation_name in [&"victory", &"Victory", &"dance", &"Dance"]:
+	for animation_name in [&"win", &"Win", &"victory", &"Victory", &"dance", &"Dance"]:
 		if _winner_animation_player.has_animation(animation_name):
 			_winner_celebration_name = animation_name
 			_winner_animation_player.play(_winner_celebration_name)
@@ -295,7 +327,5 @@ func _start_next_round() -> void:
 	_next_round_started = true
 	_round_transition_started = false
 	_next_round_timer.stop()
-	_lobby_button.visible = false
-	_next_round_button.visible = true
 	_restore_winner_bone_poses()
 	_scenario_manager.call("start_next_round")

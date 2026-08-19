@@ -20,29 +20,24 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var players: Array[Node3D] = []
-	if _player_one != null and is_instance_valid(_player_one) and _player_one.visible:
-		players.append(_player_one)
-	if _player_two != null and is_instance_valid(_player_two) and _player_two.visible:
-		players.append(_player_two)
-	if _player_three != null and is_instance_valid(_player_three) and _player_three.visible:
-		players.append(_player_three)
-	if _player_four != null and is_instance_valid(_player_four) and _player_four.visible:
-		players.append(_player_four)
+	for p in [_player_one, _player_two, _player_three, _player_four]:
+		if p != null and is_instance_valid(p):
+			players.append(p)
 
-	if players.is_empty():
+	if players.size() < 2:
 		return
 
 	var midpoint := Vector3.ZERO
+	var max_dist := 0.0
 	for p in players:
 		midpoint += p.global_position
 	midpoint /= players.size()
 
-	var max_dist := 0.0
-	for i in players.size():
+	for i in range(players.size()):
 		for j in range(i + 1, players.size()):
-			var d := players[i].global_position.distance_to(players[j].global_position)
-			if d > max_dist:
-				max_dist = d
+			var dist := players[i].global_position.distance_to(players[j].global_position)
+			if dist > max_dist:
+				max_dist = dist
 
 	var clamped_separation := minf(max_dist, max_separation)
 	var target_position := midpoint + base_offset + Vector3(0.0, clamped_separation * 0.25, clamped_separation * distance_padding)

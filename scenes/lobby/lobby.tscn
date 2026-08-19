@@ -219,13 +219,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -875.0
+offset_left = -880.0
 offset_top = -255.0
-offset_right = 875.0
+offset_right = 880.0
 offset_bottom = 265.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 24
 alignment = 1
 
 [node name="P1Card" type="PanelContainer" parent="SelectionSection/PlayersRow" unique_id=760519610]
@@ -446,6 +446,7 @@ theme_override_styles/normal = SubResource("StyleBox_primary")
 text = "CONFIRMAR (LISTO)"
 
 [node name="P3Card" type="PanelContainer" parent="SelectionSection/PlayersRow"]
+visible = false
 custom_minimum_size = Vector2(400, 520)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_p3_card")
@@ -483,7 +484,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 18
-text = "CONEJO ANDINO"
+text = "CUY BAQUITA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -555,6 +556,7 @@ theme_override_styles/normal = SubResource("StyleBox_primary")
 text = "CONFIRMAR (LISTO)"
 
 [node name="P4Card" type="PanelContainer" parent="SelectionSection/PlayersRow"]
+visible = false
 custom_minimum_size = Vector2(400, 520)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_p4_card")
@@ -592,7 +594,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
 theme_override_font_sizes/font_size = 18
-text = "CONEJO ANDINO"
+text = "CUY BAQUITA"
 horizontal_alignment = 1
 vertical_alignment = 1
 

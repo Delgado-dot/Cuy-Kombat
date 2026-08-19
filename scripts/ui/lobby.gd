@@ -394,13 +394,6 @@ func _apply_round_selection(max_rounds: int, _emit_change: bool = true) -> void:
 
 
 func _on_play_pressed() -> void:
-	var all_ready := true
-	for i in range(_player_count):
-		if not _player_ready[i]:
-			all_ready = false
-			break
-	if not all_ready:
-		return
 	MatchSettings.set_max_rounds(_selected_max_rounds)
 	MatchSettings.set_player_count(_player_count)
 	RoundManager.reset()

@@ -6,6 +6,10 @@ enum MusicType {
 	ARENA
 }
 
+const MASTER_BUS := &"Master"
+const MUSIC_BUS := &"Music"
+const SFX_BUS := &"SFX"
+
 const MENU_TRACKS: Array[String] = [
 	"res://assets/audio/Menu1.mp3",
 	"res://assets/audio/Menu2.mp3",
@@ -34,9 +38,12 @@ var _volume_linear := 1.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_ensure_audio_bus(MUSIC_BUS)
+	_ensure_audio_bus(SFX_BUS)
 	_audio_player = AudioStreamPlayer.new()
-	_audio_player.bus = &"Master"
+	_audio_player.bus = MUSIC_BUS
 	add_child(_audio_player)
+	_apply_volume()
 
 
 func play_random_menu_music() -> void:
@@ -88,12 +95,32 @@ func stop_music() -> void:
 
 func set_volume(volume_linear: float) -> void:
 	_volume_linear = clampf(volume_linear, 0.0, 1.0)
-	if _audio_player:
-		_audio_player.volume_db = linear_to_db(_volume_linear)
+	_apply_volume()
 
 
 func get_volume() -> float:
 	return _volume_linear
+
+
+func _ensure_audio_bus(bus_name: StringName) -> int:
+	var bus_index := AudioServer.get_bus_index(bus_name)
+	if bus_index >= 0:
+		return bus_index
+
+	AudioServer.add_bus()
+	bus_index = AudioServer.bus_count - 1
+	AudioServer.set_bus_name(bus_index, bus_name)
+	AudioServer.set_bus_send(bus_index, MASTER_BUS)
+	return bus_index
+
+
+func _apply_volume() -> void:
+	var bus_index := _ensure_audio_bus(MUSIC_BUS)
+	AudioServer.set_bus_mute(bus_index, _volume_linear <= 0.0001)
+	if _volume_linear > 0.0001:
+		AudioServer.set_bus_volume_db(bus_index, linear_to_db(_volume_linear))
+	if _audio_player != null:
+		_audio_player.volume_db = 0.0
 
 
 func _play_random_from_list(tracks: Array[String], type: MusicType) -> void:

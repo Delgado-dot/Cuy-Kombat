@@ -125,7 +125,7 @@ func start_next_round() -> void:
 		return
 	var next_arena := _pick_next_arena(ScreenFlow.selected_scenario)
 	ScreenFlow.selected_scenario = next_arena
-	get_tree().reload_current_scene()
+	ScreenFlow.reload_for_next_round()
 
 
 func _pick_next_arena(current: StringName) -> StringName:

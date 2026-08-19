@@ -7,234 +7,235 @@
 bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="SystemFont" id="SystemFont_fight_style"]
-font_names = PackedStringArray("Arial")
+font_names = PackedStringArray("Arial Black", "Arial", "Noto Sans")
+font_weight = 900
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_player_one"]
-bg_color = Color(0.045, 0.12, 0.23, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.35, 0.78, 1, 0.9)
+border_color = Color(1, 0.22, 0.58, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_player_two"]
-bg_color = Color(0.24, 0.06, 0.05, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.45, 0.4, 0.9)
+border_color = Color(0.12, 0.68, 1, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_one"]
-bg_color = Color(0.055, 0.075, 0.16, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.62, 0.49, 1, 0.92)
+border_color = Color(1, 0.22, 0.58, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_two"]
-bg_color = Color(0.14, 0.07, 0.16, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.57, 0.85, 0.92)
+border_color = Color(0.12, 0.68, 1, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_key_p1"]
-bg_color = Color(0.08, 0.62, 0.92, 1)
+bg_color = Color(0.015, 0.02, 0.035, 0.82)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 5
-border_color = Color(0.72, 0.94, 1, 1)
+border_color = Color(1, 0.35, 0.65, 0.88)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
-shadow_color = Color(0.005, 0.08, 0.16, 0.8)
+shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 6
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_key_p2"]
-bg_color = Color(0.93, 0.22, 0.31, 1)
+bg_color = Color(0.015, 0.02, 0.035, 0.82)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 5
-border_color = Color(1, 0.78, 0.77, 1)
+border_color = Color(0.2, 0.72, 1, 0.88)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
-shadow_color = Color(0.18, 0.01, 0.03, 0.8)
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_key_p3"]
+bg_color = Color(0.015, 0.02, 0.035, 0.82)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.32, 0.92, 0.55, 0.88)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_key_p4"]
+bg_color = Color(0.015, 0.02, 0.035, 0.82)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(1, 0.78, 0.22, 0.88)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 6
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_player_three"]
-bg_color = Color(0.05, 0.18, 0.08, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.25, 0.85, 0.42, 0.9)
+border_color = Color(0.2, 0.86, 0.46, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_player_four"]
-bg_color = Color(0.18, 0.15, 0.03, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.82, 0.15, 0.9)
+border_color = Color(1, 0.74, 0.15, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_three"]
-bg_color = Color(0.04, 0.14, 0.06, 0)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.9, 0.5, 0.92)
+border_color = Color(0.2, 0.86, 0.46, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_gamepad_four"]
-bg_color = Color(0.15, 0.12, 0.02, 0)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.88, 0.2, 0.92)
+bg_color = Color(0.025, 0.035, 0.055, 0.72)
+border_color = Color(1, 0.74, 0.15, 0.9)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_key_p3"]
-bg_color = Color(0.12, 0.72, 0.3, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 5
-border_color = Color(0.65, 1, 0.75, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0.01, 0.1, 0.03, 0.8)
-shadow_size = 6
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_key_p4"]
-bg_color = Color(0.92, 0.72, 0.06, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 5
-border_color = Color(1, 0.95, 0.55, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0.18, 0.12, 0.005, 0.8)
-shadow_size = 6
-shadow_offset = Vector2(0, 3)
-
 [sub_resource type="StyleBoxFlat" id="StyleBox_button"]
-bg_color = Color(0.095, 0.13, 0.21, 1)
+bg_color = Color(0.16, 0.19, 0.24, 0.58)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.4, 0.57, 1)
+border_color = Color(0.62, 0.68, 0.76, 0.9)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button_hover"]
-bg_color = Color(0.14, 0.22, 0.35, 1)
+bg_color = Color(0.28, 0.32, 0.38, 0.7)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.47, 0.76, 1, 1)
+border_color = Color(0.86, 0.9, 0.95, 0.98)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_button_pressed"]
-bg_color = Color(0.065, 0.095, 0.16, 1)
+bg_color = Color(0.1, 0.12, 0.16, 0.62)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.67, 0.94, 1)
+border_color = Color(0.52, 0.58, 0.68, 0.95)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_primary"]
-bg_color = Color(0.96, 0.38, 0.07, 1)
+bg_color = Color(0.2, 0.23, 0.28, 0.62)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 6
-border_color = Color(1, 0.86, 0.3, 1)
+border_color = Color(0.8, 0.84, 0.9, 0.96)
 corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
-shadow_color = Color(0.08, 0.01, 0, 0.72)
+shadow_color = Color(0, 0, 0, 0.58)
 shadow_size = 8
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_primary_hover"]
-bg_color = Color(1, 0.6, 0.09, 1)
+bg_color = Color(0.32, 0.36, 0.42, 0.74)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.96, 0.65, 1)
+border_color = Color(0.92, 0.94, 0.98, 1)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_primary_pressed"]
-bg_color = Color(0.72, 0.17, 0.04, 1)
+bg_color = Color(0.12, 0.14, 0.18, 0.64)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.76, 0.16, 1)
+border_color = Color(0.6, 0.66, 0.74, 0.96)
 corner_radius_top_left = 13
 corner_radius_top_right = 13
 corner_radius_bottom_right = 13
@@ -316,8 +317,22 @@ theme_override_colors/font_color = Color(1, 0.4, 0.7, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 3
-theme_override_font_sizes/font_size = 42
-text = "CONTROLES (TECLADO)"
+theme_override_font_sizes/font_size = 62
+text = "CONTROLES"
+horizontal_alignment = 1
+
+[node name="KeyboardSubtitle" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "(TECLADO)"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.77, 0.9, 1)
+theme_override_font_sizes/font_size = 17
+text = "JUGADOR 1  •  JUGADOR 2  •  JUGADOR 3  •  JUGADOR 4"
 horizontal_alignment = 1
 
 [node name="Players" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
@@ -1059,6 +1074,13 @@ theme_override_font_sizes/font_size = 34
 text = "CONTROLES CON MANDO (GAMEPAD)"
 horizontal_alignment = 1
 
+[node name="MandosSubtitle" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.77, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+text = "P1 = MANDO 1   •   P2 = MANDO 2"
+horizontal_alignment = 1
+
 [node name="Mandos" type="HBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1087,7 +1109,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 28
-text = "XBOX"
+text = "JUGADOR 1"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoOne/Padding/Content"]
@@ -1234,7 +1256,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
 theme_override_font_sizes/font_size = 19
-text = "LB"
+text = "R3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1267,7 +1289,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.6, 0.55, 1)
 theme_override_font_sizes/font_size = 28
-text = "PLAYSTATION"
+text = "JUGADOR 2"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoTwo/Padding/Content"]
@@ -1314,7 +1336,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
 theme_override_font_sizes/font_size = 19
-text = "✕"
+text = "A"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1339,7 +1361,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
 theme_override_font_sizes/font_size = 19
-text = "□"
+text = "X"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1364,7 +1386,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
 theme_override_font_sizes/font_size = 19
-text = "○"
+text = "B"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1389,7 +1411,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
 theme_override_font_sizes/font_size = 19
-text = "△"
+text = "Y"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1414,7 +1436,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
 theme_override_font_sizes/font_size = 19
-text = "L1"
+text = "R3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1448,7 +1470,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
 theme_override_font_sizes/font_size = 28
-text = "XBOX"
+text = "JUGADOR 3"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content"]
@@ -1595,7 +1617,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p3")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.1, 0.04, 1)
 theme_override_font_sizes/font_size = 19
-text = "LB"
+text = "R3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1629,7 +1651,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_font_sizes/font_size = 28
-text = "PLAYSTATION"
+text = "JUGADOR 4"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content"]
@@ -1676,7 +1698,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p4")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
 theme_override_font_sizes/font_size = 19
-text = "✕"
+text = "A"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1701,7 +1723,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p4")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
 theme_override_font_sizes/font_size = 19
-text = "□"
+text = "X"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1726,7 +1748,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p4")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
 theme_override_font_sizes/font_size = 19
-text = "○"
+text = "B"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1751,7 +1773,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p4")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
 theme_override_font_sizes/font_size = 19
-text = "△"
+text = "Y"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1776,7 +1798,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p4")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.08, 0.01, 1)
 theme_override_font_sizes/font_size = 19
-text = "L1"
+text = "R3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1830,4 +1852,4 @@ theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
-text = "JUGADOR 3 y 4  →"
+text = "JUGADORES 3 Y 4  →"
