@@ -50,6 +50,7 @@ const CHARACTER_PRESETS: Array[Dictionary] = [
 ]
 
 static var max_rounds: int = DEFAULT_MAX_ROUNDS
+static var player_count: int = 2
 static var player_characters: Array[int] = [0, 1, 2, 3]
 static var player_joypad_devices: Array[int] = [-1, -1, -1, -1]
 
@@ -63,6 +64,14 @@ static func set_max_rounds(value: int) -> bool:
 
 static func get_max_rounds() -> int:
 	return max_rounds
+
+
+static func set_player_count(count: int) -> void:
+	player_count = clampi(count, 2, 4)
+
+
+static func get_player_count() -> int:
+	return player_count
 
 
 static func set_player_character(player_number: int, char_idx: int) -> void:
@@ -101,5 +110,6 @@ static func detect_and_assign_joypads() -> void:
 
 static func reset() -> void:
 	max_rounds = DEFAULT_MAX_ROUNDS
+	player_count = 2
 	player_joypad_devices = [-1, -1, -1, -1]
 
