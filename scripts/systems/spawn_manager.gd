@@ -37,25 +37,34 @@ func colocar_jugadores() -> void:
 	else:
 		_aplicar_transform(player_two, spawn_two)
 
+	var player_three := get_node_or_null(player_three_path) as Node3D
+	var player_four := get_node_or_null(player_four_path) as Node3D
+
 	if player_count >= 3:
-		var player_three := get_node_or_null(player_three_path) as Node3D
 		var spawn_three := get_node_or_null(spawn_three_path) as Marker3D
 		if player_three != null and spawn_three != null:
+			player_three.visible = true
 			_aplicar_transform(player_three, spawn_three)
 		elif player_three == null:
 			push_error("SpawnManager: no se encontró Player3.")
 		elif spawn_three == null:
 			push_error("SpawnManager: no se encontró SpawnJugador3.")
+	else:
+		if player_three != null:
+			player_three.visible = false
 
 	if player_count >= 4:
-		var player_four := get_node_or_null(player_four_path) as Node3D
 		var spawn_four := get_node_or_null(spawn_four_path) as Marker3D
 		if player_four != null and spawn_four != null:
+			player_four.visible = true
 			_aplicar_transform(player_four, spawn_four)
 		elif player_four == null:
 			push_error("SpawnManager: no se encontró Player4.")
 		elif spawn_four == null:
 			push_error("SpawnManager: no se encontró SpawnJugador4.")
+	else:
+		if player_four != null:
+			player_four.visible = false
 
 
 func _aplicar_transform(player: Node3D, spawn: Node3D) -> void:
