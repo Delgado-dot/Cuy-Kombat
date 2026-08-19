@@ -34,9 +34,9 @@ signal player_exited_interaction_range(player: CharacterBody3D)
 @export var projectile_speed_decay := 6.0
 ## Fuerza horizontal del lanzamiento que derriba (KNOCKED) al jugador cuando un
 ## objeto lanzado lo impacta directamente.
-@export var projectile_knockback_force := 16.0
+@export var projectile_knockback_force := 12.8
 ## Fuerza vertical del lanzamiento que derriba (KNOCKED) al jugador.
-@export var projectile_knockback_up_force := 4.0
+@export var projectile_knockback_up_force := 3.2
 
 ## Escena VFX común al agarrar el objeto (flash + partículas). Puramente visual.
 @export var grab_vfx_scene: PackedScene

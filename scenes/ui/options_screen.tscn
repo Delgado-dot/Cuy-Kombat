@@ -1,0 +1,374 @@
+[gd_scene format=3 uid="uid://c4lvwh11m5q4d"]
+
+[ext_resource type="Script" path="res://scripts/ui/options_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/imagenes/fondo-ajustes.png" id="2_bg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_options_panel"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.55, 0.85, 1, 0.92)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_option_button"]
+bg_color = Color(0.045, 0.12, 0.23, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.78, 1, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_option_button_hover"]
+bg_color = Color(0.1, 0.25, 0.45, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 0.95, 1, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_option_button_pressed"]
+bg_color = Color(0.025, 0.08, 0.18, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.75, 1, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary"]
+bg_color = Color(1, 0.72, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.38, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0, 0, 0, 0.38)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary_hover"]
+bg_color = Color(1, 0.82, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.96, 0.65, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_primary_pressed"]
+bg_color = Color(0.88, 0.56, 0.035, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.76, 0.16, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_raised"]
+bg_color = Color(0.12, 0.22, 0.35, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.65, 0.9, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_pressed"]
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.45, 0.7, 0.9, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 2
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_relief_hover"]
+bg_color = Color(0.18, 0.3, 0.48, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial", "Noto Sans")
+font_weight = 900
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_bg"]
+bg_color = Color(0.015, 0.025, 0.055, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.9, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_fill"]
+bg_color = Color(1, 0.72, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.95, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber"]
+bg_color = Color(0.35, 0.9, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_grabber_hover"]
+bg_color = Color(0.65, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 9.0
+expand_margin_top = 9.0
+expand_margin_right = 9.0
+expand_margin_bottom = 9.0
+
+[node name="OptionsScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 26
+script = ExtResource("1_script")
+
+[node name="OptionsScreen" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="TextureRect" parent="OptionsScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="OptionsScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.02, 0.05, 0.16)
+
+[node name="Margin" type="MarginContainer" parent="OptionsScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 28.0
+offset_right = -48.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="OptionsScreen/Margin"]
+layout_mode = 2
+
+[node name="Panel" type="PanelContainer" parent="OptionsScreen/Margin/Center"]
+custom_minimum_size = Vector2(580, 600)
+theme_override_styles/panel = SubResource("StyleBox_options_panel")
+
+[node name="Padding" type="MarginContainer" parent="OptionsScreen/Margin/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 24
+
+[node name="Content" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 0
+
+[node name="Title" type="Label" parent="OptionsScreen/Margin/Center/Panel/Padding/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 40
+text = "OPCIONES"
+horizontal_alignment = 1
+
+[node name="OptionsContainer" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="FullscreenSection" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="FullscreenHeader" type="Label" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/FullscreenSection"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 22
+text = "PANTALLA"
+horizontal_alignment = 1
+
+[node name="FullscreenButtons" type="HBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/FullscreenSection"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="FullscreenButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/FullscreenSection/FullscreenButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBox_relief_raised")
+theme_override_styles/hover = SubResource("StyleBox_relief_hover")
+theme_override_styles/pressed = SubResource("StyleBox_relief_pressed")
+text = "PANTALLA COMPLETA"
+
+[node name="WindowedButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/FullscreenSection/FullscreenButtons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBox_relief_raised")
+theme_override_styles/hover = SubResource("StyleBox_relief_hover")
+theme_override_styles/pressed = SubResource("StyleBox_relief_pressed")
+text = "VENTANA"
+
+[node name="VolumeSection" type="VBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="VolumeHeader" type="HBoxContainer" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="VolumeLabel" type="Label" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection/VolumeHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 22
+text = "VOLUMEN: 100%"
+horizontal_alignment = 1
+size_flags_vertical = 1
+
+[node name="VolumeSlider" type="HSlider" parent="OptionsScreen/Margin/Center/Panel/Padding/Content/OptionsContainer/VolumeSection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(520, 38)
+step = 1
+min_value = 0
+max_value = 100
+focus_mode = 2
+theme_override_styles/hslider_base = SubResource("StyleBox_slider_bg")
+theme_override_styles/hslider_progress = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber = SubResource("StyleBox_slider_grabber")
+theme_override_styles/grabber_hover = SubResource("StyleBox_slider_grabber_hover")
+
+[node name="BottomSpacer" type="Control" parent="OptionsScreen/Margin/Center/Panel/Padding/Content"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OptionsBackButton" type="Button" parent="OptionsScreen/Margin/Center/Panel/Padding/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_colors/font_pressed_color = Color(0.08, 0.065, 0.02, 1)
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBox_primary")
+theme_override_styles/hover = SubResource("StyleBox_primary_hover")
+theme_override_styles/pressed = SubResource("StyleBox_primary_pressed")
+text = "VOLVER"

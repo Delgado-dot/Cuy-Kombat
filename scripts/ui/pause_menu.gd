@@ -55,7 +55,7 @@ func _resume_match() -> void:
 
 func _restart_round() -> void:
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	ScreenFlow.reload_for_next_round()
 
 
 func _exit_to_main_menu() -> void:

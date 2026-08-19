@@ -3,8 +3,10 @@ extends RefCounted
 
 const PLAYER_1 := 1
 const PLAYER_2 := 2
+const PLAYER_3 := 3
+const PLAYER_4 := 4
 
-static var wins: Array[int] = [0, 0]
+static var wins: Array[int] = [0, 0, 0, 0]
 
 
 static func required_wins() -> int:
@@ -29,4 +31,4 @@ static func reached_goal(player_number: int) -> bool:
 
 
 static func reset() -> void:
-	wins = [0, 0]
+	wins = [0, 0, 0, 0]

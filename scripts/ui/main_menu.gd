@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @export var controls_screen_path: NodePath
+@export var options_screen_path: NodePath
 
 @onready var _menu_root := %MainMenu as Control
 @onready var _play_button := %PlayButton as Button
@@ -11,6 +12,8 @@ extends CanvasLayer
 
 var _controls_screen: CanvasLayer
 var _controls_root: Control
+var _options_screen: CanvasLayer
+var _options_root: Control
 
 
 func _ready() -> void:
@@ -23,6 +26,12 @@ func _ready() -> void:
 		_controls_root = _controls_screen.get_node_or_null("ControlsScreen") as Control
 		if _controls_root != null:
 			_controls_root.visibility_changed.connect(_on_controls_visibility_changed)
+
+	_options_screen = get_node_or_null(options_screen_path) as CanvasLayer
+	if _options_screen != null:
+		_options_root = _options_screen.get_node_or_null("OptionsScreen") as Control
+		if _options_root != null:
+			_options_root.visibility_changed.connect(_on_options_visibility_changed)
 
 	_menu_root.visible = true
 	_options_message.visible = false
@@ -50,9 +59,11 @@ func _on_controls_pressed() -> void:
 
 
 func _on_options_pressed() -> void:
-	_options_message.text = "OPCIONES PRÓXIMAMENTE"
-	_options_message.visible = true
-	_play_button.grab_focus()
+	if _options_screen == null or not _options_screen.has_method("open"):
+		return
+	_menu_root.visible = false
+	_options_message.visible = false
+	_options_screen.open()
 
 
 func _on_quit_pressed() -> void:
@@ -63,6 +74,12 @@ func _on_controls_visibility_changed() -> void:
 	if _controls_root != null and not _controls_root.visible:
 		_menu_root.visible = true
 		_play_button.grab_focus()
+
+
+func _on_options_visibility_changed() -> void:
+	if _options_root != null and not _options_root.visible:
+		_menu_root.visible = true
+		_options_button.grab_focus()
 
 
 # Registra de forma idempotente los eventos de D-pad y joystick en las

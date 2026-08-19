@@ -12,6 +12,18 @@ enum PlayerState {
 	KNOCKED,
 }
 
+const ANIM_IDLE := &"Idle"
+const ANIM_RUN := &"Run"
+const ANIM_JUMP := &"Jump"
+const ANIM_GRAB := &"Agarre"
+const ANIM_LIFT := &"Levantar"
+const ANIM_THROW := &"Lanzar"
+const ANIM_HIT := &"Es golpeado"
+const ANIM_PUNCH_L := &"Golpe Izq"
+const ANIM_PUNCH_R := &"Golpe Der"
+const ANIM_LOSE := &"Lose"
+const ANIM_WIN := &"win"
+
 @export var input_enabled := true
 @export var player_color := Color(0.9, 0.62, 0.18, 1)
 @export var move_speed := 6.0
@@ -20,13 +32,13 @@ enum PlayerState {
 @export var jump_velocity := 5.5
 @export var gravity := 18.0
 @export var rotation_speed := 8.0
-@export_enum("wasd", "arrows") var control_scheme := "wasd"
+@export_enum("wasd", "arrows", "ijkl", "numpad") var control_scheme := "wasd"
 @export var tackle_charge_time := 0.75
 @export var tackle_force := 15.0
 @export var tackle_duration := 0.22
 @export var tackle_cooldown := 2.5
-@export var tackle_knockback := 20.0
-@export var tackle_knockback_up := 8.0
+@export var tackle_knockback := 17.0
+@export var tackle_knockback_up := 6.8
 @export var tackle_tilt := 0.35
 @export var knockback_force := 18.0
 @export var knockback_up_force := 7.0
@@ -178,6 +190,11 @@ var _left_arm_rest_pos := Vector3.ZERO
 var _left_arm_rest_rot := Vector3.ZERO
 var _right_arm_rest_pos := Vector3.ZERO
 var _right_arm_rest_rot := Vector3.ZERO
+var _model_anim_player: AnimationPlayer
+var _model_current_anim := StringName()
+var _model_one_shot := false
+var _model_has_anims := false
+var _punch_side_left := false
 
 @onready var _camera_pivot := get_node_or_null("CameraPivot") as Node3D
 @onready var _tackle_hitbox := get_node_or_null("TackleHitbox") as Area3D
@@ -204,6 +221,7 @@ var _right_arm_rest_rot := Vector3.ZERO
 
 
 func _physics_process(delta: float) -> void:
+	_update_model_animation()
 	_update_tackle_cooldown(delta)
 	_update_punch_cooldown(delta)
 	_update_punch(delta)
@@ -341,7 +359,16 @@ func _ready() -> void:
 func _apply_selected_character_model() -> void:
 	if _cuy_model == null:
 		return
-	var player_num := 1 if control_scheme == "wasd" else 2
+	var player_num := 1
+	match control_scheme:
+		"wasd":
+			player_num = 1
+		"arrows":
+			player_num = 2
+		"ijkl":
+			player_num = 3
+		"numpad":
+			player_num = 4
 	var preset: Dictionary = MatchSettings.get_player_character(player_num)
 	if preset.is_empty() or not preset.has("scene_path"):
 		return
@@ -353,6 +380,10 @@ func _apply_selected_character_model() -> void:
 		return
 	for child in _cuy_model.get_children():
 		child.queue_free()
+	_model_anim_player = null
+	_model_has_anims = false
+	_model_current_anim = StringName()
+	_model_one_shot = false
 	var new_model := model_scene.instantiate() as Node3D
 	if new_model != null:
 		var scale_vec := preset.get("scale", Vector3.ONE) as Vector3
@@ -360,6 +391,86 @@ func _apply_selected_character_model() -> void:
 		new_model.transform = Transform3D(Basis().scaled(scale_vec), offset_vec)
 		new_model.rotation.y = PI
 		_cuy_model.add_child(new_model)
+		_discover_model_anims(new_model)
+
+func _discover_model_anims(model: Node3D) -> void:
+	var players := model.find_children("*", "AnimationPlayer", true, false)
+	if players.is_empty():
+		return
+	_model_anim_player = players[0] as AnimationPlayer
+	if _model_anim_player == null:
+		return
+	_model_has_anims = true
+	if not _model_anim_player.animation_finished.is_connected(_on_model_anim_finished):
+		_model_anim_player.animation_finished.connect(_on_model_anim_finished)
+
+	var skeletons := model.find_children("*", "Skeleton3D", true, false)
+	if not skeletons.is_empty():
+		_cuy_skeleton = skeletons[0] as Skeleton3D
+		_discover_bones()
+
+func _discover_bones() -> void:
+	if _cuy_skeleton == null:
+		return
+	_head_bone = -1
+	_spine_bone = -1
+	for i in range(_cuy_skeleton.get_bone_count()):
+		var bone_name := _cuy_skeleton.get_bone_name(i).to_lower()
+		if ("cabeza" in bone_name or "head" in bone_name) and _head_bone < 0:
+			_head_bone = i
+		elif (bone_name == "spine" or "columna" in bone_name) and _spine_bone < 0:
+			_spine_bone = i
+
+func _update_model_animation() -> void:
+	if not _model_has_anims or _model_anim_player == null:
+		return
+	if _state == PlayerState.KNOCKED or _state == PlayerState.STUNNED:
+		_model_one_shot = false
+		return
+	if _model_one_shot:
+		if not _model_anim_player.is_playing():
+			_model_one_shot = false
+		else:
+			return
+
+	if _state == PlayerState.GRABBING:
+		return
+
+	var target := ANIM_IDLE
+	match _state:
+		PlayerState.NORMAL:
+			var speed := Vector3(velocity.x, 0.0, velocity.z).length()
+			if not is_on_floor():
+				target = ANIM_JUMP
+			elif speed > 0.5:
+				target = ANIM_RUN
+			else:
+				target = ANIM_IDLE
+		PlayerState.ATTACKING:
+			target = ANIM_RUN
+		PlayerState.GRABBED:
+			target = ANIM_HIT
+	_play_model_anim(target)
+
+func _play_model_anim(anim_name: StringName, one_shot := false, speed_scale := 1.0) -> void:
+	if _model_anim_player == null:
+		return
+	if not _model_anim_player.has_animation(anim_name):
+		return
+	_model_anim_player.speed_scale = speed_scale
+	if anim_name == _model_current_anim and _model_anim_player.is_playing() and not one_shot:
+		return
+	_model_anim_player.play(anim_name)
+	_model_current_anim = anim_name
+	_model_one_shot = one_shot
+
+func _on_model_anim_finished(_anim_name: StringName) -> void:
+	_model_one_shot = false
+	_model_current_anim = StringName()
+
+func _play_punch_anim() -> void:
+	_punch_side_left = not _punch_side_left
+	_play_model_anim(ANIM_PUNCH_L if _punch_side_left else ANIM_PUNCH_R, true, 1.5)
 
 func _get_camera_relative_input() -> Vector3:
 	var input_vector := Vector2.ZERO
@@ -571,7 +682,18 @@ func _update_impact_reaction(delta: float) -> void:
 	_impact_tilt = _impact_tilt.move_toward(Vector3.ZERO, impact_recovery_speed * delta)
 
 func _joypad_device() -> int:
-	return 0 if control_scheme == "wasd" else 1
+	var player_num := 1
+	match control_scheme:
+		"wasd":
+			player_num = 1
+		"arrows":
+			player_num = 2
+		"ijkl":
+			player_num = 3
+		"numpad":
+			player_num = 4
+	var device := MatchSettings.get_player_joypad_device(player_num)
+	return device if device >= 0 else (0 if control_scheme == "wasd" else 1)
 
 func _joy_stick_vector() -> Vector2:
 	var axis := Vector2(
@@ -587,28 +709,84 @@ func _joy_button_down(button: JoyButton) -> bool:
 	return Input.is_joy_button_pressed(_joypad_device(), button)
 
 func _forward_key() -> Key:
-	return KEY_UP if control_scheme == "arrows" else KEY_W
+	match control_scheme:
+		"arrows":
+			return KEY_UP
+		"ijkl":
+			return KEY_I
+		"numpad":
+			return KEY_KP_8
+	return KEY_W
 
 func _back_key() -> Key:
-	return KEY_DOWN if control_scheme == "arrows" else KEY_S
+	match control_scheme:
+		"arrows":
+			return KEY_DOWN
+		"ijkl":
+			return KEY_K
+		"numpad":
+			return KEY_KP_5
+	return KEY_S
 
 func _left_key() -> Key:
-	return KEY_LEFT if control_scheme == "arrows" else KEY_A
+	match control_scheme:
+		"arrows":
+			return KEY_LEFT
+		"ijkl":
+			return KEY_J
+		"numpad":
+			return KEY_KP_4
+	return KEY_A
 
 func _right_key() -> Key:
-	return KEY_RIGHT if control_scheme == "arrows" else KEY_D
+	match control_scheme:
+		"arrows":
+			return KEY_RIGHT
+		"ijkl":
+			return KEY_L
+		"numpad":
+			return KEY_KP_6
+	return KEY_D
 
 func _jump_key() -> Key:
-	return KEY_ENTER if control_scheme == "arrows" else KEY_SPACE
+	match control_scheme:
+		"arrows":
+			return KEY_ENTER
+		"ijkl":
+			return KEY_U
+		"numpad":
+			return KEY_KP_0
+	return KEY_SPACE
 
 func _tackle_key() -> Key:
-	return KEY_CTRL if control_scheme == "arrows" else KEY_SHIFT
+	match control_scheme:
+		"arrows":
+			return KEY_CTRL
+		"ijkl":
+			return KEY_O
+		"numpad":
+			return KEY_KP_PERIOD
+	return KEY_SHIFT
 
 func _punch_key() -> Key:
-	return KEY_PERIOD if control_scheme == "arrows" else KEY_F
+	match control_scheme:
+		"arrows":
+			return KEY_PERIOD
+		"ijkl":
+			return KEY_P
+		"numpad":
+			return KEY_KP_ENTER
+	return KEY_F
 
 func _grab_action() -> StringName:
-	return &"grab_p2" if control_scheme == "arrows" else &"grab_p1"
+	match control_scheme:
+		"arrows":
+			return &"grab_p2"
+		"ijkl":
+			return &"grab_p3"
+		"numpad":
+			return &"grab_p4"
+	return &"grab_p1"
 
 func _update_tackle_charge(delta: float) -> void:
 	if _tackle_cooldown_left > 0.0:
@@ -685,6 +863,7 @@ func _start_punch() -> void:
 	_punch_cooldown_left = punch_cooldown
 	_punch_hit_players.clear()
 	_punch_effect_time = 0.0
+	_play_punch_anim()
 
 	if _punch_effect != null:
 		_punch_effect.visible = true
@@ -710,6 +889,8 @@ func _start_headbutt() -> void:
 
 func _update_head_visual(delta: float) -> void:
 	if _head_bone < 0 or _cuy_skeleton == null:
+		return
+	if _model_has_anims:
 		return
 
 	if _state == PlayerState.KNOCKED or _state == PlayerState.STUNNED:
@@ -759,6 +940,8 @@ func _update_head_visual(delta: float) -> void:
 
 func _apply_head_pose() -> void:
 	if _head_bone < 0 or _cuy_skeleton == null or not is_instance_valid(_cuy_skeleton):
+		return
+	if _model_has_anims:
 		return
 
 	if _head_moving and _spine_bone >= 0:
@@ -893,6 +1076,7 @@ func _start_grab(target: Node3D) -> void:
 	_horizontal_velocity = Vector3.ZERO
 	_external_push = Vector3.ZERO
 	_update_charge_bar(0.0, false)
+	_play_model_anim(ANIM_GRAB, true)
 
 	if target.has_method("start_being_grabbed"):
 		target.start_being_grabbed(self)
@@ -994,7 +1178,14 @@ func _update_grabbing(delta: float) -> void:
 	_update_visual_motion(delta, move_direction)
 
 func _throw_action() -> StringName:
-	return &"throw_p2" if control_scheme == "arrows" else &"throw_p1"
+	match control_scheme:
+		"arrows":
+			return &"throw_p2"
+		"ijkl":
+			return &"throw_p3"
+		"numpad":
+			return &"throw_p4"
+	return &"throw_p1"
 
 func _try_start_throw() -> bool:
 	if not Input.is_action_just_pressed(_throw_action()):
@@ -1007,6 +1198,7 @@ func _try_start_throw() -> bool:
 	return true
 
 func _throw_grabbed_target() -> void:
+	_play_model_anim(ANIM_THROW, true)
 	var target := _grabbed_target
 	_release_grab()
 	if target == null or not is_instance_valid(target):
@@ -1445,6 +1637,7 @@ func apply_knockback(direction: Vector3, force: float, up_force: float, stun := 
 		_release_grab()
 	if _state == PlayerState.GRABBED:
 		release_from_being_grabbed()
+	_play_model_anim(ANIM_HIT, true)
 
 	var knockback_direction := direction
 	knockback_direction.y = 0.0

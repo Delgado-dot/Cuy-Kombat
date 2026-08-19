@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dy8v4803u140o" path="res://scripts/ui/main_menu.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_screen.tscn" id="2_controls"]
 [ext_resource type="Texture2D" uid="uid://dib12afcvvkma" path="res://assets/imagenes/fondo-menu.png" id="3_bg"]
+[ext_resource type="PackedScene" path="res://scenes/ui/options_screen.tscn" id="4_options"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_open"]
 bg_color = Color(0.025, 0.045, 0.09, 0)
@@ -14,6 +15,7 @@ corner_radius_bottom_left = 32
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Arial", "Noto Sans")
 font_weight = 900
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_main_primary"]
 content_margin_top = 10.0
@@ -190,6 +192,7 @@ process_mode = 3
 layer = 20
 script = ExtResource("1_script")
 controls_screen_path = NodePath("ControlsScreen")
+options_screen_path = NodePath("OptionsScreen")
 
 [node name="MainMenu" type="Control" parent="." unique_id=505025313]
 unique_name_in_owner = true
@@ -217,9 +220,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = 280.0
+offset_top = 310.0
 offset_right = -32.0
-offset_bottom = -60.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -329,4 +332,5 @@ text = "ENTER o A para jugar"
 horizontal_alignment = 1
 
 [node name="ControlsScreen" parent="." unique_id=60644542 instance=ExtResource("2_controls")]
-open_button_path = NodePath("../MainMenu/Margin/Center/Panel/Padding/Content/ControlsButton")
+
+[node name="OptionsScreen" parent="." instance=ExtResource("4_options")]

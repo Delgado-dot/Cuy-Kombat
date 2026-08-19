@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/winner_screen.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://entities/player/visuals/cuy_base.tscn" id="2_cuy_visual"]
 
 [sub_resource type="SystemFont" id="SystemFont_title"]
 font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
@@ -260,8 +259,6 @@ omni_range = 3.5
 unique_name_in_owner = true
 rotation = Vector3(0, -0.12, 0)
 
-[node name="CuyVisual" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld/WinnerCuyPivot" instance=ExtResource("2_cuy_visual")]
-
 [node name="Camera3D" type="Camera3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
 position = Vector3(0, 0.76, -3)
 rotation = Vector3(0, 3.14159, 0)
@@ -270,7 +267,46 @@ fov = 31.0
 near = 0.05
 far = 20.0
 
+[node name="RoundTransition" type="VBoxContainer" parent="Panel/Content"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -190.0
+offset_right = 360.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="TransitionTitle" type="Label" parent="Panel/Content/RoundTransition"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.08, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 42
+text = "SIGUIENTE RONDA"
+horizontal_alignment = 1
+
+[node name="CountdownLabel" type="Label" parent="Panel/Content/RoundTransition"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 72
+text = "3"
+horizontal_alignment = 1
+
 [node name="Buttons" type="HBoxContainer" parent="Panel/Content"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -315,3 +351,7 @@ theme_override_styles/hover = SubResource("StyleBox_menu_hover")
 theme_override_styles/pressed = SubResource("StyleBox_menu_pressed")
 theme_override_styles/focus = SubResource("StyleBox_menu_hover")
 text = "MENÚ PRINCIPAL"
+
+[node name="NextRoundTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
