@@ -280,12 +280,94 @@ ssao_intensity = 1.35
 fog_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.42, 0.66, 0.84, 1)
-fog_light_energy = 0.52
-fog_density = 0.0045
+fog_light_energy = 0.58
+fog_density = 0.0038
 fog_height = -8.0
 fog_height_density = 0.055
 fog_depth_begin = 55.0
-fog_depth_end = 150.0
+fog_depth_end = 180.0
+[sub_resource type="StandardMaterial3D" id="MatMontanaLejanaAzul"]
+albedo_color = Color(0.09, 0.19, 0.35, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaLejanaPurpura"]
+albedo_color = Color(0.12, 0.16, 0.30, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaMediaAzul"]
+albedo_color = Color(0.14, 0.30, 0.38, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaCercaClara"]
+albedo_color = Color(0.12, 0.32, 0.22, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MatPinoTronco"]
+albedo_color = Color(0.22, 0.11, 0.05, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="MatPinoHojas"]
+albedo_color = Color(0.06, 0.22, 0.10, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatArbusto"]
+albedo_color = Color(0.14, 0.35, 0.12, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatRocaDecorativa"]
+albedo_color = Color(0.42, 0.38, 0.30, 1)
+roughness = 0.97
+
+[sub_resource type="StandardMaterial3D" id="MatRocaOscura"]
+albedo_color = Color(0.28, 0.25, 0.20, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatIslaRoca"]
+albedo_color = Color(0.18, 0.22, 0.18, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatIslaCesped"]
+albedo_color = Color(0.12, 0.28, 0.09, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="MatNubeSuave"]
+albedo_color = Color(0.95, 0.97, 1.0, 1)
+
+[sub_resource type="StandardMaterial3D" id="MatFlorMorada"]
+albedo_color = Color(0.55, 0.18, 0.65, 1)
+roughness = 0.84
+
+[sub_resource type="StandardMaterial3D" id="MatFlorNaranja"]
+albedo_color = Color(0.95, 0.42, 0.08, 1)
+roughness = 0.82
+
+[sub_resource type="CylinderMesh" id="MeshPino"]
+top_radius = 0.0
+bottom_radius = 0.85
+height = 1.0
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshArbusto"]
+top_radius = 0.35
+bottom_radius = 0.45
+height = 0.6
+radial_segments = 6
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshIslaBase"]
+top_radius = 1.0
+bottom_radius = 0.15
+height = 1.0
+radial_segments = 8
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshIslaPequena"]
+top_radius = 0.7
+bottom_radius = 0.1
+height = 0.7
+radial_segments = 6
+rings = 1
 
 [node name="ArenaMitadDelMundo" type="Node3D" unique_id=1511745362]
 editor_description = "Arena diurna inspirada en la Mitad del Mundo de Ecuador. Mantiene las mismas unidades jugables, SpawnPoints y contrato de eliminacion que ArenaBase."
@@ -2111,22 +2193,1102 @@ material_override = SubResource("MatNube")
 cast_shadow = 0
 mesh = SubResource("MeshEsfera")
 
+[node name="MontanaUltraLejana01" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(11, 0, 0, 0, 18, 0, 0, 0, 10, -28, 8.5, -36)
+material_override = SubResource("MatMontanaLejanaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana02" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(10, 0, 0, 0, 16, 0, 0, 0, 9, -18, 7.5, -35)
+material_override = SubResource("MatMontanaLejanaPurpura")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana03" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(12, 0, 0, 0, 20, 0, 0, 0, 11, -8, 9, -38)
+material_override = SubResource("MatMontanaLejanaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana04" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(10, 0, 0, 0, 17, 0, 0, 0, 9, 3, 8, -36)
+material_override = SubResource("MatMontanaLejanaPurpura")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana05" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(11, 0, 0, 0, 19, 0, 0, 0, 10, 15, 8.5, -37)
+material_override = SubResource("MatMontanaLejanaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana06" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(10, 0, 0, 0, 16, 0, 0, 0, 9, 25, 7, -35)
+material_override = SubResource("MatMontanaLejanaPurpura")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaUltraLejana07" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(12, 0, 0, 0, 21, 0, 0, 0, 11, 32, 9.5, -38)
+material_override = SubResource("MatMontanaLejanaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="LomaMediaExtra01" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(8.2, 0, 0, 0, 5.5, 0, 0, 0, 6.8, -28, 2.2, -26)
+material_override = SubResource("MatMontanaMediaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="LomaMediaExtra02" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(7.5, 0, 0, 0, 5.2, 0, 0, 0, 6.2, -16, 2.0, -25.5)
+material_override = SubResource("MatMontanaMedia")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="LomaMediaExtra03" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(7.8, 0, 0, 0, 5.4, 0, 0, 0, 6.5, 16, 2.1, -25.8)
+material_override = SubResource("MatMontanaMediaAzul")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="LomaMediaExtra04" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(8.0, 0, 0, 0, 5.6, 0, 0, 0, 6.6, 28, 2.3, -26.2)
+material_override = SubResource("MatMontanaMedia")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercanaExtra01" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(9, 0, 0, 0, 8, 0, 0, 0, 8, -22, 3.2, -21)
+material_override = SubResource("MatMontanaCercaClara")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercanaExtra02" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(8, 0, 0, 0, 7, 0, 0, 0, 7, -3, 2.8, -20)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercanaExtra03" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(8, 0, 0, 0, 7.5, 0, 0, 0, 7, 4, 3.0, -20.5)
+material_override = SubResource("MatMontanaCercaClara")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="MontanaCercanaExtra04" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(9, 0, 0, 0, 8.5, 0, 0, 0, 8, 22, 3.4, -21.5)
+material_override = SubResource("MatMontanaCerca")
+cast_shadow = 0
+mesh = SubResource("MeshMontana")
+
+[node name="NieveUltraLejano01" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(4.2, 0, 0, 0, 5.0, 0, 0, 0, 3.8, -28, 16.5, -36)
+material_override = SubResource("MatNieve")
+cast_shadow = 0
+mesh = SubResource("MeshCumbreNieve")
+
+[node name="NieveUltraLejano02" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(4.0, 0, 0, 0, 4.8, 0, 0, 0, 3.6, -8, 17.0, -38)
+material_override = SubResource("MatNieve")
+cast_shadow = 0
+mesh = SubResource("MeshCumbreNieve")
+
+[node name="NieveUltraLejano03" type="MeshInstance3D" parent="Decoracion/MontanasSierra"]
+transform = Transform3D(4.3, 0, 0, 0, 5.1, 0, 0, 0, 3.9, 15, 16.8, -37)
+material_override = SubResource("MatNieve")
+cast_shadow = 0
+mesh = SubResource("MeshCumbreNieve")
+
+[node name="FaldaUltraLejana01" type="MeshInstance3D" parent="Decoracion/MontanasSierra/CordilleraOrganica"]
+transform = Transform3D(12, 0, 0, 0, 7.5, 0, 0, 0, 8.5, -30, 2.0, -32)
+material_override = SubResource("MatCordilleraAzul")
+cast_shadow = 0
+mesh = SubResource("MeshCordillera")
+
+[node name="FaldaUltraLejana02" type="MeshInstance3D" parent="Decoracion/MontanasSierra/CordilleraOrganica"]
+transform = Transform3D(11, 0, 0, 0, 6.8, 0, 0, 0, 7.8, -10, 1.6, -31)
+material_override = SubResource("MatCordilleraVerde")
+cast_shadow = 0
+mesh = SubResource("MeshCordillera")
+
+[node name="FaldaUltraLejana03" type="MeshInstance3D" parent="Decoracion/MontanasSierra/CordilleraOrganica"]
+transform = Transform3D(11, 0, 0, 0, 7.0, 0, 0, 0, 8.0, 10, 1.7, -31.5)
+material_override = SubResource("MatCordilleraAzul")
+cast_shadow = 0
+mesh = SubResource("MeshCordillera")
+
+[node name="FaldaUltraLejana04" type="MeshInstance3D" parent="Decoracion/MontanasSierra/CordilleraOrganica"]
+transform = Transform3D(12, 0, 0, 0, 7.8, 0, 0, 0, 8.8, 30, 2.1, -32.5)
+material_override = SubResource("MatCordilleraVerde")
+cast_shadow = 0
+mesh = SubResource("MeshCordillera")
+
+[node name="Pino01" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.0, -12.5, 0, -13.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino01"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino01"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino01"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino01"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino02" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 12.8, 0, -13.0)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino02"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino02"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino02"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino02"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino03" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -16, 0, -20)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino03"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino03"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino03"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino03"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino04" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 16.5, 0, -20.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino04"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino04"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino04"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino04"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino05" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -6, 0, -22)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino05"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino05"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino05"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino05"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino06" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 6.5, 0, -22.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino06"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino06"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino06"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino06"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino07" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, -20, 0, -17)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino07"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino07"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino07"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino07"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="Pino08" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 20.5, 0, -17.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino08"]
+transform = Transform3D(0.18, 0, 0, 0, 3.2, 0, 0, 0, 0.18, 0, 1.6, 0)
+material_override = SubResource("MatPinoTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa01" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino08"]
+transform = Transform3D(1.4, 0, 0, 0, 1.6, 0, 0, 0, 1.4, 0, 2.8, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa02" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino08"]
+transform = Transform3D(1.1, 0, 0, 0, 1.3, 0, 0, 0, 1.1, 0, 3.6, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+[node name="Copa03" type="MeshInstance3D" parent="Decoracion/Vegetacion/Pino08"]
+transform = Transform3D(0.75, 0, 0, 0, 1.0, 0, 0, 0, 0.75, 0, 4.2, 0)
+material_override = SubResource("MatPinoHojas")
+cast_shadow = 0
+mesh = SubResource("MeshPino")
+
+
+[node name="ArbolExtra01" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -4.5, 0, -12.8)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra01"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra01"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra01"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra01"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra02" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 4.8, 0, -13.2)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra02"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra02"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra02"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra02"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra03" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -8.2, 0, -14.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra03"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra03"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra03"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra03"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra04" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 8.5, 0, -14.8)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra04"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra04"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra04"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra04"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra05" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.0, -14, 0, -22)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra05"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra05"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra05"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra05"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra06" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 14.5, 0, -22.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra06"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra06"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra06"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra06"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra07" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -22, 0, -19)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra07"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra07"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra07"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra07"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra08" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 22.5, 0, -19.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra08"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra08"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra08"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra08"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra09" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, -3, 0, -24)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra09"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra09"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra09"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra09"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="ArbolExtra10" type="Node3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 3.5, 0, -24.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra10"]
+transform = Transform3D(0.28, 0, 0, 0, 2.5, 0, 0, 0, 0.28, 0, 1.25, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="CopaPrincipal" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra10"]
+transform = Transform3D(1.65, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -0.18, 2.75, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaLateral" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra10"]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.25, 0.7, 2.5, 0.15)
+material_override = SubResource("MatHojasB")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="CopaSuperior" type="MeshInstance3D" parent="Decoracion/Vegetacion/ArbolExtra10"]
+transform = Transform3D(1.38, 0, 0, 0, 1.35, 0, 0, 0, 1.35, -0.32, 3.48, -0.12)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="Arbusto01" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -10.5, 0.15, -12.2)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto02" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 10.8, 0.15, -12.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto03" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -13, 0.15, -15.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto04" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 13.5, 0.15, -15.8)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto05" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -7, 0.15, -19)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto06" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 7.5, 0.15, -19.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto07" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, -18, 0.15, -16)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto08" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 18.5, 0.15, -16.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto09" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -5, 0.15, -23)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto10" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 5.5, 0.15, -23.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto11" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, -11, 0.15, -21)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="Arbusto12" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 11.5, 0.15, -21.5)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+[node name="IslaFlotanteIzq" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 9, -20)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteIzq"]
+transform = Transform3D(4.5, 0, 0, 0, 2.8, 0, 0, 0, 4.5, 0, -0.8, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaBase")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaFlotanteIzq"]
+transform = Transform3D(4.2, 0, 0, 0, 0.18, 0, 0, 0, 4.2, 0, 0.6, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbol" type="Node3D" parent="Decoracion/IslaFlotanteIzq"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.8, 0.7, -0.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/IslaFlotanteIzq/Arbol"]
+transform = Transform3D(0.22, 0, 0, 0, 2.0, 0, 0, 0, 0.22, 0, 1.0, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteIzq/Arbol"]
+transform = Transform3D(1.3, 0, 0, 0, 1.8, 0, 0, 0, 1.3, 0, 2.3, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Roca01" type="MeshInstance3D" parent="Decoracion/IslaFlotanteIzq"]
+transform = Transform3D(0.6, 0, 0, 0, 0.4, 0, 0, 0, 0.6, -1.5, 0.7, 1.2)
+material_override = SubResource("MatRocaDecorativa")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="IslaFlotanteDer" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 11, -22)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteDer"]
+transform = Transform3D(4.5, 0, 0, 0, 2.8, 0, 0, 0, 4.5, 0, -0.8, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaBase")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaFlotanteDer"]
+transform = Transform3D(4.2, 0, 0, 0, 0.18, 0, 0, 0, 4.2, 0, 0.6, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbol" type="Node3D" parent="Decoracion/IslaFlotanteDer"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.8, 0.7, -0.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/IslaFlotanteDer/Arbol"]
+transform = Transform3D(0.22, 0, 0, 0, 2.0, 0, 0, 0, 0.22, 0, 1.0, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteDer/Arbol"]
+transform = Transform3D(1.3, 0, 0, 0, 1.8, 0, 0, 0, 1.3, 0, 2.3, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Roca01" type="MeshInstance3D" parent="Decoracion/IslaFlotanteDer"]
+transform = Transform3D(0.6, 0, 0, 0, 0.4, 0, 0, 0, 0.6, -1.5, 0.7, 1.2)
+material_override = SubResource("MatRocaDecorativa")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="IslaFlotanteCentral" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -36)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteCentral"]
+transform = Transform3D(4.5, 0, 0, 0, 2.8, 0, 0, 0, 4.5, 0, -0.8, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaBase")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaFlotanteCentral"]
+transform = Transform3D(4.2, 0, 0, 0, 0.18, 0, 0, 0, 4.2, 0, 0.6, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbol" type="Node3D" parent="Decoracion/IslaFlotanteCentral"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.8, 0.7, -0.5)
+
+[node name="Tronco" type="MeshInstance3D" parent="Decoracion/IslaFlotanteCentral/Arbol"]
+transform = Transform3D(0.22, 0, 0, 0, 2.0, 0, 0, 0, 0.22, 0, 1.0, 0)
+material_override = SubResource("MatTronco")
+mesh = SubResource("MeshUnidadCilindro")
+
+[node name="Copa" type="MeshInstance3D" parent="Decoracion/IslaFlotanteCentral/Arbol"]
+transform = Transform3D(1.3, 0, 0, 0, 1.8, 0, 0, 0, 1.3, 0, 2.3, 0)
+material_override = SubResource("MatHojasA")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Roca01" type="MeshInstance3D" parent="Decoracion/IslaFlotanteCentral"]
+transform = Transform3D(0.6, 0, 0, 0, 0.4, 0, 0, 0, 0.6, -1.5, 0.7, 1.2)
+material_override = SubResource("MatRocaDecorativa")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="IslaPeq01" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 7, -28)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaPeq01"]
+transform = Transform3D(2.5, 0, 0, 0, 1.8, 0, 0, 0, 2.5, 0, -0.5, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaPequena")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaPeq01"]
+transform = Transform3D(2.3, 0, 0, 0, 0.12, 0, 0, 0, 2.3, 0, 0.4, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbusto" type="MeshInstance3D" parent="Decoracion/IslaPeq01"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.3, 0.5, -0.2)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+
+[node name="IslaPeq02" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 8.5, -30)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaPeq02"]
+transform = Transform3D(2.5, 0, 0, 0, 1.8, 0, 0, 0, 2.5, 0, -0.5, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaPequena")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaPeq02"]
+transform = Transform3D(2.3, 0, 0, 0, 0.12, 0, 0, 0, 2.3, 0, 0.4, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbusto" type="MeshInstance3D" parent="Decoracion/IslaPeq02"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.3, 0.5, -0.2)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+
+[node name="IslaPeq03" type="Node3D" parent="Decoracion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 6, -18)
+
+[node name="BaseRocosa" type="MeshInstance3D" parent="Decoracion/IslaPeq03"]
+transform = Transform3D(2.5, 0, 0, 0, 1.8, 0, 0, 0, 2.5, 0, -0.5, 0)
+material_override = SubResource("MatIslaRoca")
+cast_shadow = 0
+mesh = SubResource("MeshIslaPequena")
+
+[node name="SuperficieCesped" type="MeshInstance3D" parent="Decoracion/IslaPeq03"]
+transform = Transform3D(2.3, 0, 0, 0, 0.12, 0, 0, 0, 2.3, 0, 0.4, 0)
+material_override = SubResource("MatIslaCesped")
+cast_shadow = 0
+mesh = SubResource("MeshUnidadCaja")
+
+[node name="Arbusto" type="MeshInstance3D" parent="Decoracion/IslaPeq03"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.3, 0.5, -0.2)
+material_override = SubResource("MatArbusto")
+cast_shadow = 0
+mesh = SubResource("MeshArbusto")
+
+
+[node name="NubeLejanaIzq" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -30, 14, -34)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaIzq"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaIzq"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaIzq"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="NubeLejanaDer" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 32, 15.5, -35)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaDer"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaDer"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeLejanaDer"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="NubeAltaCentral" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 18, -40)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeAltaCentral"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeAltaCentral"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeAltaCentral"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="NubeMediaIzq" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -20, 12, -28)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaIzq"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaIzq"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaIzq"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="NubeMediaDer" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 22, 13, -29)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaDer"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaDer"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeMediaDer"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="NubeBajaIzq" type="Node3D" parent="Decoracion/Nubes"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -14, 10.5, -22)
+
+[node name="Vapor1" type="MeshInstance3D" parent="Decoracion/Nubes/NubeBajaIzq"]
+transform = Transform3D(2.0, 0, 0, 0, 1.1, 0, 0, 0, 1.0, -0.8, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor2" type="MeshInstance3D" parent="Decoracion/Nubes/NubeBajaIzq"]
+transform = Transform3D(2.3, 0, 0, 0, 1.5, 0, 0, 0, 1.2, 0, 0.2, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="Vapor3" type="MeshInstance3D" parent="Decoracion/Nubes/NubeBajaIzq"]
+transform = Transform3D(1.9, 0, 0, 0, 1.1, 0, 0, 0, 1.0, 0.9, 0, 0)
+material_override = SubResource("MatNubeSuave")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+
+[node name="PiedraDecorativa01" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.55, 0, 0, 0, 0.3, 0, 0, 0, 0.55, -10.2, 0.28, -10.8)
+material_override = SubResource("MatRocaDecorativa")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="PiedraDecorativa02" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.42, 0, 0, 0, 0.25, 0, 0, 0, 0.42, 10.5, 0.26, -11.2)
+material_override = SubResource("MatRocaOscura")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="PiedraDecorativa03" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.48, 0, 0, 0, 0.28, 0, 0, 0, 0.48, -6.8, 0.27, -16.5)
+material_override = SubResource("MatRocaDecorativa")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="PiedraDecorativa04" type="MeshInstance3D" parent="Decoracion/Vegetacion"]
+transform = Transform3D(0.38, 0, 0, 0, 0.22, 0, 0, 0, 0.38, 7.2, 0.25, -17)
+material_override = SubResource("MatRocaOscura")
+cast_shadow = 0
+mesh = SubResource("MeshEsfera")
+
+[node name="FlorExtra01" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -8.5, 0.37, 2.8)
+material_override = SubResource("MatFlorMorada")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra02" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 8.8, 0.36, 3.1)
+material_override = SubResource("MatFlorNaranja")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra03" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, -6.2, 0.35, -4.2)
+material_override = SubResource("MatFlorAmarilla")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra04" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 6.5, 0.37, -4.5)
+material_override = SubResource("MatFlorRosada")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra05" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.68, 0, 0, 0, 0.68, 0, 0, 0, 0.68, -9.2, 0.34, -1.5)
+material_override = SubResource("MatFlorBlanca")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra06" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 9.5, 0.35, -1.2)
+material_override = SubResource("MatFlorMorada")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra07" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, -3.5, 0.36, 6.2)
+material_override = SubResource("MatFlorNaranja")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="FlorExtra08" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 3.8, 0.34, 6.5)
+material_override = SubResource("MatFlorAmarilla")
+cast_shadow = 0
+mesh = SubResource("MeshFlor")
+
+[node name="MataExtra01" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.75, 0, 0, 0, 0.72, 0, 0, 0, 0.75, -8.8, 0.31, 3.2)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshMataCesped")
+
+[node name="MataExtra02" type="MeshInstance3D" parent="Decoracion/JardinesAndinos"]
+transform = Transform3D(0.68, 0, 0, 0, 0.7, 0, 0, 0, 0.68, 9.1, 0.32, 2.8)
+material_override = SubResource("MatCespedClaro")
+cast_shadow = 0
+mesh = SubResource("MeshMataCesped")
+
 [node name="Lighting" type="Node3D" parent="." unique_id=45061123]
 
 [node name="LuzSolar" type="DirectionalLight3D" parent="Lighting" unique_id=1651239263]
 transform = Transform3D(0.73040897, 0.5749541, -0.36868754, -0.1116189, 0.63302195, 0.7660447, 0.6738278, -0.51837337, 0.52654064, 0, 0, 0)
 light_color = Color(1, 0.88, 0.67, 1)
-light_energy = 0.78
+light_energy = 0.92
 light_angular_distance = 0.8
 shadow_enabled = true
-shadow_bias = 0.08
+shadow_bias = 0.12
 directional_shadow_max_distance = 70.0
 directional_shadow_blend_splits = true
 
 [node name="LuzRelleno" type="DirectionalLight3D" parent="Lighting" unique_id=847264231]
 transform = Transform3D(-0.7852443, -0.1564359, 0.59909874, 0.07506968, 0.93636835, 0.3428978, -0.61461866, 0.3142327, -0.7235343, 0, 0, 0)
 light_color = Color(0.47, 0.67, 0.98, 1)
-light_energy = 0.2
+light_energy = 0.28
 
 [node name="LuzReboteArena" type="OmniLight3D" parent="Lighting"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 5.5)
