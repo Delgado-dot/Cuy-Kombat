@@ -1,0 +1,357 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/winner_screen.gd" id="1_script"]
+
+[sub_resource type="SystemFont" id="SystemFont_title"]
+font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_weight = 1000
+font_stretch = 112
+
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial Black", "Arial", "Noto Sans")
+font_weight = 900
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_next_disabled"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 0.68, 0.035, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.31, 0.15, 0.008, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.52)
+shadow_size = 7
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_normal"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.62)
+shadow_size = 7
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_hover"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.41, 0.76, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 9
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_pressed"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 10.0
+bg_color = Color(0.025, 0.05, 0.1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.24, 0.5, 0.72, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="Gradient" id="Gradient_confetti_colors"]
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1)
+colors = PackedColorArray(1, 0.28, 0.65, 1, 0.32, 0.78, 1, 1, 1, 0.76, 0.08, 1, 0.34, 0.88, 0.42, 1, 0.69, 0.35, 1, 1, 1, 0.28, 0.65, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture_confetti_colors"]
+gradient = SubResource("Gradient_confetti_colors")
+width = 128
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_confetti"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(610, 12, 1)
+direction = Vector3(0, 1, 0)
+spread = 34.0
+gravity = Vector3(0, 245, 0)
+initial_velocity_min = 105.0
+initial_velocity_max = 235.0
+angular_velocity_min = -220.0
+angular_velocity_max = 220.0
+scale_min = 0.65
+scale_max = 1.45
+color_ramp = SubResource("GradientTexture_confetti_colors")
+
+[sub_resource type="Gradient" id="Gradient_confetti_shape"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_confetti_shape"]
+gradient = SubResource("Gradient_confetti_shape")
+width = 10
+height = 18
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="Environment" id="Environment_winner_cuy"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 3
+ambient_light_color = Color(0.55, 0.6, 0.78, 1)
+ambient_light_energy = 0.62
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.78
+
+[node name="WinnerScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 30
+visible = false
+script = ExtResource("1_script")
+
+[node name="Panel" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.01, 0.018, 0.045, 0.24)
+
+[node name="Confetti" type="GPUParticles2D" parent="Panel"]
+unique_name_in_owner = true
+position = Vector2(640, 40)
+emitting = false
+amount = 120
+lifetime = 3.2
+one_shot = true
+explosiveness = 0.92
+randomness = 0.28
+process_material = SubResource("ParticleProcessMaterial_confetti")
+texture = SubResource("GradientTexture_confetti_shape")
+
+[node name="Content" type="Control" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinnerLabel" type="Label" parent="Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 142.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.38, 0.69, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 14
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 9
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 88
+text = "¡P1 GANA!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinnerFocus" type="Control" parent="Panel/Content"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -120.0
+offset_right = 210.0
+offset_bottom = 180.0
+mouse_filter = 2
+
+[node name="WinnerGlow" type="Polygon2D" parent="Panel/Content/WinnerFocus"]
+unique_name_in_owner = true
+position = Vector2(210, 150)
+polygon = PackedVector2Array(-180, 0, -144, -50, -102, -82, -52, -102, 0, -110, 52, -102, 102, -82, 144, -50, 180, 0, 144, 50, 102, 82, 52, 102, 0, 110, -52, 102, -102, 82, -144, 50)
+color = Color(1, 0.38, 0.69, 0.14)
+
+[node name="GroundShadow" type="Polygon2D" parent="Panel/Content/WinnerFocus"]
+position = Vector2(210, 266)
+polygon = PackedVector2Array(-92, 0, -78, -12, -48, -21, 0, -25, 48, -21, 78, -12, 92, 0, 78, 12, 48, 21, 0, 25, -48, 21, -78, 12)
+color = Color(0, 0, 0, 0.34)
+
+[node name="CuyViewportContainer" type="SubViewportContainer" parent="Panel/Content/WinnerFocus"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="CuyViewport" type="SubViewport" parent="Panel/Content/WinnerFocus/CuyViewportContainer"]
+transparent_bg = true
+size = Vector2i(420, 300)
+render_target_update_mode = 4
+own_world_3d = true
+gui_disable_input = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport"]
+environment = SubResource("Environment_winner_cuy")
+
+[node name="PresentationWorld" type="Node3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport"]
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+rotation = Vector3(-0.58, -2.4, -0.12)
+light_color = Color(1, 0.86, 0.7, 1)
+light_energy = 0.95
+shadow_enabled = true
+
+[node name="WinnerLight" type="OmniLight3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+unique_name_in_owner = true
+position = Vector3(-1.15, 1.5, -1.35)
+light_color = Color(1, 0.5, 0.75, 1)
+light_energy = 1.15
+omni_range = 4.0
+
+[node name="RimLight" type="OmniLight3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+position = Vector3(1.25, 1.35, 0.9)
+light_color = Color(1, 0.65, 0.18, 1)
+light_energy = 0.62
+omni_range = 3.5
+
+[node name="WinnerCuyPivot" type="Node3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+unique_name_in_owner = true
+rotation = Vector3(0, -0.12, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Panel/Content/WinnerFocus/CuyViewportContainer/CuyViewport/PresentationWorld"]
+position = Vector3(0, 0.76, -3)
+rotation = Vector3(0, 3.14159, 0)
+current = true
+fov = 31.0
+near = 0.05
+far = 20.0
+
+[node name="RoundTransition" type="VBoxContainer" parent="Panel/Content"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -190.0
+offset_right = 360.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="TransitionTitle" type="Label" parent="Panel/Content/RoundTransition"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.08, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 42
+text = "SIGUIENTE RONDA"
+horizontal_alignment = 1
+
+[node name="CountdownLabel" type="Label" parent="Panel/Content/RoundTransition"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 72
+text = "3"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Content"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -332.0
+offset_top = -112.0
+offset_right = 332.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 24
+
+[node name="NextRoundButton" type="Button" parent="Panel/Content/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 68)
+layout_mode = 2
+tooltip_text = "Disponible cuando exista un reinicio seguro de ronda."
+theme_override_colors/font_disabled_color = Color(0.16, 0.09, 0.005, 0.95)
+theme_override_colors/font_outline_color = Color(1, 0.88, 0.28, 0.55)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/disabled = SubResource("StyleBox_next_disabled")
+text = "SIGUIENTE RONDA"
+disabled = true
+
+[node name="MainMenuButton" type="Button" parent="Panel/Content/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.78, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.68)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBox_menu_normal")
+theme_override_styles/hover = SubResource("StyleBox_menu_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menu_pressed")
+theme_override_styles/focus = SubResource("StyleBox_menu_hover")
+text = "MENÚ PRINCIPAL"
+
+[node name="NextRoundTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
