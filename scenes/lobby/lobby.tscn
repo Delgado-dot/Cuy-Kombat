@@ -309,29 +309,28 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -880.0
+offset_left = -780.0
 offset_top = -230.0
-offset_right = 880.0
+offset_right = 780.0
 offset_bottom = 280.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="P1Card" type="PanelContainer" parent="SelectionSection/PlayersRow" unique_id=760519610]
-custom_minimum_size = Vector2(400, 520)
+custom_minimum_size = Vector2(280, 440)
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="SelectionSection/PlayersRow/P1Card" unique_id=2122900888]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Header" type="Label" parent="SelectionSection/PlayersRow/P1Card/Content" unique_id=271453210]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.42, 0.72, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 20
 text = "JUGADOR 1"
 horizontal_alignment = 1
 
@@ -341,7 +340,7 @@ alignment = 1
 
 [node name="P1PrevButton" type="Button" parent="SelectionSection/PlayersRow/P1Card/Content/SelectorRow" unique_id=1630618068]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -350,7 +349,7 @@ text = "◄"
 
 [node name="P1NameLabel" type="Label" parent="SelectionSection/PlayersRow/P1Card/Content/SelectorRow" unique_id=1142503386]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 40)
+custom_minimum_size = Vector2(180, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -361,7 +360,7 @@ vertical_alignment = 1
 
 [node name="P1NextButton" type="Button" parent="SelectionSection/PlayersRow/P1Card/Content/SelectorRow" unique_id=1246317683]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -369,7 +368,7 @@ theme_override_font_sizes/font_size = 22
 text = "►"
 
 [node name="P1ViewportContainer" type="SubViewportContainer" parent="SelectionSection/PlayersRow/P1Card/Content" unique_id=459154619]
-custom_minimum_size = Vector2(270, 250)
+custom_minimum_size = Vector2(180, 170)
 layout_mode = 2
 size_flags_horizontal = 4
 stretch = true
@@ -377,7 +376,7 @@ stretch = true
 [node name="P1Viewport" type="SubViewport" parent="SelectionSection/PlayersRow/P1Card/Content/P1ViewportContainer" unique_id=569884978]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(270, 250)
+size = Vector2i(180, 170)
 render_target_update_mode = 4
 own_world_3d = true
 
@@ -403,7 +402,7 @@ unique_name_in_owner = true
 [node name="P1Hint" type="Label" parent="SelectionSection/PlayersRow/P1Card/Content" unique_id=568538220]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 text = "ELEGIR: A / D | LISTO: G"
 horizontal_alignment = 1
 
@@ -427,20 +426,20 @@ theme_override_styles/normal = SubResource("StyleBox_primary")
 text = "CONFIRMAR (LISTO)"
 
 [node name="P2Card" type="PanelContainer" parent="SelectionSection/PlayersRow" unique_id=1689955062]
-custom_minimum_size = Vector2(400, 520)
+custom_minimum_size = Vector2(280, 440)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_p2_card")
 
 [node name="Content" type="VBoxContainer" parent="SelectionSection/PlayersRow/P2Card" unique_id=468580075]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Header" type="Label" parent="SelectionSection/PlayersRow/P2Card/Content" unique_id=2120349037]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.78, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 20
 text = "JUGADOR 2"
 horizontal_alignment = 1
 
@@ -450,7 +449,7 @@ alignment = 1
 
 [node name="P2PrevButton" type="Button" parent="SelectionSection/PlayersRow/P2Card/Content/SelectorRow" unique_id=1857303751]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -459,7 +458,7 @@ text = "◄"
 
 [node name="P2NameLabel" type="Label" parent="SelectionSection/PlayersRow/P2Card/Content/SelectorRow" unique_id=246036159]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 40)
+custom_minimum_size = Vector2(180, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -470,7 +469,7 @@ vertical_alignment = 1
 
 [node name="P2NextButton" type="Button" parent="SelectionSection/PlayersRow/P2Card/Content/SelectorRow" unique_id=1870157212]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -478,7 +477,7 @@ theme_override_font_sizes/font_size = 22
 text = "►"
 
 [node name="P2ViewportContainer" type="SubViewportContainer" parent="SelectionSection/PlayersRow/P2Card/Content" unique_id=1986904956]
-custom_minimum_size = Vector2(270, 250)
+custom_minimum_size = Vector2(180, 170)
 layout_mode = 2
 size_flags_horizontal = 4
 stretch = true
@@ -486,7 +485,7 @@ stretch = true
 [node name="P2Viewport" type="SubViewport" parent="SelectionSection/PlayersRow/P2Card/Content/P2ViewportContainer" unique_id=67948578]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(270, 250)
+size = Vector2i(180, 170)
 render_target_update_mode = 4
 own_world_3d = true
 
@@ -512,7 +511,7 @@ unique_name_in_owner = true
 [node name="P2Hint" type="Label" parent="SelectionSection/PlayersRow/P2Card/Content" unique_id=1644597851]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 text = "ELEGIR: FLECHAS | LISTO: K"
 horizontal_alignment = 1
 
@@ -537,20 +536,20 @@ text = "CONFIRMAR (LISTO)"
 
 [node name="P3Card" type="PanelContainer" parent="SelectionSection/PlayersRow"]
 visible = false
-custom_minimum_size = Vector2(400, 520)
+custom_minimum_size = Vector2(280, 440)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_p3_card")
 
 [node name="Content" type="VBoxContainer" parent="SelectionSection/PlayersRow/P3Card"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Header" type="Label" parent="SelectionSection/PlayersRow/P3Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.35, 1, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 20
 text = "JUGADOR 3"
 horizontal_alignment = 1
 
@@ -560,7 +559,7 @@ alignment = 1
 
 [node name="P3PrevButton" type="Button" parent="SelectionSection/PlayersRow/P3Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -569,7 +568,7 @@ text = "◄"
 
 [node name="P3NameLabel" type="Label" parent="SelectionSection/PlayersRow/P3Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 40)
+custom_minimum_size = Vector2(180, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -580,7 +579,7 @@ vertical_alignment = 1
 
 [node name="P3NextButton" type="Button" parent="SelectionSection/PlayersRow/P3Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -588,7 +587,7 @@ theme_override_font_sizes/font_size = 22
 text = "►"
 
 [node name="P3ViewportContainer" type="SubViewportContainer" parent="SelectionSection/PlayersRow/P3Card/Content"]
-custom_minimum_size = Vector2(270, 250)
+custom_minimum_size = Vector2(180, 170)
 layout_mode = 2
 size_flags_horizontal = 4
 stretch = true
@@ -596,7 +595,7 @@ stretch = true
 [node name="P3Viewport" type="SubViewport" parent="SelectionSection/PlayersRow/P3Card/Content/P3ViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(270, 250)
+size = Vector2i(180, 170)
 render_target_update_mode = 4
 own_world_3d = true
 
@@ -622,7 +621,7 @@ unique_name_in_owner = true
 [node name="P3Hint" type="Label" parent="SelectionSection/PlayersRow/P3Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 text = "ELEGIR: J / L | LISTO: N"
 horizontal_alignment = 1
 
@@ -647,20 +646,20 @@ text = "CONFIRMAR (LISTO)"
 
 [node name="P4Card" type="PanelContainer" parent="SelectionSection/PlayersRow"]
 visible = false
-custom_minimum_size = Vector2(400, 520)
+custom_minimum_size = Vector2(280, 440)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBox_p4_card")
 
 [node name="Content" type="VBoxContainer" parent="SelectionSection/PlayersRow/P4Card"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Header" type="Label" parent="SelectionSection/PlayersRow/P4Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 20
 text = "JUGADOR 4"
 horizontal_alignment = 1
 
@@ -670,7 +669,7 @@ alignment = 1
 
 [node name="P4PrevButton" type="Button" parent="SelectionSection/PlayersRow/P4Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -679,7 +678,7 @@ text = "◄"
 
 [node name="P4NameLabel" type="Label" parent="SelectionSection/PlayersRow/P4Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(250, 40)
+custom_minimum_size = Vector2(180, 30)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -690,7 +689,7 @@ vertical_alignment = 1
 
 [node name="P4NextButton" type="Button" parent="SelectionSection/PlayersRow/P4Card/Content/SelectorRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(44, 40)
+custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = SubResource("SystemFont_button")
@@ -698,7 +697,7 @@ theme_override_font_sizes/font_size = 22
 text = "►"
 
 [node name="P4ViewportContainer" type="SubViewportContainer" parent="SelectionSection/PlayersRow/P4Card/Content"]
-custom_minimum_size = Vector2(270, 250)
+custom_minimum_size = Vector2(180, 170)
 layout_mode = 2
 size_flags_horizontal = 4
 stretch = true
@@ -706,7 +705,7 @@ stretch = true
 [node name="P4Viewport" type="SubViewport" parent="SelectionSection/PlayersRow/P4Card/Content/P4ViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(270, 250)
+size = Vector2i(180, 170)
 render_target_update_mode = 4
 own_world_3d = true
 
@@ -732,7 +731,7 @@ unique_name_in_owner = true
 [node name="P4Hint" type="Label" parent="SelectionSection/PlayersRow/P4Card/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 text = "ELEGIR: KP4 / KP6 | LISTO: KP1"
 horizontal_alignment = 1
 
