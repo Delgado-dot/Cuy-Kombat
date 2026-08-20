@@ -73,9 +73,7 @@ static func set_player_count(count: int) -> void:
 	for i in range(player_characters.size()):
 		if player_characters[i] == 0 and i > 1:
 			player_characters[i] = i % CHARACTER_PRESETS.size()
-	for i in range(player_joypad_devices.size()):
-		if player_joypad_devices[i] == -1:
-			player_joypad_devices[i] = i
+	detect_and_assign_joypads()
 
 
 static func get_player_count() -> int:
@@ -107,11 +105,9 @@ static func get_player_joypad_device(player_number: int) -> int:
 
 static func detect_and_assign_joypads() -> void:
 	var connected := Input.get_connected_joypads()
-	var next_device := 0
 	for i in range(player_count):
 		if i < connected.size():
 			player_joypad_devices[i] = connected[i]
-			next_device = i + 1
 		else:
 			player_joypad_devices[i] = -1
 

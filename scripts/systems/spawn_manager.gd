@@ -44,6 +44,8 @@ func colocar_jugadores() -> void:
 		var spawn_three := get_node_or_null(spawn_three_path) as Marker3D
 		if player_three != null and spawn_three != null:
 			player_three.visible = true
+			player_three.set("input_enabled", true)
+			player_three.set_physics_process(true)
 			_aplicar_transform(player_three, spawn_three)
 		elif player_three == null:
 			push_error("SpawnManager: no se encontró Player3.")
@@ -52,11 +54,15 @@ func colocar_jugadores() -> void:
 	else:
 		if player_three != null:
 			player_three.visible = false
+			player_three.set("input_enabled", false)
+			player_three.set_physics_process(false)
 
 	if player_count >= 4:
 		var spawn_four := get_node_or_null(spawn_four_path) as Marker3D
 		if player_four != null and spawn_four != null:
 			player_four.visible = true
+			player_four.set("input_enabled", true)
+			player_four.set_physics_process(true)
 			_aplicar_transform(player_four, spawn_four)
 		elif player_four == null:
 			push_error("SpawnManager: no se encontró Player4.")
@@ -65,6 +71,8 @@ func colocar_jugadores() -> void:
 	else:
 		if player_four != null:
 			player_four.visible = false
+			player_four.set("input_enabled", false)
+			player_four.set_physics_process(false)
 
 
 func _aplicar_transform(player: Node3D, spawn: Node3D) -> void:

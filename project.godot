@@ -25,6 +25,7 @@ MutationManager="*res://scripts/systems/mutations/mutation_manager.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/mode=1
 window/stretch/mode=2
 window/stretch/aspect=2
 window/stretch/scale_mode=1

@@ -508,14 +508,15 @@ func _get_camera_relative_input() -> Vector3:
 	input_vector += _joy_stick_vector()
 
 	var device := _joypad_device()
-	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_LEFT):
-		input_vector.x -= 1.0
-	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_RIGHT):
-		input_vector.x += 1.0
-	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_UP):
-		input_vector.y -= 1.0
-	if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_DOWN):
-		input_vector.y += 1.0
+	if device >= 0:
+		if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_LEFT):
+			input_vector.x -= 1.0
+		if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_RIGHT):
+			input_vector.x += 1.0
+		if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_UP):
+			input_vector.y -= 1.0
+		if Input.is_joy_button_pressed(device, JOY_BUTTON_DPAD_DOWN):
+			input_vector.y += 1.0
 
 	if input_vector.length_squared() == 0.0:
 		return Vector3.ZERO
@@ -713,13 +714,15 @@ func _joypad_device() -> int:
 			player_num = 3
 		"numpad":
 			player_num = 4
-	var device := MatchSettings.get_player_joypad_device(player_num)
-	return device if device >= 0 else (0 if control_scheme == "wasd" else 1)
+	return MatchSettings.get_player_joypad_device(player_num)
 
 func _joy_stick_vector() -> Vector2:
+	var device := _joypad_device()
+	if device < 0:
+		return Vector2.ZERO
 	var axis := Vector2(
-		Input.get_joy_axis(_joypad_device(), JOY_AXIS_LEFT_X),
-		Input.get_joy_axis(_joypad_device(), JOY_AXIS_LEFT_Y)
+		Input.get_joy_axis(device, JOY_AXIS_LEFT_X),
+		Input.get_joy_axis(device, JOY_AXIS_LEFT_Y)
 	)
 	var len := axis.length()
 	if len < 0.2:
@@ -727,7 +730,10 @@ func _joy_stick_vector() -> Vector2:
 	return axis / len * clampf((len - 0.2) / 0.8, 0.0, 1.0)
 
 func _joy_button_down(button: JoyButton) -> bool:
-	return Input.is_joy_button_pressed(_joypad_device(), button)
+	var device := _joypad_device()
+	if device < 0:
+		return false
+	return Input.is_joy_button_pressed(device, button)
 
 func _forward_key() -> Key:
 	match control_scheme:
