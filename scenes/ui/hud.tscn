@@ -86,7 +86,7 @@ theme_override_constants/outline_size = 14
 theme_override_constants/shadow_offset_x = 5
 theme_override_constants/shadow_offset_y = 8
 theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 96
+theme_override_font_sizes/font_size = 64
 text = "¡PELEA!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -97,10 +97,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -80.0
-offset_top = 12.0
-offset_right = 80.0
-offset_bottom = 58.0
+offset_left = -60.0
+offset_top = 8.0
+offset_right = 60.0
+offset_bottom = 46.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
@@ -110,7 +110,7 @@ theme_override_constants/outline_size = 6
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 4
 theme_override_fonts/font = SubResource("SystemFont_hud")
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 30
 text = "02:00"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -126,11 +126,11 @@ mouse_filter = 2
 
 [node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerOnePanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="P1Icon" type="Control" parent="HudRoot/PlayerOnePanel/NameRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("2_cuyicon")
@@ -159,7 +159,7 @@ text = "★"
 
 [node name="P1Bar" type="ProgressBar" parent="HudRoot/PlayerOnePanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p1")
@@ -184,7 +184,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 13
 text = ""
 
 [node name="PlayerTwoPanel" type="VBoxContainer" parent="HudRoot"]
@@ -192,16 +192,16 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -310.0
-offset_top = 14.0
-offset_right = -18.0
-offset_bottom = 130.0
+offset_left = -232.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = 100.0
 grow_horizontal = 0
 mouse_filter = 2
 
 [node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerTwoPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="P2Name" type="Label" parent="HudRoot/PlayerTwoPanel/NameRow"]
@@ -230,14 +230,14 @@ text = "★"
 
 [node name="P2Icon" type="Control" parent="HudRoot/PlayerTwoPanel/NameRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("2_cuyicon")
 
 [node name="P2Bar" type="ProgressBar" parent="HudRoot/PlayerTwoPanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p2")
@@ -264,11 +264,12 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 13
 text = ""
 horizontal_alignment = 2
 
 [node name="PlayerThreePanel" type="VBoxContainer" parent="HudRoot"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 offset_left = 18.0
@@ -279,11 +280,11 @@ mouse_filter = 2
 
 [node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerThreePanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="P3Icon" type="Control" parent="HudRoot/PlayerThreePanel/NameRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("2_cuyicon")
@@ -312,7 +313,7 @@ text = "★"
 
 [node name="P3Bar" type="ProgressBar" parent="HudRoot/PlayerThreePanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p3")
@@ -337,25 +338,26 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 13
 text = ""
 
 [node name="PlayerFourPanel" type="VBoxContainer" parent="HudRoot"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -310.0
-offset_top = 140.0
-offset_right = -18.0
-offset_bottom = 256.0
+offset_left = -232.0
+offset_top = 108.0
+offset_right = -12.0
+offset_bottom = 196.0
 grow_horizontal = 0
 mouse_filter = 2
 
 [node name="NameRow" type="HBoxContainer" parent="HudRoot/PlayerFourPanel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="P4Name" type="Label" parent="HudRoot/PlayerFourPanel/NameRow"]
@@ -384,14 +386,14 @@ text = "★"
 
 [node name="P4Icon" type="Control" parent="HudRoot/PlayerFourPanel/NameRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("2_cuyicon")
 
 [node name="P4Bar" type="ProgressBar" parent="HudRoot/PlayerFourPanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p4")
@@ -418,6 +420,6 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.35, 1)
 theme_override_colors/font_outline_color = Color(0.25, 0.16, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 13
 text = ""
 horizontal_alignment = 2
