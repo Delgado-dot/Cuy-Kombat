@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://biynh3midcucq"]
+
+[resource]
+resource_name = "Cuy Orange"
+albedo_color = Color(0.84, 0.39, 0.1, 1)
+roughness = 0.88

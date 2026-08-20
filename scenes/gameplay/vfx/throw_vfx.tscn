@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/vfx/throw_vfx.gd" id="1_script"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_particle"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="StandardMaterial3D" id="Material_burst"]
+albedo_color = Color(1, 0.95, 0.75, 1)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.85, 0.45, 1)
+emission_energy_multiplier = 2.4
+no_depth_test = true
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_burst"]
+emission_shape = 1
+emission_sphere_radius = 0.15
+initial_velocity_min = 2.5
+initial_velocity_max = 6.0
+gravity = Vector3(0, 2, 0)
+scale_min = 0.7
+scale_max = 1.3
+
+[sub_resource type="StandardMaterial3D" id="Material_streak"]
+albedo_color = Color(1, 0.98, 0.8, 1)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.9, 0.5, 1)
+emission_energy_multiplier = 2.0
+no_depth_test = true
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_streak"]
+emission_shape = 1
+emission_sphere_radius = 0.1
+direction = Vector3(0, 0, -1)
+spread = 25.0
+initial_velocity_min = 7.0
+initial_velocity_max = 11.0
+gravity = Vector3(0, -2, 0)
+scale_min = 1.0
+scale_max = 2.2
+
+[sub_resource type="TorusMesh" id="TorusMesh_flash"]
+inner_radius = 0.15
+outer_radius = 0.28
+
+[sub_resource type="StandardMaterial3D" id="Material_flash"]
+albedo_color = Color(1, 0.95, 0.7, 0.95)
+transparency = 1
+emission_enabled = true
+emission = Color(1, 0.8, 0.4, 1)
+emission_energy_multiplier = 2.2
+no_depth_test = true
+
+[node name="ThrowVFX" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Burst" type="GPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+amount = 20
+lifetime = 0.3
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("Material_burst")
+process_material = SubResource("PPM_burst")
+
+[node name="Streak" type="GPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+amount = 14
+lifetime = 0.25
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_particle")
+material_override = SubResource("Material_streak")
+process_material = SubResource("PPM_streak")
+
+[node name="FlashRing" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("TorusMesh_flash")
+surface_material_override/0 = SubResource("Material_flash")
