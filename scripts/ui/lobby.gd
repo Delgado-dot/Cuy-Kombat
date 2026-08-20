@@ -115,7 +115,6 @@ func _on_player_count_pressed(count: int) -> void:
 	_show_player_cards()
 	_rounds_selector.visible = false
 	_selection_section.visible = true
-	get_viewport().gui_release_focus()
 	_update_gamepad_player_label()
 
 
@@ -189,6 +188,35 @@ func _input(event: InputEvent) -> void:
 
 	# Skip character cycling when a count button has focus (let focus system handle navigation)
 	var count_focused := _has_count_button_focus()
+
+	# Gamepad: A button on count button activates it
+	if count_focused and event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_A:
+			get_viewport().set_input_as_handled()
+			_activate_focused_count_button()
+			return
+		elif event.button_index == JOY_BUTTON_DPAD_LEFT:
+			get_viewport().set_input_as_handled()
+			_navigate_count_button(-1)
+			return
+		elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
+			get_viewport().set_input_as_handled()
+			_navigate_count_button(1)
+			return
+		elif event.button_index == JOY_BUTTON_DPAD_DOWN:
+			get_viewport().set_input_as_handled()
+			get_viewport().gui_release_focus()
+			return
+
+	# Gamepad: D-pad up from character area goes to count buttons
+	if not count_focused and event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_DPAD_UP:
+			get_viewport().set_input_as_handled()
+			match _player_count:
+				3: _count_3_button.grab_focus()
+				4: _count_4_button.grab_focus()
+				_: _count_2_button.grab_focus()
+			return
 
 	# Gamepad: L1/R1 switches active player
 	if event is InputEventJoypadButton and event.pressed:
@@ -647,6 +675,29 @@ func _ensure_navigation_actions() -> void:
 func _has_count_button_focus() -> bool:
 	var owner := get_viewport().gui_get_focus_owner()
 	return owner == _count_2_button or owner == _count_3_button or owner == _count_4_button
+
+
+func _activate_focused_count_button() -> void:
+	var owner := get_viewport().gui_get_focus_owner()
+	if owner == _count_2_button:
+		_on_player_count_pressed(2)
+	elif owner == _count_3_button:
+		_on_player_count_pressed(3)
+	elif owner == _count_4_button:
+		_on_player_count_pressed(4)
+
+
+func _navigate_count_button(dir: int) -> void:
+	var owner := get_viewport().gui_get_focus_owner()
+	if owner == _count_2_button and dir > 0:
+		_count_3_button.grab_focus()
+	elif owner == _count_3_button:
+		if dir > 0:
+			_count_4_button.grab_focus()
+		else:
+			_count_2_button.grab_focus()
+	elif owner == _count_4_button and dir < 0:
+		_count_3_button.grab_focus()
 
 
 func _ensure_navigation_action(action: StringName, key: Key, joy_button: JoyButton, axis: JoyAxis, axis_value: float) -> void:
