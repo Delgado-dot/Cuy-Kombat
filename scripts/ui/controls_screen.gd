@@ -6,7 +6,6 @@ extends CanvasLayer
 @onready var _controls_root := %ControlsScreen as Control
 @onready var _back_button := %ControlsBackButton as Button
 @onready var _gamepad_nav_button := %GamepadNavButton as Button
-@onready var _pair_nav_button := %PairNavButton as Button
 @onready var _scroll_container := %ControlsScreen/Margin/Center as ScrollContainer
 
 var _open_button: Button
@@ -14,7 +13,6 @@ var _title_tween: Tween
 var _button_tween: Tween
 
 var _keyboard_pair := 0
-var _gamepad_pair := 0
 
 
 func _ready() -> void:
@@ -26,7 +24,6 @@ func _ready() -> void:
 	_back_button.mouse_entered.connect(_animate_back_button_hover.bind(true))
 	_back_button.mouse_exited.connect(_animate_back_button_hover.bind(false))
 	_gamepad_nav_button.pressed.connect(_toggle_controls_page)
-	_pair_nav_button.pressed.connect(_toggle_pair)
 
 	_open_button = get_node_or_null(open_button_path) as Button if not open_button_path.is_empty() else null
 	if _open_button != null:
@@ -63,7 +60,7 @@ func _input(event: InputEvent) -> void:
 				_scroll_by(1.0)
 			JoyButton.JOY_BUTTON_A:
 				get_viewport().set_input_as_handled()
-				_toggle_pair()
+				_navigate_controls_page(1)
 	elif event is InputEventKey and event.pressed and not event.echo:
 		match event.keycode:
 			KEY_LEFT:
@@ -94,7 +91,6 @@ func _scroll_by(direction: float) -> void:
 func open(_from_screen: Node = null) -> void:
 	_controls_root.visible = true
 	_keyboard_pair = 0
-	_gamepad_pair = 0
 	_update_subtitle_for_player_count()
 	_show_keyboard_page()
 	if _scroll_container != null:
@@ -133,31 +129,13 @@ func _navigate_controls_page(direction: int) -> void:
 	var showing_gamepad := _get_content_node("Mandos").visible
 	if direction > 0:
 		if not showing_gamepad:
-			if _keyboard_pair == 0:
-				_keyboard_pair = 1
-				_update_keyboard_pair()
-			else:
-				_gamepad_pair = 0
-				_show_gamepad_page()
-		elif _gamepad_pair == 0:
-			_gamepad_pair = 1
-			_update_gamepad_pair()
+			_show_gamepad_page()
 		else:
-			_keyboard_pair = 0
 			_show_keyboard_page()
 	else:
 		if showing_gamepad:
-			if _gamepad_pair == 1:
-				_gamepad_pair = 0
-				_update_gamepad_pair()
-			else:
-				_keyboard_pair = 1
-				_show_keyboard_page()
-		elif _keyboard_pair == 1:
-			_keyboard_pair = 0
-			_update_keyboard_pair()
+			_show_keyboard_page()
 		else:
-			_gamepad_pair = 1
 			_show_gamepad_page()
 	_reset_scroll()
 
@@ -177,7 +155,6 @@ func _show_gamepad_page() -> void:
 	_set_gamepad_content_visible(true)
 	_gamepad_nav_button.text = "←  CONTROLES DE TECLADO"
 	_gamepad_nav_button.grab_focus()
-	_update_gamepad_pair()
 	_reset_scroll()
 
 
@@ -187,21 +164,11 @@ func _set_keyboard_content_visible(is_visible: bool) -> void:
 
 
 func _set_gamepad_content_visible(is_visible: bool) -> void:
-	for node_name in ["MandosTitle", "MandosSubtitle", "Mandos"]:
+	for node_name in ["MandosTitle", "Mandos"]:
 		var node := _get_content_node(node_name)
 		node.visible = is_visible
 		if node is Label and is_visible:
 			(node as Label).visible_ratio = 1.0
-
-
-func _toggle_pair() -> void:
-	if _get_content_node("Mandos").visible:
-		_gamepad_pair = 1 - _gamepad_pair
-		_update_gamepad_pair()
-	else:
-		_keyboard_pair = 1 - _keyboard_pair
-		_update_keyboard_pair()
-	_reset_scroll()
 
 
 func _update_keyboard_pair() -> void:
@@ -217,7 +184,6 @@ func _update_keyboard_pair() -> void:
 			p1.visible = true
 		if p2 != null:
 			p2.visible = true
-		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
 	else:
 		var p3 := players.get_node_or_null("PlayerThree") as Control
 		var p4 := players.get_node_or_null("PlayerFour") as Control
@@ -225,36 +191,7 @@ func _update_keyboard_pair() -> void:
 			p3.visible = true
 		if p4 != null:
 			p4.visible = true
-		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
 
-
-func _update_gamepad_pair() -> void:
-	var mandos := _get_content_node("Mandos")
-	var subtitle := _get_content_node("MandosSubtitle") as Label
-	for child in mandos.get_children():
-		if child is Control:
-			child.visible = false
-
-	if _gamepad_pair == 0:
-		var m1 := mandos.get_node_or_null("MandoOne") as Control
-		var m2 := mandos.get_node_or_null("MandoTwo") as Control
-		if m1 != null:
-			m1.visible = true
-		if m2 != null:
-			m2.visible = true
-		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
-		if subtitle != null:
-			subtitle.text = "P1 = MANDO 1   •   P2 = MANDO 2"
-	else:
-		var m3 := mandos.get_node_or_null("MandoThree") as Control
-		var m4 := mandos.get_node_or_null("MandoFour") as Control
-		if m3 != null:
-			m3.visible = true
-		if m4 != null:
-			m4.visible = true
-		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
-		if subtitle != null:
-			subtitle.text = "P3 = MANDO 3   •   P4 = MANDO 4"
 
 
 func _get_content_node(node_name: String) -> Control:
@@ -404,7 +341,6 @@ func _replace_move_key_with_cluster(key_path: String, key_labels: Array[String])
 func _apply_bottom_button_styles() -> void:
 	_apply_button_style(_back_button, Color(1, 0.64, 0.04, 0.96), Color(1, 0.9, 0.35, 1), Color(0.08, 0.05, 0.01, 1))
 	_apply_button_style(_gamepad_nav_button, Color(0.04, 0.32, 0.7, 0.94), Color(0.3, 0.78, 1, 1), Color(1, 1, 1, 1))
-	_apply_button_style(_pair_nav_button, Color(0.32, 0.12, 0.56, 0.94), Color(0.75, 0.48, 1, 1), Color(1, 1, 1, 1))
 
 
 func _apply_button_style(button: Button, background: Color, border: Color, text_color: Color) -> void:
@@ -465,8 +401,6 @@ func _apply_arcade_text_style() -> void:
 		{"path": "Margin/Center/Panel/Padding/Content/Players/PlayerFour/Padding/Content/Header", "color": Color(1, 0.78, 0.22, 1)},
 		{"path": "Margin/Center/Panel/Padding/Content/Mandos/MandoOne/Padding/Content/Header", "color": Color(1, 0.32, 0.64, 1)},
 		{"path": "Margin/Center/Panel/Padding/Content/Mandos/MandoTwo/Padding/Content/Header", "color": Color(0.2, 0.72, 1, 1)},
-		{"path": "Margin/Center/Panel/Padding/Content/Mandos/MandoThree/Padding/Content/Header", "color": Color(0.32, 0.92, 0.55, 1)},
-		{"path": "Margin/Center/Panel/Padding/Content/Mandos/MandoFour/Padding/Content/Header", "color": Color(1, 0.78, 0.22, 1)},
 	]
 	for header_data in card_headers:
 		var card_header := _controls_root.get_node_or_null(NodePath(header_data["path"])) as Label
@@ -491,7 +425,6 @@ func _apply_arcade_text_style() -> void:
 	if fight_font != null:
 		_back_button.add_theme_font_override("font", fight_font)
 		_gamepad_nav_button.add_theme_font_override("font", fight_font)
-		_pair_nav_button.add_theme_font_override("font", fight_font)
 	_back_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
 	_back_button.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
 	_back_button.add_theme_color_override("font_pressed_color", Color(0.78, 0.82, 0.9, 1))
@@ -502,6 +435,3 @@ func _apply_arcade_text_style() -> void:
 	_gamepad_nav_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
 	_gamepad_nav_button.add_theme_color_override("font_outline_color", Color(0.05, 0.06, 0.08, 1))
 	_gamepad_nav_button.add_theme_constant_override("outline_size", 2)
-	_pair_nav_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
-	_pair_nav_button.add_theme_color_override("font_outline_color", Color(0.05, 0.06, 0.08, 1))
-	_pair_nav_button.add_theme_constant_override("outline_size", 2)
