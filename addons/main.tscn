@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://bcsj1j0lsi3c"]
+
+[ext_resource type="PackedScene" path="res://scenes/arenas/ArenaBase.tscn" id="1_arena"]
+[ext_resource type="PackedScene" uid="uid://cpxwpiqoiar2o" path="res://entities/player/player_p1.tscn" id="2_player1"]
+[ext_resource type="Script" uid="uid://dcg865hj5jhay" path="res://scripts/core/two_player_camera.gd" id="3_camera"]
+[ext_resource type="PackedScene" uid="uid://cqw2blubpnilv" path="res://entities/player/player_p2.tscn" id="3_player2"]
+[ext_resource type="Script" uid="uid://hvsl5fya0pcj" path="res://scripts/systems/game_manager.gd" id="5_game_manager"]
+[ext_resource type="Script" uid="uid://b5nwi6c61tqas" path="res://scripts/systems/spawn_manager.gd" id="6_spawn_manager"]
+[ext_resource type="PackedScene" path="res://scenes/ui/winner_screen.tscn" id="7_winner"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="8_pause"]
+[ext_resource type="Script" uid="uid://df3d1bfef85kt" path="res://scripts/gameplay/objects_spawner.gd" id="11_objects_spawner"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="12_hud"]
+[ext_resource type="Script" uid="uid://yiag3rkhyccj" path="res://scripts/core/scenario_manager.gd" id="14_scenario_manager"]
+[ext_resource type="PackedScene" path="res://entities/player/player_p3.tscn" id="15_player3"]
+[ext_resource type="PackedScene" path="res://entities/player/player_p4.tscn" id="16_player4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_death_zone"]
+size = Vector3(80, 10, 80)
+
+[node name="Main" type="Node3D" unique_id=406114152]
+
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1803864326]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 6, 0)
+light_energy = 2.5
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=701767425]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 8, 12)
+current = true
+script = ExtResource("3_camera")
+player_one_path = NodePath("../Player1")
+player_two_path = NodePath("../Player2")
+player_three_path = NodePath("../Player3")
+player_four_path = NodePath("../Player4")
+
+[node name="Arena" parent="." unique_id=2115552351 instance=ExtResource("1_arena")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="SpawnManager" type="Node" parent="." unique_id=1057186570]
+script = ExtResource("6_spawn_manager")
+player_one_path = NodePath("../Player1")
+player_two_path = NodePath("../Player2")
+player_three_path = NodePath("../Player3")
+player_four_path = NodePath("../Player4")
+spawn_one_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador1")
+spawn_two_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador2")
+spawn_three_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador3")
+spawn_four_path = NodePath("../Arena/ArenaGameplayRoot/PuntosDeAparicion/SpawnJugador4")
+
+[node name="GameManager" type="Node" parent="." unique_id=428099557]
+script = ExtResource("5_game_manager")
+player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2"), NodePath("../Player3"), NodePath("../Player4")])
+death_zone_path = NodePath("../DeathZone")
+
+[node name="Player1" parent="." unique_id=558404065 instance=ExtResource("2_player1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.649475, 1, 0)
+input_enabled = false
+player_color = Color(0.1, 0.35, 1, 1)
+
+[node name="PlayerIndicator" type="Label3D" parent="Player1" unique_id=1295437604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.002
+billboard = 1
+no_depth_test = true
+fixed_size = true
+modulate = Color(0.35, 0.78, 1, 1)
+outline_modulate = Color(0.01, 0.03, 0.08, 1)
+text = "P1
+▼"
+font_size = 18
+outline_size = 2
+line_spacing = -4.0
+
+[node name="Player2" parent="." unique_id=489051253 instance=ExtResource("3_player2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.13401, 1, 0)
+input_enabled = false
+player_color = Color(1, 0.12, 0.08, 1)
+control_scheme = "arrows"
+
+[node name="PlayerIndicator" type="Label3D" parent="Player2" unique_id=2093052660]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.002
+billboard = 1
+no_depth_test = true
+fixed_size = true
+modulate = Color(1, 0.42, 0.34, 1)
+outline_modulate = Color(0.1, 0.01, 0.01, 1)
+text = "P2
+▼"
+font_size = 18
+outline_size = 2
+line_spacing = -4.0
+
+[node name="Player3" parent="." unique_id=2029336010 instance=ExtResource("15_player3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.649475, 1, -6)
+input_enabled = false
+player_color = Color(0.18, 0.82, 0.22, 1)
+control_scheme = "ijkl"
+
+[node name="PlayerIndicator" type="Label3D" parent="Player3" unique_id=122818499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.002
+billboard = 1
+no_depth_test = true
+fixed_size = true
+modulate = Color(0.35, 0.92, 0.4, 1)
+outline_modulate = Color(0.01, 0.08, 0.02, 1)
+text = "P3
+▼"
+font_size = 18
+outline_size = 2
+line_spacing = -4.0
+
+[node name="Player4" parent="." unique_id=1906364876 instance=ExtResource("16_player4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.13401, 1, -6)
+input_enabled = false
+player_color = Color(0.95, 0.72, 0.15, 1)
+control_scheme = "numpad"
+
+[node name="PlayerIndicator" type="Label3D" parent="Player4" unique_id=439987090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+pixel_size = 0.002
+billboard = 1
+no_depth_test = true
+fixed_size = true
+modulate = Color(0.95, 0.78, 0.3, 1)
+outline_modulate = Color(0.08, 0.05, 0.01, 1)
+text = "P4
+▼"
+font_size = 18
+outline_size = 2
+line_spacing = -4.0
+
+[node name="DeathZone" type="Area3D" parent="." unique_id=1638866711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone" unique_id=622535333]
+shape = SubResource("BoxShape3D_death_zone")
+
+[node name="ObjectsSpawner" type="Node3D" parent="." unique_id=972311708]
+script = ExtResource("11_objects_spawner")
+min_spawn_radius = 7.5
+max_spawn_radius = 14.0
+avoid_distance = 4.0
+avoid_node_paths = Array[NodePath]([NodePath("Player1"), NodePath("Player2"), NodePath("Player3"), NodePath("Player4")])
+
+[node name="WinnerScreen" parent="." unique_id=91899860 instance=ExtResource("7_winner")]
+game_manager_path = NodePath("../GameManager")
+scenario_manager_path = NodePath("../ScenarioManager")
+
+[node name="PauseMenu" parent="." unique_id=1684430219 instance=ExtResource("8_pause")]
+game_manager_path = NodePath("../GameManager")
+
+[node name="Hud" parent="." unique_id=771508730 instance=ExtResource("12_hud")]
+game_manager_path = NodePath("../GameManager")
+player_paths = Array[NodePath]([NodePath("../Player1"), NodePath("../Player2"), NodePath("../Player3"), NodePath("../Player4")])
+
+[node name="ScenarioManager" type="Node" parent="." unique_id=191488213]
+script = ExtResource("14_scenario_manager")
+game_manager_path = NodePath("../GameManager")
+spawn_manager_path = NodePath("../SpawnManager")
+arena_path = NodePath("../Arena")
+objects_spawner_path = NodePath("../ObjectsSpawner")

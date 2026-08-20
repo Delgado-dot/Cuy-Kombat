@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/vfx/one_shot_particles.gd" id="1_script"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_chip"]
+size = Vector3(0.06, 0.02, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.62, 0.38, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="ParticleProcessMaterial" id="PPM_chips"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, -9.8, 0)
+scale_min = 0.7
+scale_max = 1.4
+angular_velocity_min = -8.0
+angular_velocity_max = 8.0
+
+[node name="WoodChips" type="GPUParticles3D"]
+emitting = false
+one_shot = true
+amount = 10
+lifetime = 0.5
+explosiveness = 1.0
+mesh = SubResource("BoxMesh_chip")
+material_override = SubResource("Material_wood")
+process_material = SubResource("PPM_chips")
+script = ExtResource("1_script")

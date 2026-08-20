@@ -1,0 +1,299 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/match_end_screen.gd" id="1_script"]
+
+[sub_resource type="SystemFont" id="SystemFont_title"]
+font_names = PackedStringArray("Arial Black", "Cooper Black", "Arial Rounded MT Bold", "Arial", "Noto Sans")
+font_weight = 1000
+font_stretch = 112
+
+[sub_resource type="SystemFont" id="SystemFont_button"]
+font_names = PackedStringArray("Arial Black", "Arial", "Noto Sans")
+font_weight = 900
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_score_panel"]
+bg_color = Color(0.025, 0.045, 0.09, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.48, 0.72, 0.82)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0, 0, 0, 0.58)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_player_one"]
+bg_color = Color(0.19, 0.075, 0.16, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.35, 0.68, 0.95)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_player_two"]
+bg_color = Color(0.045, 0.13, 0.21, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.78, 1, 0.95)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_normal"]
+content_margin_left = 28.0
+content_margin_top = 13.0
+content_margin_right = 28.0
+content_margin_bottom = 13.0
+bg_color = Color(0.045, 0.075, 0.14, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3, 0.58, 0.84, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.62)
+shadow_size = 7
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_hover"]
+content_margin_left = 28.0
+content_margin_top = 13.0
+content_margin_right = 28.0
+content_margin_bottom = 13.0
+bg_color = Color(0.08, 0.15, 0.25, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.41, 0.76, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 9
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_menu_pressed"]
+content_margin_left = 28.0
+content_margin_top = 15.0
+content_margin_right = 28.0
+content_margin_bottom = 11.0
+bg_color = Color(0.025, 0.05, 0.1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.24, 0.5, 0.72, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="MatchEndScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 35
+visible = false
+script = ExtResource("1_script")
+
+[node name="Screen" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.018, 0.045, 0.38)
+
+[node name="Margin" type="MarginContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="Screen/Margin"]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="Screen/Margin/Center"]
+custom_minimum_size = Vector2(860, 610)
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="ChampionLabel" type="Label" parent="Screen/Margin/Center/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 105)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.38, 0.69, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.01, 0.025, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 14
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 9
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 76
+text = "¡P1 CAMPEÓN!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Screen/Margin/Center/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.88)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 23
+text = "FIN DE PARTIDA"
+horizontal_alignment = 1
+
+[node name="ScorePanel" type="PanelContainer" parent="Screen/Margin/Center/Content"]
+custom_minimum_size = Vector2(760, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBox_score_panel")
+
+[node name="Padding" type="MarginContainer" parent="Screen/Margin/Center/Content/ScorePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="ScoreRow" type="HBoxContainer" parent="Screen/Margin/Center/Content/ScorePanel/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="PlayerOne" type="PanelContainer" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow"]
+custom_minimum_size = Vector2(230, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_player_one")
+
+[node name="Content" type="VBoxContainer" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerOne"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PlayerLabel" type="Label" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerOne/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.43, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.01, 0.04, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 36
+text = "P1"
+horizontal_alignment = 1
+
+[node name="PlayerOneScore" type="Label" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerOne/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.9, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.01, 0.04, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 6
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 82
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Versus" type="Label" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.08, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.025, 0.005, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 6
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 52
+text = "VS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerTwo" type="PanelContainer" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow"]
+custom_minimum_size = Vector2(230, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_player_two")
+
+[node name="Content" type="VBoxContainer" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerTwo"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PlayerLabel" type="Label" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerTwo/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.82, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.045, 0.075, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 36
+text = "P2"
+horizontal_alignment = 1
+
+[node name="PlayerTwoScore" type="Label" parent="Screen/Margin/Center/Content/ScorePanel/Padding/ScoreRow/PlayerTwo/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.9, 0.97, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.045, 0.075, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.82)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 6
+theme_override_fonts/font = SubResource("SystemFont_title")
+theme_override_font_sizes/font_size = 82
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonCenter" type="CenterContainer" parent="Screen/Margin/Center/Content"]
+layout_mode = 2
+
+[node name="MainMenuButton" type="Button" parent="Screen/Margin/Center/Content/ButtonCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(390, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.97, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.78, 0.9, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.68)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("SystemFont_button")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBox_menu_normal")
+theme_override_styles/hover = SubResource("StyleBox_menu_hover")
+theme_override_styles/pressed = SubResource("StyleBox_menu_pressed")
+theme_override_styles/focus = SubResource("StyleBox_menu_hover")
+text = "VOLVER AL MENÚ"
