@@ -60,9 +60,6 @@ func _input(event: InputEvent) -> void:
 			JoyButton.JOY_BUTTON_DPAD_DOWN:
 				get_viewport().set_input_as_handled()
 				_scroll_by(1.0)
-			JoyButton.JOY_BUTTON_A:
-				get_viewport().set_input_as_handled()
-				_navigate_controls_page(1)
 	elif event is InputEventKey and event.pressed and not event.echo:
 		match event.keycode:
 			KEY_LEFT:
@@ -163,16 +160,19 @@ func _show_gamepad_page() -> void:
 
 
 func _set_keyboard_content_visible(is_visible: bool) -> void:
-	for node_name in ["Title", "KeyboardSubtitle", "Subtitle", "Players"]:
-		_get_content_node(node_name).visible = is_visible
+	for node_name in ["Players"]:
+		var node := _get_content_node(node_name)
+		if node != null:
+			node.visible = is_visible
 
 
 func _set_gamepad_content_visible(is_visible: bool) -> void:
-	for node_name in ["MandosTitle", "Mandos"]:
+	for node_name in ["Mandos"]:
 		var node := _get_content_node(node_name)
-		node.visible = is_visible
-		if node is Label and is_visible:
-			(node as Label).visible_ratio = 1.0
+		if node != null:
+			node.visible = is_visible
+			if node is Label and is_visible:
+				(node as Label).visible_ratio = 1.0
 
 
 func _update_keyboard_pair() -> void:
