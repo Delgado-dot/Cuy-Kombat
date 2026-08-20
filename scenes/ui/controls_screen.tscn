@@ -1156,7 +1156,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
 theme_override_font_sizes/font_size = 19
-text = "A"
+text = "✕"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1181,7 +1181,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
 theme_override_font_sizes/font_size = 19
-text = "X"
+text = "□"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1206,7 +1206,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
 theme_override_font_sizes/font_size = 19
-text = "B"
+text = "○"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1231,7 +1231,7 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
 theme_override_font_sizes/font_size = 19
-text = "Y"
+text = "△"
 horizontal_alignment = 1
 vertical_alignment = 1
 
