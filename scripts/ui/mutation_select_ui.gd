@@ -37,8 +37,8 @@ const POP_SCALE := Vector2(1.08, 1.08)
 const POP_DURATION := 0.35
 
 const MUTATION_IMAGES := {
-	&"super_speed": "res://assets/imagenes/Mutaciones/Basilica.jpg",
-	&"powerful_hits": "res://assets/imagenes/Mutaciones/Cotopaxi.jpeg",
+	&"super_speed": "res://assets/imagenes/Mutaciones/super_speed.png",
+	&"powerful_hits": "res://assets/imagenes/Mutaciones/powerful_hits.png",
 	&"low_gravity": "res://assets/imagenes/Mutaciones/Guayakill.jpg",
 	&"fast_recovery": "res://assets/imagenes/Mutaciones/MitadMundo.jpeg",
 	&"slow_recovery": "res://assets/imagenes/Mutaciones/Panecillo.jpeg",
