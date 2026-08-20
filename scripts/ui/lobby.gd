@@ -106,6 +106,7 @@ func _on_player_count_pressed(count: int) -> void:
 	_show_player_cards()
 	_rounds_selector.visible = false
 	_selection_section.visible = true
+	get_viewport().gui_release_focus()
 
 
 func _update_player_count_buttons() -> void:
@@ -177,11 +178,10 @@ func _input(event: InputEvent) -> void:
 		return
 
 	# Skip character cycling when a count button has focus (let focus system handle navigation)
-	if _has_count_button_focus():
-		return
+	var count_focused := _has_count_button_focus()
 
 	# P1 Selection (WASD / A / D / Joypad 0)
-	if not _player_ready[0]:
+	if not count_focused and not _player_ready[0]:
 		var p1_dir := 0
 		if event is InputEventKey and event.pressed:
 			if event.keycode == KEY_A:
@@ -210,7 +210,7 @@ func _input(event: InputEvent) -> void:
 			return
 
 	# P2 Selection (Arrows / Left / Right / Joypad 1)
-	if not _player_ready[1]:
+	if not count_focused and not _player_ready[1]:
 		var p2_dir := 0
 		if event is InputEventKey and event.pressed:
 			if event.keycode == KEY_LEFT:
@@ -239,7 +239,7 @@ func _input(event: InputEvent) -> void:
 			return
 
 	# P3 Selection (IJKL / J / L / Joypad 2)
-	if _player_count >= 3 and not _player_ready[2]:
+	if not count_focused and _player_count >= 3 and not _player_ready[2]:
 		var p3_dir := 0
 		if event is InputEventKey and event.pressed:
 			if event.keycode == KEY_J:
@@ -268,7 +268,7 @@ func _input(event: InputEvent) -> void:
 			return
 
 	# P4 Selection (Numpad 4/6 / Joypad 3)
-	if _player_count >= 4 and not _player_ready[3]:
+	if not count_focused and _player_count >= 4 and not _player_ready[3]:
 		var p4_dir := 0
 		if event is InputEventKey and event.pressed:
 			if event.keycode == KEY_KP_4:
