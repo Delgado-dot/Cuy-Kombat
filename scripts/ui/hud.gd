@@ -71,7 +71,7 @@ func _ready() -> void:
 		if player != null:
 			_players.append(player)
 
-	_player_count = _players.size()
+	_player_count = MatchSettings.get_player_count()
 
 	_setup_player_ui(0, _p1_name, _p1_bar, _p1_status, _p1_icon, _p1_leader, _p1_pips)
 	_setup_player_ui(1, _p2_name, _p2_bar, _p2_status, _p2_icon, _p2_leader, _p2_pips)
@@ -265,7 +265,7 @@ func _update_timer_label() -> void:
 
 
 func _update_players(delta: float) -> void:
-	for index in range(_players.size()):
+	for index in range(mini(_players.size(), _player_count)):
 		var player := _players[index]
 		var target := 1.0
 		var knocked := false
@@ -378,14 +378,14 @@ func _update_pips(index: int, hits: int, knocked: bool) -> void:
 func _update_leader() -> void:
 	var best_index := 0
 	var best_health := -1.0
-	for i in range(mini(_players.size(), 4)):
+	for i in range(mini(_players.size(), _player_count)):
 		if _display_health[i] > best_health:
 			best_health = _display_health[i]
 			best_index = i
 
-	for i in range(mini(_players.size(), 4)):
+	for i in range(mini(_players.size(), _player_count)):
 		var leader := _get_leader_label(i)
-		leader.visible = (i == best_index and _players.size() > 1 and best_health > 0.0)
+		leader.visible = (i == best_index and _player_count > 1 and best_health > 0.0)
 
 
 func _update_status(index: int, knocked: bool, eliminated: bool) -> void:
@@ -410,7 +410,7 @@ func _status_text(player: Node) -> String:
 
 
 func _update_stars() -> void:
-	for i in range(mini(_players.size(), 4)):
+	for i in range(mini(_players.size(), _player_count)):
 		var stars := _get_stars_label(i)
 		stars.text = _stars_text(RoundManager.get_wins(i + 1))
 
@@ -437,7 +437,7 @@ func _on_match_started() -> void:
 	_ko_flash = [0.0, 0.0, 0.0, 0.0]
 	_timer_label.scale = Vector2.ONE
 
-	for index in range(mini(_players.size(), 4)):
+	for index in range(mini(_players.size(), _player_count)):
 		var fill := _bar_fills[index]
 		if fill != null:
 			fill.bg_color = _bar_colors[index]
@@ -510,7 +510,7 @@ func _on_match_finished(_winner: Node) -> void:
 	_timer_label.text = "00:00"
 	_timer_label.scale = Vector2.ONE
 
-	for i in range(mini(_players.size(), 4)):
+	for i in range(mini(_players.size(), _player_count)):
 		_pop_stars(i)
 
 	if _idle_tween != null and _idle_tween.is_valid():
