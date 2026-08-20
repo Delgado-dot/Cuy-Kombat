@@ -1109,7 +1109,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 28
-text = "JUGADOR 1"
+text = "PLAYSTATION"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoOne/Padding/Content"]
@@ -1255,8 +1255,8 @@ theme_override_styles/panel = SubResource("StyleBox_key_p1")
 [node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoOne/Padding/Content/Bindings/Throw/Key"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
-theme_override_font_sizes/font_size = 19
-text = "R3"
+theme_override_font_sizes/font_size = 16
+text = "L1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1289,7 +1289,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.6, 0.55, 1)
 theme_override_font_sizes/font_size = 28
-text = "JUGADOR 2"
+text = "XBOX"
 horizontal_alignment = 1
 
 [node name="Bindings" type="VBoxContainer" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoTwo/Padding/Content"]
@@ -1434,9 +1434,9 @@ theme_override_styles/panel = SubResource("StyleBox_key_p2")
 
 [node name="Text" type="Label" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/Mandos/MandoTwo/Padding/Content/Bindings/Throw/Key"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.02, 0.02, 1)
-theme_override_font_sizes/font_size = 19
-text = "R3"
+theme_override_colors/font_color = Color(0.03, 0.08, 0.12, 1)
+theme_override_font_sizes/font_size = 16
+text = "LB"
 horizontal_alignment = 1
 vertical_alignment = 1
 
