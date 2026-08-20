@@ -105,6 +105,7 @@ func _on_player_count_pressed(count: int) -> void:
 	if count == _player_count:
 		return
 	_player_count = count
+	_gamepad_player = 0
 	MatchSettings.set_player_count(_player_count)
 	for i in range(4):
 		_player_ready[i] = false
@@ -115,6 +116,7 @@ func _on_player_count_pressed(count: int) -> void:
 	_rounds_selector.visible = false
 	_selection_section.visible = true
 	get_viewport().gui_release_focus()
+	_update_gamepad_player_label()
 
 
 func _update_player_count_buttons() -> void:
@@ -366,13 +368,82 @@ func _cycle_gamepad_player(dir: int) -> void:
 func _update_gamepad_player_label() -> void:
 	for i in range(4):
 		var hint := _get_hint_label(i + 1)
-		if hint == null:
-			continue
+		var header := _get_header_label(i + 1)
+		var card := _get_card(i + 1)
 		if i < _player_count and i == _gamepad_player:
-			hint.text = "ELEGIR: ◄ ► | LISTO: A"
+			hint.text = "ELEGIR: D-PAD ◄► | LISTO: A"
 			hint.add_theme_color_override("font_color", Color(1, 0.85, 0.25, 1))
+			hint.add_theme_font_size_override("font_size", 13)
+			if header != null:
+				var base_text := "JUGADOR %d" % (i + 1)
+				header.text = base_text + "  🎮"
+			if card != null:
+				_apply_active_card_style(card)
 		elif i < _player_count:
-			hint.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95, 0.85))
+			hint.text = _default_hint_text(i)
+			hint.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95, 0.65))
+			hint.add_theme_font_size_override("font_size", 11)
+			if header != null:
+				header.text = "JUGADOR %d" % (i + 1)
+			if card != null:
+				_apply_inactive_card_style(card, i)
+
+
+func _default_hint_text(p_idx: int) -> String:
+	match p_idx:
+		0: return "ELEGIR: A / D | LISTO: G"
+		1: return "ELEGIR: FLECHAS | LISTO: K"
+		2: return "ELEGIR: J / L | LISTO: N"
+		3: return "ELEGIR: NP4/6 | LISTO: NP1"
+	return ""
+
+
+func _apply_active_card_style(card: PanelContainer) -> void:
+	var style := StyleBoxFlat.new()
+	style.content_margin_left = 16.0
+	style.content_margin_top = 16.0
+	style.content_margin_right = 16.0
+	style.content_margin_bottom = 16.0
+	style.bg_color = Color(0.15, 0.1, 0.02, 0.3)
+	style.set_border_width_all(4)
+	style.border_color = Color(1, 0.8, 0.1, 1)
+	style.set_corner_radius_all(20)
+	style.shadow_color = Color(1, 0.75, 0, 0.4)
+	style.shadow_size = 12
+	style.shadow_offset = Vector2(0, 4)
+	card.add_theme_stylebox_override("panel", style)
+
+
+func _apply_inactive_card_style(card: PanelContainer, p_idx: int) -> void:
+	var border_color: Color
+	match p_idx:
+		0: border_color = Color(0.75, 0.3, 1, 0.9)
+		1: border_color = Color(0.36, 0.78, 1, 0.9)
+		2: border_color = Color(0.35, 1, 0.5, 0.9)
+		3: border_color = Color(1, 0.85, 0.25, 0.9)
+		_: border_color = Color(0.5, 0.5, 0.5, 0.5)
+	var style := StyleBoxFlat.new()
+	style.content_margin_left = 16.0
+	style.content_margin_top = 16.0
+	style.content_margin_right = 16.0
+	style.content_margin_bottom = 16.0
+	style.bg_color = Color(0.04, 0.07, 0.15, 0)
+	style.set_border_width_all(3)
+	style.border_color = border_color
+	style.set_corner_radius_all(20)
+	style.shadow_color = Color(0, 0, 0, 0.7)
+	style.shadow_size = 10
+	style.shadow_offset = Vector2(0, 5)
+	card.add_theme_stylebox_override("panel", style)
+
+
+func _get_header_label(player_num: int) -> Label:
+	match player_num:
+		1: return _p1_name_label.get_parent().get_node("../Header") as Label
+		2: return _p2_name_label.get_parent().get_node("../Header") as Label
+		3: return _p3_name_label.get_parent().get_node("../Header") as Label
+		4: return _p4_name_label.get_parent().get_node("../Header") as Label
+	return null
 
 
 func _get_hint_label(player_num: int) -> Label:
