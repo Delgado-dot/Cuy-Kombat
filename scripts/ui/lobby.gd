@@ -189,11 +189,11 @@ func _input(event: InputEvent) -> void:
 	# Skip character cycling when a count button has focus (let focus system handle navigation)
 	var count_focused := _has_count_button_focus()
 
-	# Gamepad: A button on count button activates it
+	# Gamepad: count button navigation (auto-selects on D-pad left/right via focus_entered)
 	if count_focused and event is InputEventJoypadButton and event.pressed:
-		if event.button_index == JOY_BUTTON_A:
+		if event.button_index == JOY_BUTTON_A or event.button_index == JOY_BUTTON_B:
 			get_viewport().set_input_as_handled()
-			_activate_focused_count_button()
+			get_viewport().gui_release_focus()
 			return
 		elif event.button_index == JOY_BUTTON_DPAD_LEFT:
 			get_viewport().set_input_as_handled()
@@ -386,6 +386,10 @@ func _setup_connections() -> void:
 	_count_2_button.pressed.connect(_on_player_count_pressed.bind(2))
 	_count_3_button.pressed.connect(_on_player_count_pressed.bind(3))
 	_count_4_button.pressed.connect(_on_player_count_pressed.bind(4))
+
+	_count_2_button.focus_entered.connect(_on_player_count_pressed.bind(2))
+	_count_3_button.focus_entered.connect(_on_player_count_pressed.bind(3))
+	_count_4_button.focus_entered.connect(_on_player_count_pressed.bind(4))
 
 
 func _cycle_gamepad_player(dir: int) -> void:
@@ -675,16 +679,6 @@ func _ensure_navigation_actions() -> void:
 func _has_count_button_focus() -> bool:
 	var owner := get_viewport().gui_get_focus_owner()
 	return owner == _count_2_button or owner == _count_3_button or owner == _count_4_button
-
-
-func _activate_focused_count_button() -> void:
-	var owner := get_viewport().gui_get_focus_owner()
-	if owner == _count_2_button:
-		_on_player_count_pressed(2)
-	elif owner == _count_3_button:
-		_on_player_count_pressed(3)
-	elif owner == _count_4_button:
-		_on_player_count_pressed(4)
 
 
 func _navigate_count_button(dir: int) -> void:
