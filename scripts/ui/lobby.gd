@@ -12,6 +12,8 @@ var _p2_axis_neutral := true
 var _p3_axis_neutral := true
 var _p4_axis_neutral := true
 
+var _gamepad_player := 0
+
 @onready var _p1_name_label := %P1NameLabel as Label
 @onready var _p2_name_label := %P2NameLabel as Label
 @onready var _p3_name_label := %P3NameLabel as Label
@@ -48,6 +50,10 @@ var _p4_axis_neutral := true
 @onready var _count_2_button := %Count2Button as Button
 @onready var _count_3_button := %Count3Button as Button
 @onready var _count_4_button := %Count4Button as Button
+@onready var _p1_hint_label := %P1Hint as Label
+@onready var _p2_hint_label := %P2Hint as Label
+@onready var _p3_hint_label := %P3Hint as Label
+@onready var _p4_hint_label := %P4Hint as Label
 
 var _selected_max_rounds := MatchSettings.DEFAULT_MAX_ROUNDS
 
@@ -79,6 +85,8 @@ func _ready() -> void:
 		3: _count_3_button.grab_focus()
 		4: _count_4_button.grab_focus()
 		_: _count_2_button.grab_focus()
+
+	_update_gamepad_player_label()
 
 	MusicManager.play_menu_music()
 
@@ -180,7 +188,55 @@ func _input(event: InputEvent) -> void:
 	# Skip character cycling when a count button has focus (let focus system handle navigation)
 	var count_focused := _has_count_button_focus()
 
-	# P1 Selection (WASD / A / D / Joypad 0)
+	# Gamepad: L1/R1 switches active player
+	if event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_LEFT_SHOULDER:
+			get_viewport().set_input_as_handled()
+			_cycle_gamepad_player(-1)
+			return
+		elif event.button_index == JOY_BUTTON_RIGHT_SHOULDER:
+			get_viewport().set_input_as_handled()
+			_cycle_gamepad_player(1)
+			return
+
+	# Gamepad character cycling for active player (D-pad / stick)
+	if not count_focused and event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_DPAD_LEFT:
+			if _gamepad_player < _player_count and not _player_ready[_gamepad_player]:
+				get_viewport().set_input_as_handled()
+				_cycle_character(_gamepad_player + 1, -1)
+				return
+		elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
+			if _gamepad_player < _player_count and not _player_ready[_gamepad_player]:
+				get_viewport().set_input_as_handled()
+				_cycle_character(_gamepad_player + 1, 1)
+				return
+	elif not count_focused and event is InputEventJoypadMotion:
+		if event.axis == JOY_AXIS_LEFT_X:
+			var neutral_key := "_p%d_axis_neutral" % (_gamepad_player + 1)
+			var is_neutral: bool = get(neutral_key)
+			if event.axis_value < -0.5 and is_neutral:
+				if _gamepad_player < _player_count and not _player_ready[_gamepad_player]:
+					set(neutral_key, false)
+					_cycle_character(_gamepad_player + 1, -1)
+					return
+			elif event.axis_value > 0.5 and is_neutral:
+				if _gamepad_player < _player_count and not _player_ready[_gamepad_player]:
+					set(neutral_key, false)
+					_cycle_character(_gamepad_player + 1, 1)
+					return
+			elif absf(event.axis_value) < 0.2:
+				set(neutral_key, true)
+
+	# Gamepad ready toggle (A button for active player)
+	if not count_focused and event is InputEventJoypadButton and event.pressed:
+		if event.button_index == JOY_BUTTON_A:
+			if _gamepad_player < _player_count:
+				get_viewport().set_input_as_handled()
+				_toggle_ready(_gamepad_player + 1)
+				return
+
+	# P1 Selection (WASD keyboard)
 	if not count_focused and not _player_ready[0]:
 		var p1_dir := 0
 		if event is InputEventKey and event.pressed:
@@ -188,28 +244,13 @@ func _input(event: InputEvent) -> void:
 				p1_dir = -1
 			elif event.keycode == KEY_D:
 				p1_dir = 1
-		elif event is InputEventJoypadButton and event.device == 0 and event.pressed:
-			if event.button_index == JOY_BUTTON_DPAD_LEFT:
-				p1_dir = -1
-			elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
-				p1_dir = 1
-		elif event is InputEventJoypadMotion and event.device == 0:
-			if event.axis == JOY_AXIS_LEFT_X:
-				if event.axis_value < -0.5 and _p1_axis_neutral:
-					p1_dir = -1
-					_p1_axis_neutral = false
-				elif event.axis_value > 0.5 and _p1_axis_neutral:
-					p1_dir = 1
-					_p1_axis_neutral = false
-				elif absf(event.axis_value) < 0.2:
-					_p1_axis_neutral = true
 
 		if p1_dir != 0:
 			get_viewport().set_input_as_handled()
 			_cycle_character(1, p1_dir)
 			return
 
-	# P2 Selection (Arrows / Left / Right / Joypad 1)
+	# P2 Selection (Arrows keyboard)
 	if not count_focused and not _player_ready[1]:
 		var p2_dir := 0
 		if event is InputEventKey and event.pressed:
@@ -217,28 +258,13 @@ func _input(event: InputEvent) -> void:
 				p2_dir = -1
 			elif event.keycode == KEY_RIGHT:
 				p2_dir = 1
-		elif event is InputEventJoypadButton and event.device == 1 and event.pressed:
-			if event.button_index == JOY_BUTTON_DPAD_LEFT:
-				p2_dir = -1
-			elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
-				p2_dir = 1
-		elif event is InputEventJoypadMotion and event.device == 1:
-			if event.axis == JOY_AXIS_LEFT_X:
-				if event.axis_value < -0.5 and _p2_axis_neutral:
-					p2_dir = -1
-					_p2_axis_neutral = false
-				elif event.axis_value > 0.5 and _p2_axis_neutral:
-					p2_dir = 1
-					_p2_axis_neutral = false
-				elif absf(event.axis_value) < 0.2:
-					_p2_axis_neutral = true
 
 		if p2_dir != 0:
 			get_viewport().set_input_as_handled()
 			_cycle_character(2, p2_dir)
 			return
 
-	# P3 Selection (IJKL / J / L / Joypad 2)
+	# P3 Selection (IJKL keyboard)
 	if not count_focused and _player_count >= 3 and not _player_ready[2]:
 		var p3_dir := 0
 		if event is InputEventKey and event.pressed:
@@ -246,28 +272,13 @@ func _input(event: InputEvent) -> void:
 				p3_dir = -1
 			elif event.keycode == KEY_L:
 				p3_dir = 1
-		elif event is InputEventJoypadButton and event.device == 2 and event.pressed:
-			if event.button_index == JOY_BUTTON_DPAD_LEFT:
-				p3_dir = -1
-			elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
-				p3_dir = 1
-		elif event is InputEventJoypadMotion and event.device == 2:
-			if event.axis == JOY_AXIS_LEFT_X:
-				if event.axis_value < -0.5 and _p3_axis_neutral:
-					p3_dir = -1
-					_p3_axis_neutral = false
-				elif event.axis_value > 0.5 and _p3_axis_neutral:
-					p3_dir = 1
-					_p3_axis_neutral = false
-				elif absf(event.axis_value) < 0.2:
-					_p3_axis_neutral = true
 
 		if p3_dir != 0:
 			get_viewport().set_input_as_handled()
 			_cycle_character(3, p3_dir)
 			return
 
-	# P4 Selection (Numpad 4/6 / Joypad 3)
+	# P4 Selection (Numpad 4/6 keyboard)
 	if not count_focused and _player_count >= 4 and not _player_ready[3]:
 		var p4_dir := 0
 		if event is InputEventKey and event.pressed:
@@ -275,43 +286,27 @@ func _input(event: InputEvent) -> void:
 				p4_dir = -1
 			elif event.keycode == KEY_KP_6:
 				p4_dir = 1
-		elif event is InputEventJoypadButton and event.device == 3 and event.pressed:
-			if event.button_index == JOY_BUTTON_DPAD_LEFT:
-				p4_dir = -1
-			elif event.button_index == JOY_BUTTON_DPAD_RIGHT:
-				p4_dir = 1
-		elif event is InputEventJoypadMotion and event.device == 3:
-			if event.axis == JOY_AXIS_LEFT_X:
-				if event.axis_value < -0.5 and _p4_axis_neutral:
-					p4_dir = -1
-					_p4_axis_neutral = false
-				elif event.axis_value > 0.5 and _p4_axis_neutral:
-					p4_dir = 1
-					_p4_axis_neutral = false
-				elif absf(event.axis_value) < 0.2:
-					_p4_axis_neutral = true
 
 		if p4_dir != 0:
 			get_viewport().set_input_as_handled()
 			_cycle_character(4, p4_dir)
 			return
 
-	# Ready toggles
-	if event.is_action_pressed("grab_p1") or (event is InputEventKey and event.pressed and event.keycode == KEY_G):
-		get_viewport().set_input_as_handled()
-		_toggle_ready(1)
-		return
-	elif event.is_action_pressed("grab_p2") or (event is InputEventKey and event.pressed and event.keycode == KEY_K):
-		get_viewport().set_input_as_handled()
-		_toggle_ready(2)
-		return
-	elif event.is_action_pressed("grab_p3") or (event is InputEventKey and event.pressed and event.keycode == KEY_N):
-		if _player_count >= 3:
+	# Keyboard ready toggles
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_G:
+			get_viewport().set_input_as_handled()
+			_toggle_ready(1)
+			return
+		elif event.keycode == KEY_K:
+			get_viewport().set_input_as_handled()
+			_toggle_ready(2)
+			return
+		elif event.keycode == KEY_N and _player_count >= 3:
 			get_viewport().set_input_as_handled()
 			_toggle_ready(3)
 			return
-	elif event.is_action_pressed("grab_p4") or (event is InputEventKey and event.pressed and event.keycode == KEY_KP_1):
-		if _player_count >= 4:
+		elif event.keycode == KEY_KP_1 and _player_count >= 4:
 			get_viewport().set_input_as_handled()
 			_toggle_ready(4)
 			return
@@ -361,6 +356,32 @@ func _setup_connections() -> void:
 	_count_2_button.pressed.connect(_on_player_count_pressed.bind(2))
 	_count_3_button.pressed.connect(_on_player_count_pressed.bind(3))
 	_count_4_button.pressed.connect(_on_player_count_pressed.bind(4))
+
+
+func _cycle_gamepad_player(dir: int) -> void:
+	_gamepad_player = posmod(_gamepad_player + dir, _player_count)
+	_update_gamepad_player_label()
+
+
+func _update_gamepad_player_label() -> void:
+	for i in range(4):
+		var hint := _get_hint_label(i + 1)
+		if hint == null:
+			continue
+		if i < _player_count and i == _gamepad_player:
+			hint.text = "ELEGIR: ◄ ► | LISTO: A"
+			hint.add_theme_color_override("font_color", Color(1, 0.85, 0.25, 1))
+		elif i < _player_count:
+			hint.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95, 0.85))
+
+
+func _get_hint_label(player_num: int) -> Label:
+	match player_num:
+		1: return _p1_hint_label
+		2: return _p2_hint_label
+		3: return _p3_hint_label
+		4: return _p4_hint_label
+	return null
 
 
 func _cycle_character(player_num: int, dir: int) -> void:

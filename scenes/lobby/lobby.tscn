@@ -424,6 +424,7 @@ omni_range = 6.0
 unique_name_in_owner = true
 
 [node name="P1Hint" type="Label" parent="SelectionSection/PlayersRow/P1Card/Content" unique_id=568538220]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
 theme_override_font_sizes/font_size = 11
@@ -533,6 +534,7 @@ omni_range = 6.0
 unique_name_in_owner = true
 
 [node name="P2Hint" type="Label" parent="SelectionSection/PlayersRow/P2Card/Content" unique_id=1644597851]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
 theme_override_font_sizes/font_size = 11
@@ -643,6 +645,7 @@ omni_range = 6.0
 unique_name_in_owner = true
 
 [node name="P3Hint" type="Label" parent="SelectionSection/PlayersRow/P3Card/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
 theme_override_font_sizes/font_size = 11
@@ -753,6 +756,7 @@ omni_range = 6.0
 unique_name_in_owner = true
 
 [node name="P4Hint" type="Label" parent="SelectionSection/PlayersRow/P4Card/Content"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.85, 0.95, 0.85)
 theme_override_font_sizes/font_size = 11
