@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/vfx/debris_fragment.gd" id="1_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fragment"]
+size = Vector3(0.12, 0.12, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fragment"]
+size = Vector3(0.12, 0.12, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="Material_fragment"]
+albedo_color = Color(0.62, 0.38, 0.18, 1)
+roughness = 0.9
+
+[node name="DebrisFragment" type="RigidBody3D"]
+mass = 0.4
+friction = 0.8
+bounce = 0.25
+linear_damp = 0.4
+angular_damp = 1.0
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fragment")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_fragment")
+surface_material_override/0 = SubResource("Material_fragment")
