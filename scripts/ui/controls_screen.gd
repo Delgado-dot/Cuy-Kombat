@@ -175,22 +175,7 @@ func _update_keyboard_pair() -> void:
 	var players := _get_content_node("Players")
 	for child in players.get_children():
 		if child is Control:
-			child.visible = false
-
-	if _keyboard_pair == 0:
-		var p1 := players.get_node_or_null("PlayerOne") as Control
-		var p2 := players.get_node_or_null("PlayerTwo") as Control
-		if p1 != null:
-			p1.visible = true
-		if p2 != null:
-			p2.visible = true
-	else:
-		var p3 := players.get_node_or_null("PlayerThree") as Control
-		var p4 := players.get_node_or_null("PlayerFour") as Control
-		if p3 != null:
-			p3.visible = true
-		if p4 != null:
-			p4.visible = true
+			child.visible = true
 
 
 
