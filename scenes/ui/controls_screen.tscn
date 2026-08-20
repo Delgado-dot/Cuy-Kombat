@@ -1471,3 +1471,16 @@ theme_override_styles/normal = SubResource("StyleBox_button")
 theme_override_styles/hover = SubResource("StyleBox_button_hover")
 theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
 text = "CONTROLES CON MANDO  →"
+
+[node name="PairNavButton" type="Button" parent="ControlsScreen/Margin/Center/Panel/Padding/Content/ButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.94, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBox_button")
+theme_override_styles/hover = SubResource("StyleBox_button_hover")
+theme_override_styles/pressed = SubResource("StyleBox_button_pressed")
+text = "JUGADORES 3 Y 4  →"

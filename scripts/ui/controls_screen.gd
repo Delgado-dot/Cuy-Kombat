@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var _controls_root := %ControlsScreen as Control
 @onready var _back_button := %ControlsBackButton as Button
 @onready var _gamepad_nav_button := %GamepadNavButton as Button
+@onready var _pair_nav_button := %PairNavButton as Button
 @onready var _scroll_container := %ControlsScreen/Margin/Center as ScrollContainer
 
 var _open_button: Button
@@ -24,6 +25,7 @@ func _ready() -> void:
 	_back_button.mouse_entered.connect(_animate_back_button_hover.bind(true))
 	_back_button.mouse_exited.connect(_animate_back_button_hover.bind(false))
 	_gamepad_nav_button.pressed.connect(_toggle_controls_page)
+	_pair_nav_button.pressed.connect(_toggle_pair)
 
 	_open_button = get_node_or_null(open_button_path) as Button if not open_button_path.is_empty() else null
 	if _open_button != null:
@@ -146,6 +148,7 @@ func _show_keyboard_page() -> void:
 	_apply_keyboard_visual_style()
 	_gamepad_nav_button.text = "CONTROLES CON MANDO  →"
 	_gamepad_nav_button.grab_focus()
+	_pair_nav_button.visible = true
 	_update_keyboard_pair()
 	_reset_scroll()
 
@@ -155,6 +158,7 @@ func _show_gamepad_page() -> void:
 	_set_gamepad_content_visible(true)
 	_gamepad_nav_button.text = "←  CONTROLES DE TECLADO"
 	_gamepad_nav_button.grab_focus()
+	_pair_nav_button.visible = false
 	_reset_scroll()
 
 
@@ -175,7 +179,30 @@ func _update_keyboard_pair() -> void:
 	var players := _get_content_node("Players")
 	for child in players.get_children():
 		if child is Control:
-			child.visible = true
+			child.visible = false
+
+	if _keyboard_pair == 0:
+		var p1 := players.get_node_or_null("PlayerOne") as Control
+		var p2 := players.get_node_or_null("PlayerTwo") as Control
+		if p1 != null:
+			p1.visible = true
+		if p2 != null:
+			p2.visible = true
+		_pair_nav_button.text = "JUGADORES 3 Y 4  →"
+	else:
+		var p3 := players.get_node_or_null("PlayerThree") as Control
+		var p4 := players.get_node_or_null("PlayerFour") as Control
+		if p3 != null:
+			p3.visible = true
+		if p4 != null:
+			p4.visible = true
+		_pair_nav_button.text = "←  JUGADORES 1 Y 2"
+
+
+func _toggle_pair() -> void:
+	_keyboard_pair = 1 - _keyboard_pair
+	_update_keyboard_pair()
+	_reset_scroll()
 
 
 
@@ -326,6 +353,7 @@ func _replace_move_key_with_cluster(key_path: String, key_labels: Array[String])
 func _apply_bottom_button_styles() -> void:
 	_apply_button_style(_back_button, Color(1, 0.64, 0.04, 0.96), Color(1, 0.9, 0.35, 1), Color(0.08, 0.05, 0.01, 1))
 	_apply_button_style(_gamepad_nav_button, Color(0.04, 0.32, 0.7, 0.94), Color(0.3, 0.78, 1, 1), Color(1, 1, 1, 1))
+	_apply_button_style(_pair_nav_button, Color(0.32, 0.12, 0.56, 0.94), Color(0.75, 0.48, 1, 1), Color(1, 1, 1, 1))
 
 
 func _apply_button_style(button: Button, background: Color, border: Color, text_color: Color) -> void:
@@ -410,6 +438,7 @@ func _apply_arcade_text_style() -> void:
 	if fight_font != null:
 		_back_button.add_theme_font_override("font", fight_font)
 		_gamepad_nav_button.add_theme_font_override("font", fight_font)
+		_pair_nav_button.add_theme_font_override("font", fight_font)
 	_back_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
 	_back_button.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
 	_back_button.add_theme_color_override("font_pressed_color", Color(0.78, 0.82, 0.9, 1))
@@ -420,3 +449,6 @@ func _apply_arcade_text_style() -> void:
 	_gamepad_nav_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
 	_gamepad_nav_button.add_theme_color_override("font_outline_color", Color(0.05, 0.06, 0.08, 1))
 	_gamepad_nav_button.add_theme_constant_override("outline_size", 2)
+	_pair_nav_button.add_theme_color_override("font_color", Color(0.94, 0.96, 1, 1))
+	_pair_nav_button.add_theme_color_override("font_outline_color", Color(0.05, 0.06, 0.08, 1))
+	_pair_nav_button.add_theme_constant_override("outline_size", 2)
