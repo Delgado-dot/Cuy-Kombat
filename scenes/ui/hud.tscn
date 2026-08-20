@@ -159,7 +159,7 @@ text = "★"
 
 [node name="P1Bar" type="ProgressBar" parent="HudRoot/PlayerOnePanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p1")
@@ -237,7 +237,7 @@ script = ExtResource("2_cuyicon")
 
 [node name="P2Bar" type="ProgressBar" parent="HudRoot/PlayerTwoPanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p2")
@@ -313,7 +313,7 @@ text = "★"
 
 [node name="P3Bar" type="ProgressBar" parent="HudRoot/PlayerThreePanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p3")
@@ -393,7 +393,7 @@ script = ExtResource("2_cuyicon")
 
 [node name="P4Bar" type="ProgressBar" parent="HudRoot/PlayerFourPanel"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBox_bar_bg")
 theme_override_styles/fill = SubResource("StyleBox_bar_fill_p4")
