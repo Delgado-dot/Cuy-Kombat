@@ -74,6 +74,12 @@ func _ready() -> void:
 		_update_player_display(i)
 	_apply_round_selection(MatchSettings.max_rounds, false)
 
+	_ensure_navigation_actions()
+	match _player_count:
+		3: _count_3_button.grab_focus()
+		4: _count_4_button.grab_focus()
+		_: _count_2_button.grab_focus()
+
 	MusicManager.play_menu_music()
 
 
@@ -138,6 +144,13 @@ func _apply_count_button_style(btn: Button, selected: bool) -> void:
 		style.border_width_bottom = 3
 		style.border_color = Color(0.3, 0.58, 0.84, 1)
 	btn.add_theme_stylebox_override("normal", style)
+	var focus_style := style.duplicate() as StyleBoxFlat
+	focus_style.border_color = Color(0.3, 0.85, 1.0, 1)
+	focus_style.border_width_left = 4
+	focus_style.border_width_top = 4
+	focus_style.border_width_right = 4
+	focus_style.border_width_bottom = 4
+	btn.add_theme_stylebox_override("focus", focus_style)
 
 
 func _process(delta: float) -> void:
@@ -161,6 +174,10 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if _rounds_selector.visible:
+		return
+
+	# Skip character cycling when a count button has focus (let focus system handle navigation)
+	if _has_count_button_focus():
 		return
 
 	# P1 Selection (WASD / A / D / Joypad 0)
@@ -524,3 +541,58 @@ func _get_next_btn(player_num: int) -> Button:
 		3: return _p3_next_btn
 		4: return _p4_next_btn
 	return _p1_next_btn
+
+
+func _ensure_navigation_actions() -> void:
+	_ensure_navigation_action("ui_up", KEY_UP, JoyButton.JOY_BUTTON_DPAD_UP, JoyAxis.JOY_AXIS_LEFT_Y, -1.0)
+	_ensure_navigation_action("ui_down", KEY_DOWN, JoyButton.JOY_BUTTON_DPAD_DOWN, JoyAxis.JOY_AXIS_LEFT_Y, 1.0)
+	_ensure_navigation_action("ui_left", KEY_LEFT, JoyButton.JOY_BUTTON_DPAD_LEFT, JoyAxis.JOY_AXIS_LEFT_X, -1.0)
+	_ensure_navigation_action("ui_right", KEY_RIGHT, JoyButton.JOY_BUTTON_DPAD_RIGHT, JoyAxis.JOY_AXIS_LEFT_X, 1.0)
+	_ensure_focus_action("ui_focus_next", KEY_TAB, JoyButton.JOY_BUTTON_RIGHT_SHOULDER)
+	_ensure_focus_action("ui_focus_prev", KEY_TAB, JoyButton.JOY_BUTTON_LEFT_SHOULDER, true)
+
+
+func _has_count_button_focus() -> bool:
+	var owner := get_viewport().gui_get_focus_owner()
+	return owner == _count_2_button or owner == _count_3_button or owner == _count_4_button
+
+
+func _ensure_navigation_action(action: StringName, key: Key, joy_button: JoyButton, axis: JoyAxis, axis_value: float) -> void:
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	_ensure_event(action, _navigation_key_event(key))
+	_ensure_event(action, _navigation_joy_button_event(joy_button))
+	_ensure_event(action, _navigation_joy_motion_event(axis, axis_value))
+
+
+func _ensure_focus_action(action: StringName, key: Key, joy_button: JoyButton, shift_pressed := false) -> void:
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	var key_event := _navigation_key_event(key)
+	key_event.shift_pressed = shift_pressed
+	_ensure_event(action, key_event)
+	_ensure_event(action, _navigation_joy_button_event(joy_button))
+
+
+func _ensure_event(action: StringName, event: InputEvent) -> void:
+	if not InputMap.action_has_event(action, event):
+		InputMap.action_add_event(action, event)
+
+
+func _navigation_key_event(keycode: Key) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	return event
+
+
+func _navigation_joy_button_event(button: JoyButton) -> InputEventJoypadButton:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button
+	return event
+
+
+func _navigation_joy_motion_event(axis: JoyAxis, axis_value: float) -> InputEventJoypadMotion:
+	var event := InputEventJoypadMotion.new()
+	event.axis = axis
+	event.axis_value = axis_value
+	return event
