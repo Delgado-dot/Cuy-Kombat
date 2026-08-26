@@ -1,6 +1,7 @@
 # Godot 4.x generated files
 .godot/
 .import/
+*.import
 export.cfg
 export_presets.cfg
 
