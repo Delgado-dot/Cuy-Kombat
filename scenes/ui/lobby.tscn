@@ -1,0 +1,1106 @@
+[gd_scene load_steps=46 format=3]
+
+[ext_resource type="PackedScene" path="res://entities/player/visuals/cuy_base.tscn" id="1_cuy"]
+
+[sub_resource type="StandardMaterial3D" id="MatMadera"]
+albedo_color = Color(0.27, 0.105, 0.04, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="MatMaderaClara"]
+albedo_color = Color(0.43, 0.22, 0.075, 1)
+roughness = 0.84
+
+[sub_resource type="StandardMaterial3D" id="MatJuntaMadera"]
+albedo_color = Color(0.095, 0.035, 0.025, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="MatPiedra"]
+albedo_color = Color(0.27, 0.255, 0.235, 1)
+roughness = 0.94
+
+[sub_resource type="StandardMaterial3D" id="MatPiedraClara"]
+albedo_color = Color(0.43, 0.4, 0.34, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="MatTeja"]
+albedo_color = Color(0.34, 0.15, 0.045, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="MatPaja"]
+albedo_color = Color(0.43, 0.245, 0.075, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatRocaFlotante"]
+albedo_color = Color(0.12, 0.085, 0.075, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatAmarillo"]
+albedo_color = Color(0.82, 0.58, 0.045, 1)
+roughness = 0.75
+
+[sub_resource type="StandardMaterial3D" id="MatAzul"]
+albedo_color = Color(0.035, 0.25, 0.68, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="MatRojo"]
+albedo_color = Color(0.82, 0.045, 0.06, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="MatFarol"]
+albedo_color = Color(1, 0.55, 0.1, 1)
+roughness = 0.28
+emission_enabled = true
+emission = Color(1, 0.3, 0.035, 1)
+emission_energy_multiplier = 1.35
+
+[sub_resource type="StandardMaterial3D" id="MatMetal"]
+albedo_color = Color(0.045, 0.035, 0.04, 1)
+roughness = 0.68
+
+[sub_resource type="StandardMaterial3D" id="MatCesped"]
+albedo_color = Color(0.15, 0.34, 0.12, 1)
+roughness = 0.94
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaCerca"]
+albedo_color = Color(0.11, 0.22, 0.2, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatMontanaLejos"]
+albedo_color = Color(0.13, 0.14, 0.25, 1)
+roughness = 0.98
+
+[sub_resource type="StandardMaterial3D" id="MatNieve"]
+albedo_color = Color(0.82, 0.82, 0.78, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="MatCasaCrema"]
+albedo_color = Color(0.72, 0.59, 0.4, 1)
+roughness = 0.92
+
+[sub_resource type="StandardMaterial3D" id="MatVentana"]
+albedo_color = Color(1, 0.5, 0.08, 1)
+emission_enabled = true
+emission = Color(1, 0.25, 0.025, 1)
+emission_energy_multiplier = 2.2
+
+[sub_resource type="StandardMaterial3D" id="MatSlotRosa"]
+albedo_color = Color(1, 0.16, 0.55, 1)
+emission_enabled = true
+emission = Color(0.55, 0.025, 0.18, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="MatSlotAzul"]
+albedo_color = Color(0.08, 0.62, 1, 1)
+emission_enabled = true
+emission = Color(0.025, 0.22, 0.55, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="MatSlotVacio"]
+albedo_color = Color(0.22, 0.18, 0.23, 1)
+roughness = 0.92
+
+[sub_resource type="CylinderMesh" id="MeshPlataforma"]
+material = SubResource("MatMadera")
+top_radius = 7.1
+bottom_radius = 7.35
+height = 0.7
+radial_segments = 32
+rings = 1
+
+[sub_resource type="TorusMesh" id="MeshAroMadera"]
+material = SubResource("MatMaderaClara")
+inner_radius = 6.65
+outer_radius = 7.25
+rings = 32
+ring_segments = 10
+
+[sub_resource type="BoxMesh" id="MeshJuntaTablon"]
+material = SubResource("MatJuntaMadera")
+size = Vector3(0.045, 0.025, 5.1)
+
+[sub_resource type="CylinderMesh" id="MeshFaldonFlotante"]
+material = SubResource("MatRocaFlotante")
+top_radius = 6.9
+bottom_radius = 3.9
+height = 3.3
+radial_segments = 12
+rings = 1
+
+[sub_resource type="PrismMesh" id="MeshPuntaRoca"]
+material = SubResource("MatRocaFlotante")
+size = Vector3(2.2, 3.8, 1.5)
+
+[sub_resource type="CylinderMesh" id="MeshCentroPiedra"]
+material = SubResource("MatPiedra")
+top_radius = 2.55
+bottom_radius = 2.65
+height = 0.24
+radial_segments = 20
+rings = 1
+
+[sub_resource type="TorusMesh" id="MeshAroPiedra"]
+material = SubResource("MatPiedraClara")
+inner_radius = 2.38
+outer_radius = 2.75
+rings = 24
+ring_segments = 8
+
+[sub_resource type="BoxMesh" id="MeshTextil"]
+size = Vector3(0.58, 0.055, 4.25)
+
+[sub_resource type="BoxMesh" id="MeshTextilColgante"]
+size = Vector3(2.2, 0.72, 0.1)
+
+[sub_resource type="CylinderMesh" id="MeshColumna"]
+material = SubResource("MatMaderaClara")
+top_radius = 0.2
+bottom_radius = 0.28
+height = 5.9
+radial_segments = 10
+rings = 1
+
+[sub_resource type="BoxMesh" id="MeshVigaHorizontal"]
+material = SubResource("MatMaderaClara")
+size = Vector3(13.2, 0.42, 0.42)
+
+[sub_resource type="BoxMesh" id="MeshVigaLateral"]
+material = SubResource("MatMaderaClara")
+size = Vector3(0.42, 0.42, 7.2)
+
+[sub_resource type="BoxMesh" id="MeshTablonTecho"]
+material = SubResource("MatPaja")
+size = Vector3(2.0, 0.24, 5.0)
+
+[sub_resource type="BoxMesh" id="MeshFaldonTecho"]
+material = SubResource("MatPaja")
+size = Vector3(13.8, 0.3, 4.35)
+
+[sub_resource type="CylinderMesh" id="MeshTechoKiosco"]
+material = SubResource("MatTeja")
+top_radius = 4.8
+bottom_radius = 7.35
+height = 0.78
+radial_segments = 8
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshCupulaKiosco"]
+material = SubResource("MatAmarillo")
+top_radius = 0.0
+bottom_radius = 0.72
+height = 1.4
+radial_segments = 10
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshPosteFarol"]
+material = SubResource("MatMetal")
+top_radius = 0.055
+bottom_radius = 0.075
+height = 1.5
+radial_segments = 8
+rings = 1
+
+[sub_resource type="SphereMesh" id="MeshFarol"]
+material = SubResource("MatFarol")
+radius = 0.2
+height = 0.45
+radial_segments = 10
+rings = 6
+
+[sub_resource type="CylinderMesh" id="MeshPedestal"]
+top_radius = 1.15
+bottom_radius = 1.3
+height = 0.22
+radial_segments = 24
+rings = 1
+
+[sub_resource type="CapsuleMesh" id="MeshSilueta"]
+material = SubResource("MatSlotVacio")
+radius = 0.52
+height = 1.65
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="MeshMontana"]
+material = SubResource("MatMontanaCerca")
+top_radius = 0.08
+bottom_radius = 7.5
+height = 17.5
+radial_segments = 7
+rings = 1
+
+[sub_resource type="CylinderMesh" id="MeshMontanaLejana"]
+material = SubResource("MatMontanaLejos")
+top_radius = 0.05
+bottom_radius = 6.0
+height = 13.0
+radial_segments = 6
+rings = 1
+
+[sub_resource type="SphereMesh" id="MeshLomaAndina"]
+material = SubResource("MatMontanaCerca")
+radius = 5.0
+height = 7.0
+radial_segments = 12
+rings = 6
+
+[sub_resource type="CylinderMesh" id="MeshNieve"]
+material = SubResource("MatNieve")
+top_radius = 0.03
+bottom_radius = 2.0
+height = 3.2
+radial_segments = 7
+rings = 1
+
+[sub_resource type="BoxMesh" id="MeshCasa"]
+material = SubResource("MatCasaCrema")
+size = Vector3(3.4, 2.25, 2.2)
+
+[sub_resource type="BoxMesh" id="MeshTechoCasa"]
+material = SubResource("MatTeja")
+size = Vector3(3.8, 0.36, 2.65)
+
+[sub_resource type="BoxMesh" id="MeshVentana"]
+material = SubResource("MatVentana")
+size = Vector3(0.38, 0.48, 0.08)
+
+[sub_resource type="BoxMesh" id="MeshFranjaBandera"]
+size = Vector3(1.35, 0.28, 0.07)
+
+[sub_resource type="Shader" id="ShaderCieloLobby"]
+code = "shader_type sky;\n\nvoid sky() {\n    float h = clamp(EYEDIR.y * 0.5 + 0.5, 0.0, 1.0);\n    vec3 zenith = vec3(0.055, 0.08, 0.26);\n    vec3 upper = vec3(0.25, 0.22, 0.42);\n    vec3 horizon = vec3(0.95, 0.61, 0.31);\n    vec3 low = vec3(0.17, 0.08, 0.17);\n    vec3 color = mix(low, horizon, smoothstep(0.2, 0.48, h));\n    color = mix(color, upper, smoothstep(0.48, 0.72, h));\n    color = mix(color, zenith, smoothstep(0.72, 1.0, h));\n    float sun = pow(max(dot(normalize(EYEDIR), normalize(vec3(-0.55, 0.15, -0.82))), 0.0), 96.0);\n    COLOR = color + vec3(1.0, 0.55, 0.2) * sun * 1.45;\n}"
+
+[sub_resource type="ShaderMaterial" id="SkyMaterial"]
+shader = SubResource("ShaderCieloLobby")
+
+[sub_resource type="Sky" id="SkyLobby"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="EnvironmentLobby"]
+background_mode = 2
+sky = SubResource("SkyLobby")
+background_energy_multiplier = 0.82
+ambient_light_source = 3
+ambient_light_color = Color(0.46, 0.38, 0.58, 1)
+ambient_light_energy = 0.58
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.94
+glow_enabled = true
+glow_intensity = 0.4
+glow_bloom = 0.08
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.48, 0.25, 0.3, 1)
+fog_light_energy = 0.62
+fog_density = 0.004
+fog_depth_begin = 38.0
+fog_depth_end = 150.0
+fog_aerial_perspective = 0.7
+
+[sub_resource type="SystemFont" id="FontTitle"]
+font_names = PackedStringArray("Arial Black", "Arial", "sans-serif")
+font_weight = 900
+
+[sub_resource type="SystemFont" id="FontUI"]
+font_names = PackedStringArray("Arial", "sans-serif")
+font_weight = 800
+
+[sub_resource type="StyleBoxFlat" id="PanelTop"]
+bg_color = Color(0.018, 0.022, 0.065, 0.16)
+
+[sub_resource type="StyleBoxFlat" id="PanelSlot"]
+bg_color = Color(0.025, 0.03, 0.09, 0.46)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.42, 0.68, 0.72)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="ButtonReady"]
+bg_color = Color(0.9, 0.62, 0.035, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.84, 0.22, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="ButtonBack"]
+bg_color = Color(0.31, 0.12, 0.045, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.74, 0.37, 0.12, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[node name="Lobby" type="Node3D"]
+editor_description = "Lobby visual estatico de Cuy Kombat inspirado en un kiosco andino ecuatoriano."
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("EnvironmentLobby")
+
+[node name="Escenario3D" type="Node3D" parent="."]
+position = Vector3(0, 0.75, 0)
+
+[node name="PlataformaLobby" type="Node3D" parent="Escenario3D"]
+position = Vector3(0, 1.3, 0)
+scale = Vector3(1.52, 1.0, 1.12)
+
+[node name="BaseCircular" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby"]
+mesh = SubResource("MeshPlataforma")
+
+[node name="AroExterior" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby"]
+position = Vector3(0, 0.33, 0)
+mesh = SubResource("MeshAroMadera")
+
+[node name="FaldonFlotante" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby"]
+position = Vector3(0, -1.95, 0)
+mesh = SubResource("MeshFaldonFlotante")
+
+[node name="PuntasRocosas" type="Node3D" parent="Escenario3D/PlataformaLobby"]
+
+[node name="Punta01" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/PuntasRocosas"]
+position = Vector3(-4.6, -3.2, 2.2)
+rotation = Vector3(0.08, 0.3, -0.08)
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta02" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/PuntasRocosas"]
+position = Vector3(-1.6, -3.8, 3.8)
+rotation = Vector3(-0.05, -0.2, 0.04)
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta03" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/PuntasRocosas"]
+position = Vector3(1.6, -3.8, 3.8)
+rotation = Vector3(-0.05, 0.2, -0.04)
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="Punta04" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/PuntasRocosas"]
+position = Vector3(4.6, -3.2, 2.2)
+rotation = Vector3(0.08, -0.3, 0.08)
+mesh = SubResource("MeshPuntaRoca")
+
+[node name="TextilesColgantes" type="Node3D" parent="Escenario3D/PlataformaLobby"]
+
+[node name="Amarillo" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/TextilesColgantes"]
+position = Vector3(-2.25, -0.05, 7.1)
+material_override = SubResource("MatAmarillo")
+mesh = SubResource("MeshTextilColgante")
+
+[node name="Azul" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/TextilesColgantes"]
+position = Vector3(0, -0.05, 7.2)
+material_override = SubResource("MatAzul")
+mesh = SubResource("MeshTextilColgante")
+
+[node name="Rojo" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/TextilesColgantes"]
+position = Vector3(2.25, -0.05, 7.1)
+material_override = SubResource("MatRojo")
+mesh = SubResource("MeshTextilColgante")
+
+[node name="JuntasTablones" type="Node3D" parent="Escenario3D/PlataformaLobby"]
+
+[node name="Junta01" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(0, 0.37, 3.7)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta02" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(2.62, 0.37, 2.62)
+rotation = Vector3(0, 0.785398, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta03" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(3.7, 0.37, 0)
+rotation = Vector3(0, 1.570796, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta04" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(2.62, 0.37, -2.62)
+rotation = Vector3(0, 2.356194, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta05" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(0, 0.37, -3.7)
+rotation = Vector3(0, 3.141593, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta06" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(-2.62, 0.37, -2.62)
+rotation = Vector3(0, -2.356194, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta07" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(-3.7, 0.37, 0)
+rotation = Vector3(0, -1.570796, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="Junta08" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/JuntasTablones"]
+position = Vector3(-2.62, 0.37, 2.62)
+rotation = Vector3(0, -0.785398, 0)
+mesh = SubResource("MeshJuntaTablon")
+
+[node name="CentroCeremonial" type="Node3D" parent="Escenario3D/PlataformaLobby"]
+
+[node name="PiedraCentral" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial"]
+position = Vector3(0, 0.45, 0)
+mesh = SubResource("MeshCentroPiedra")
+
+[node name="AroPiedra" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial"]
+position = Vector3(0, 0.57, 0)
+mesh = SubResource("MeshAroPiedra")
+
+[node name="TextilEcuador" type="Node3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial"]
+
+[node name="Amarillo" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial/TextilEcuador"]
+position = Vector3(-0.58, 0.59, 0)
+material_override = SubResource("MatAmarillo")
+mesh = SubResource("MeshTextil")
+
+[node name="Azul" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial/TextilEcuador"]
+position = Vector3(0, 0.59, 0)
+material_override = SubResource("MatAzul")
+mesh = SubResource("MeshTextil")
+
+[node name="Rojo" type="MeshInstance3D" parent="Escenario3D/PlataformaLobby/CentroCeremonial/TextilEcuador"]
+position = Vector3(0.58, 0.59, 0)
+material_override = SubResource("MatRojo")
+mesh = SubResource("MeshTextil")
+
+[node name="Kiosco" type="Node3D" parent="Escenario3D"]
+
+[node name="Columnas" type="Node3D" parent="Escenario3D/Kiosco"]
+
+[node name="Columna01" type="MeshInstance3D" parent="Escenario3D/Kiosco/Columnas"]
+position = Vector3(-6.2, 3.25, 2.8)
+mesh = SubResource("MeshColumna")
+
+[node name="Columna02" type="MeshInstance3D" parent="Escenario3D/Kiosco/Columnas"]
+position = Vector3(6.2, 3.25, 2.8)
+mesh = SubResource("MeshColumna")
+
+[node name="Columna03" type="MeshInstance3D" parent="Escenario3D/Kiosco/Columnas"]
+position = Vector3(-6.2, 3.25, -3.5)
+mesh = SubResource("MeshColumna")
+
+[node name="Columna04" type="MeshInstance3D" parent="Escenario3D/Kiosco/Columnas"]
+position = Vector3(6.2, 3.25, -3.5)
+mesh = SubResource("MeshColumna")
+
+[node name="Techo" type="MeshInstance3D" parent="Escenario3D/Kiosco"]
+position = Vector3(0, 7.15, -0.35)
+mesh = SubResource("MeshTechoKiosco")
+
+[node name="Cupula" type="MeshInstance3D" parent="Escenario3D/Kiosco"]
+visible = false
+position = Vector3(0, 8.85, 0)
+mesh = SubResource("MeshCupulaKiosco")
+
+[node name="Vigas" type="Node3D" parent="Escenario3D/Kiosco"]
+
+[node name="VigaFrontal" type="MeshInstance3D" parent="Escenario3D/Kiosco/Vigas"]
+position = Vector3(0, 6.35, 2.8)
+mesh = SubResource("MeshVigaHorizontal")
+
+[node name="VigaTrasera" type="MeshInstance3D" parent="Escenario3D/Kiosco/Vigas"]
+position = Vector3(0, 6.35, -3.5)
+mesh = SubResource("MeshVigaHorizontal")
+
+[node name="VigaIzquierda" type="MeshInstance3D" parent="Escenario3D/Kiosco/Vigas"]
+position = Vector3(-6.2, 6.35, -0.35)
+mesh = SubResource("MeshVigaLateral")
+
+[node name="VigaDerecha" type="MeshInstance3D" parent="Escenario3D/Kiosco/Vigas"]
+position = Vector3(6.2, 6.35, -0.35)
+mesh = SubResource("MeshVigaLateral")
+
+[node name="TechoAndino" type="Node3D" parent="Escenario3D/Kiosco"]
+position = Vector3(0, -0.75, 0)
+
+[node name="FaldonFrontal" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(0, 7.05, 1.65)
+rotation = Vector3(-0.42, 0, 0)
+mesh = SubResource("MeshFaldonTecho")
+
+[node name="FaldonTrasero" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(0, 7.05, -1.65)
+rotation = Vector3(0.42, 0, 0)
+mesh = SubResource("MeshFaldonTecho")
+
+[node name="Tablon01" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(-5.1, 7.1, -0.35)
+rotation = Vector3(0, 0, -0.11)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Tablon02" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(-3.05, 7.32, -0.35)
+rotation = Vector3(0, 0, -0.075)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Tablon03" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(-1.02, 7.45, -0.35)
+rotation = Vector3(0, 0, -0.025)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Tablon04" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(1.02, 7.45, -0.35)
+rotation = Vector3(0, 0, 0.025)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Tablon05" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(3.05, 7.32, -0.35)
+rotation = Vector3(0, 0, 0.075)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Tablon06" type="MeshInstance3D" parent="Escenario3D/Kiosco/TechoAndino"]
+visible = false
+position = Vector3(5.1, 7.1, -0.35)
+rotation = Vector3(0, 0, 0.11)
+mesh = SubResource("MeshTablonTecho")
+
+[node name="Faroles" type="Node3D" parent="Escenario3D/Kiosco"]
+
+[node name="Farol01" type="Node3D" parent="Escenario3D/Kiosco/Faroles"]
+position = Vector3(-6.2, 5.25, 2.8)
+
+[node name="Poste" type="MeshInstance3D" parent="Escenario3D/Kiosco/Faroles/Farol01"]
+mesh = SubResource("MeshPosteFarol")
+
+[node name="LuzVisual" type="MeshInstance3D" parent="Escenario3D/Kiosco/Faroles/Farol01"]
+position = Vector3(0, -0.85, 0)
+mesh = SubResource("MeshFarol")
+
+[node name="Luz" type="OmniLight3D" parent="Escenario3D/Kiosco/Faroles/Farol01"]
+position = Vector3(0, -0.85, 0)
+light_color = Color(1, 0.48, 0.18, 1)
+light_energy = 1.0
+omni_range = 7.5
+
+[node name="Farol02" type="Node3D" parent="Escenario3D/Kiosco/Faroles"]
+position = Vector3(6.2, 5.25, 2.8)
+
+[node name="Poste" type="MeshInstance3D" parent="Escenario3D/Kiosco/Faroles/Farol02"]
+mesh = SubResource("MeshPosteFarol")
+
+[node name="LuzVisual" type="MeshInstance3D" parent="Escenario3D/Kiosco/Faroles/Farol02"]
+position = Vector3(0, -0.85, 0)
+mesh = SubResource("MeshFarol")
+
+[node name="Luz" type="OmniLight3D" parent="Escenario3D/Kiosco/Faroles/Farol02"]
+position = Vector3(0, -0.85, 0)
+light_color = Color(1, 0.48, 0.18, 1)
+light_energy = 1.0
+omni_range = 7.5
+
+[node name="Jugadores" type="Node3D" parent="Escenario3D"]
+position = Vector3(0, 1.3, 0)
+
+[node name="SlotP1" type="Node3D" parent="Escenario3D/Jugadores"]
+position = Vector3(-2.35, 0.5, 0.35)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Escenario3D/Jugadores/SlotP1"]
+material_override = SubResource("MatSlotAzul")
+mesh = SubResource("MeshPedestal")
+
+[node name="CuyP1" parent="Escenario3D/Jugadores/SlotP1" instance=ExtResource("1_cuy")]
+position = Vector3(0, 0.16, 0)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.45, 1.45, 1.45)
+
+[node name="SlotP2" type="Node3D" parent="Escenario3D/Jugadores"]
+position = Vector3(2.35, 0.5, 0.35)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Escenario3D/Jugadores/SlotP2"]
+material_override = SubResource("MatRojo")
+mesh = SubResource("MeshPedestal")
+
+[node name="CuyP2" parent="Escenario3D/Jugadores/SlotP2" instance=ExtResource("1_cuy")]
+position = Vector3(0, 0.16, 0)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.45, 1.45, 1.45)
+
+[node name="SlotP3" type="Node3D" parent="Escenario3D/Jugadores"]
+position = Vector3(-5.65, 0.48, 0.05)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Escenario3D/Jugadores/SlotP3"]
+material_override = SubResource("MatAmarillo")
+mesh = SubResource("MeshPedestal")
+
+[node name="CuyP3" parent="Escenario3D/Jugadores/SlotP3" instance=ExtResource("1_cuy")]
+position = Vector3(0, 0.16, 0)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.18, 1.18, 1.18)
+
+[node name="SlotP4" type="Node3D" parent="Escenario3D/Jugadores"]
+position = Vector3(5.65, 0.48, 0.05)
+
+[node name="Pedestal" type="MeshInstance3D" parent="Escenario3D/Jugadores/SlotP4"]
+material_override = SubResource("MatCesped")
+mesh = SubResource("MeshPedestal")
+
+[node name="CuyP4" parent="Escenario3D/Jugadores/SlotP4" instance=ExtResource("1_cuy")]
+position = Vector3(0, 0.16, 0)
+rotation = Vector3(0, 3.141593, 0)
+scale = Vector3(1.18, 1.18, 1.18)
+
+[node name="FondoAndino" type="Node3D" parent="Escenario3D"]
+
+[node name="SueloValle" type="MeshInstance3D" parent="Escenario3D/FondoAndino"]
+visible = false
+position = Vector3(0, -1.2, -27)
+scale = Vector3(7, 0.25, 6)
+mesh = SubResource("MeshPlataforma")
+material_override = SubResource("MatCesped")
+
+[node name="MontanasLejanas" type="Node3D" parent="Escenario3D/FondoAndino"]
+
+[node name="Montana01" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(-27, 2.2, -49)
+scale = Vector3(1.75, 0.78, 1.25)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="Montana02" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(-14, 1.8, -51)
+scale = Vector3(1.55, 0.68, 1.15)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="Montana03" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(11, 1.7, -52)
+scale = Vector3(1.6, 0.67, 1.15)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="Montana04" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(27, 2.3, -49)
+scale = Vector3(1.75, 0.8, 1.25)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="VolcanCentral" type="Node3D" parent="Escenario3D/FondoAndino"]
+
+[node name="Cuerpo" type="MeshInstance3D" parent="Escenario3D/FondoAndino/VolcanCentral"]
+position = Vector3(-22, 3.3, -46)
+scale = Vector3(1.3, 0.92, 1.3)
+mesh = SubResource("MeshMontana")
+
+[node name="Nieve" type="MeshInstance3D" parent="Escenario3D/FondoAndino/VolcanCentral"]
+position = Vector3(-22, 10.4, -46)
+scale = Vector3(1.15, 0.75, 1.15)
+mesh = SubResource("MeshNieve")
+
+[node name="Pueblo" type="Node3D" parent="Escenario3D/FondoAndino"]
+position = Vector3(0, 2.1, 0)
+
+[node name="CasaIzquierda" type="Node3D" parent="Escenario3D/FondoAndino/Pueblo"]
+position = Vector3(-13, 0, -23)
+
+[node name="Fachada" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaIzquierda"]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("MeshCasa")
+
+[node name="Techo" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaIzquierda"]
+position = Vector3(0, 1.55, 0)
+mesh = SubResource("MeshTechoCasa")
+
+[node name="Ventana1" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaIzquierda"]
+position = Vector3(-0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="Ventana2" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaIzquierda"]
+position = Vector3(0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="CasaDerecha" type="Node3D" parent="Escenario3D/FondoAndino/Pueblo"]
+position = Vector3(13, 0, -23)
+
+[node name="Fachada" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaDerecha"]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("MeshCasa")
+
+[node name="Techo" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaDerecha"]
+position = Vector3(0, 1.55, 0)
+mesh = SubResource("MeshTechoCasa")
+
+[node name="Ventana1" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaDerecha"]
+position = Vector3(-0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="Ventana2" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaDerecha"]
+position = Vector3(0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="CasaCentroIzquierda" type="Node3D" parent="Escenario3D/FondoAndino/Pueblo"]
+position = Vector3(-7.8, -0.15, -27)
+scale = Vector3(0.78, 0.78, 0.78)
+
+[node name="Fachada" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroIzquierda"]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("MeshCasa")
+
+[node name="Techo" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroIzquierda"]
+position = Vector3(0, 1.55, 0)
+mesh = SubResource("MeshTechoCasa")
+
+[node name="Ventana1" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroIzquierda"]
+position = Vector3(-0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="Ventana2" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroIzquierda"]
+position = Vector3(0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="CasaCentroDerecha" type="Node3D" parent="Escenario3D/FondoAndino/Pueblo"]
+position = Vector3(7.8, -0.15, -27)
+scale = Vector3(0.78, 0.78, 0.78)
+
+[node name="Fachada" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroDerecha"]
+position = Vector3(0, 0.25, 0)
+mesh = SubResource("MeshCasa")
+
+[node name="Techo" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroDerecha"]
+position = Vector3(0, 1.55, 0)
+mesh = SubResource("MeshTechoCasa")
+
+[node name="Ventana1" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroDerecha"]
+position = Vector3(-0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="Ventana2" type="MeshInstance3D" parent="Escenario3D/FondoAndino/Pueblo/CasaCentroDerecha"]
+position = Vector3(0.82, 0.45, 1.13)
+mesh = SubResource("MeshVentana")
+
+[node name="MontanaMediaIzquierda" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(-8, 1.6, -43)
+scale = Vector3(0.72, 0.72, 0.72)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="MontanaMediaDerecha" type="MeshInstance3D" parent="Escenario3D/FondoAndino/MontanasLejanas"]
+position = Vector3(4, 1.3, -45)
+scale = Vector3(0.65, 0.66, 0.65)
+mesh = SubResource("MeshMontanaLejana")
+
+[node name="LomasOrganicas" type="Node3D" parent="Escenario3D/FondoAndino"]
+
+[node name="Loma01" type="MeshInstance3D" parent="Escenario3D/FondoAndino/LomasOrganicas"]
+position = Vector3(-24, 0.2, -42)
+scale = Vector3(2.1, 0.62, 1.0)
+mesh = SubResource("MeshLomaAndina")
+
+[node name="Loma02" type="MeshInstance3D" parent="Escenario3D/FondoAndino/LomasOrganicas"]
+position = Vector3(-8, -0.2, -44)
+scale = Vector3(2.0, 0.54, 1.0)
+mesh = SubResource("MeshLomaAndina")
+
+[node name="Loma03" type="MeshInstance3D" parent="Escenario3D/FondoAndino/LomasOrganicas"]
+position = Vector3(9, 0.0, -44)
+scale = Vector3(2.0, 0.56, 1.0)
+mesh = SubResource("MeshLomaAndina")
+
+[node name="Loma04" type="MeshInstance3D" parent="Escenario3D/FondoAndino/LomasOrganicas"]
+position = Vector3(25, 0.25, -42)
+scale = Vector3(2.1, 0.62, 1.0)
+mesh = SubResource("MeshLomaAndina")
+
+[node name="Iluminacion" type="Node3D" parent="."]
+
+[node name="LuzAtardecer" type="DirectionalLight3D" parent="Iluminacion"]
+rotation = Vector3(-0.78, -0.62, 0.1)
+light_color = Color(1, 0.68, 0.45, 1)
+light_energy = 0.46
+shadow_enabled = true
+shadow_blur = 2.0
+
+[node name="LuzKiosco" type="OmniLight3D" parent="Iluminacion"]
+position = Vector3(0, 5.2, 0)
+light_color = Color(1, 0.64, 0.32, 1)
+light_energy = 1.45
+omni_range = 16.0
+shadow_enabled = true
+shadow_blur = 2.5
+
+[node name="LuzRelleno" type="OmniLight3D" parent="Iluminacion"]
+position = Vector3(0, 3.5, 9)
+light_color = Color(0.35, 0.48, 1, 1)
+light_energy = 0.9
+omni_range = 19.0
+
+[node name="LuzFrontal" type="DirectionalLight3D" parent="Iluminacion"]
+rotation = Vector3(-0.34, 2.75, 0.04)
+light_color = Color(1, 0.82, 0.62, 1)
+light_energy = 0.36
+shadow_enabled = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(0, 7.8, 16.6)
+rotation = Vector3(-0.29, 0, 0)
+fov = 52.0
+near = 0.1
+far = 180.0
+current = true
+
+[node name="Interfaz" type="CanvasLayer" parent="."]
+
+[node name="TopPanel" type="Panel" parent="Interfaz"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 105.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("PanelTop")
+
+[node name="Titulo" type="Label" parent="Interfaz/TopPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 9.0
+offset_bottom = 66.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.74, 0.1, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.012, 0.035, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
+theme_override_constants/outline_size = 9
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 5
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 50
+text = "CUY KOMBAT"
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="Interfaz/TopPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 61.0
+offset_bottom = 101.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.94, 1, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.02, 0.08, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 26
+text = "LOBBY"
+horizontal_alignment = 1
+
+[node name="PanelJugadores" type="HBoxContainer" parent="Interfaz"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 280.0
+offset_top = 235.0
+offset_right = -280.0
+offset_bottom = 329.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="P3" type="MarginContainer" parent="Interfaz/PanelJugadores"]
+custom_minimum_size = Vector2(170, 88)
+layout_mode = 2
+
+[node name="Contenido" type="VBoxContainer" parent="Interfaz/PanelJugadores/P3"]
+layout_mode = 2
+theme_override_constants/separation = -3
+alignment = 1
+
+[node name="Nombre" type="Label" parent="Interfaz/PanelJugadores/P3/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.12, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.035, 0.01, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 33
+text = "P3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Estado" type="Label" parent="Interfaz/PanelJugadores/P3/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.24, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.035, 0.01, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 15
+text = "ESPERANDO\nJUGADOR +"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P1" type="MarginContainer" parent="Interfaz/PanelJugadores"]
+custom_minimum_size = Vector2(170, 88)
+layout_mode = 2
+
+[node name="Contenido" type="VBoxContainer" parent="Interfaz/PanelJugadores/P1"]
+layout_mode = 2
+theme_override_constants/separation = -3
+alignment = 1
+
+[node name="Nombre" type="Label" parent="Interfaz/PanelJugadores/P1/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.67, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.035, 0.08, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 36
+text = "P1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Estado" type="Label" parent="Interfaz/PanelJugadores/P1/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 1, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 18
+text = "LISTO ✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P2" type="MarginContainer" parent="Interfaz/PanelJugadores"]
+custom_minimum_size = Vector2(170, 88)
+layout_mode = 2
+
+[node name="Contenido" type="VBoxContainer" parent="Interfaz/PanelJugadores/P2"]
+layout_mode = 2
+theme_override_constants/separation = -3
+alignment = 1
+
+[node name="Nombre" type="Label" parent="Interfaz/PanelJugadores/P2/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.2, 0.14, 1)
+theme_override_colors/font_outline_color = Color(0.08, 0.01, 0.01, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 36
+text = "P2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Estado" type="Label" parent="Interfaz/PanelJugadores/P2/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 1, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 18
+text = "LISTO ✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="P4" type="MarginContainer" parent="Interfaz/PanelJugadores"]
+custom_minimum_size = Vector2(170, 88)
+layout_mode = 2
+
+[node name="Contenido" type="VBoxContainer" parent="Interfaz/PanelJugadores/P4"]
+layout_mode = 2
+theme_override_constants/separation = -3
+alignment = 1
+
+[node name="Nombre" type="Label" parent="Interfaz/PanelJugadores/P4/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.9, 0.34, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 33
+text = "P4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Estado" type="Label" parent="Interfaz/PanelJugadores/P4/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 1, 0.38, 1)
+theme_override_colors/font_outline_color = Color(0.015, 0.07, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 15
+text = "ESPERANDO\nJUGADOR +"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnirseTexto" type="Label" parent="Interfaz"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -112.0
+offset_right = 240.0
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.88, 0.52, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.02, 0.02, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 20
+text = "Presiona A / ENTER para unirte"
+horizontal_alignment = 1
+
+[node name="ContadorJugadores" type="Label" parent="Interfaz"]
+anchors_preset = 3
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -70.0
+offset_right = 260.0
+offset_bottom = -22.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.78, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.02, 0.01, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 23
+text = "2 JUGADORES"
+vertical_alignment = 1
+
+[node name="BotonVolver" type="Button" parent="Interfaz"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -252.0
+offset_top = -70.0
+offset_right = -34.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.95, 0.97, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = SubResource("FontUI")
+theme_override_font_sizes/font_size = 21
+theme_override_styles/normal = SubResource("ButtonBack")
+text = "VOLVER"
+
+[node name="BotonListo" type="Button" parent="Interfaz"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -496.0
+offset_top = -70.0
+offset_right = -270.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.12, 0.045, 0.015, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = SubResource("FontTitle")
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("ButtonReady")
+text = "CONTINUAR"

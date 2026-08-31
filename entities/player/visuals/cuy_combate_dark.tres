@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Cuy Combate Dark"
+albedo_color = Color(0.085, 0.038, 0.026, 1)
+metallic = 0.0
+roughness = 0.68
